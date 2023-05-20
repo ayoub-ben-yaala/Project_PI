@@ -17,25 +17,29 @@ public class User {
     private String Password;
     private String Phone;
     private String Adress;
-    private String Role;
 
-    public User(String UserName, String Email, String Password, String Phone, String Adress, String Role) {
+    public User(int idUser) {
+        this.idUser = idUser;
+    }
+
+    
+    
+    public User(String UserName, String Email, String Password, String Phone, String Adress) {
         this.UserName = UserName;
         this.Email = Email;
         this.Password = Password;
         this.Phone = Phone;
         this.Adress = Adress;
-        this.Role = Role;
+        
     }
 
-    public User(int idUser, String UserName, String Email, String Password, String Phone, String Adress, String Role) {
+    public User(int idUser, String UserName, String Email, String Password, String Phone, String Adress) {
         this.idUser = idUser;
         this.UserName = UserName;
         this.Email = Email;
         this.Password = Password;
         this.Phone = Phone;
         this.Adress = Adress;
-        this.Role = Role;
     }
 
 
@@ -88,17 +92,11 @@ public class User {
         this.Adress = Adress;
     }
 
-    public String getRole() {
-        return Role;
-    }
-
-    public void setRole(String Role) {
-        this.Role = Role;
-    }
+   
 
     @Override
     public String toString() {
-        return "User{" + "idUser=" + idUser + ", UserName=" + UserName + ", Email=" + Email + ", Password=" + Password + ", Phone=" + Phone + ", Adress=" + Adress + ", Role=" + Role + '}';
+        return "User{" + "idUser=" + idUser + ", UserName=" + UserName + ", Email=" + Email + ", Password=" + Password + ", Phone=" + Phone + ", Adress=" + Adress +'}';
     }
 
   

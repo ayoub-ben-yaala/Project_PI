@@ -10,30 +10,36 @@ package com.PIproject.entities;
  */
 public class SousPharmacie extends SuperPharmacie {
     
-    private String Domaine;
+    private String NomPharmacie;
 
-    public SousPharmacie(String Domaine, String MatriculeFiscale, String UserName, String Email, String Password, String Phone, String Adress, String Role) {
-        super(MatriculeFiscale, UserName, Email, Password, Phone, Adress, Role);
-        this.Domaine = Domaine;
+    public SousPharmacie(int idUser) {
+        super(idUser);
+    }
+    
+    
+
+    public SousPharmacie(String NomPharmacie, String MatriculeFiscale, String UserName, String Email, String Password, String Phone, String Adress) {
+        super(MatriculeFiscale, UserName, Email, Password, Phone, Adress);
+        this.NomPharmacie = NomPharmacie;
     }
 
-    public SousPharmacie(String Domaine, String MatriculeFiscale, int idUser, String UserName, String Email, String Password, String Phone, String Adress, String Role) {
-        super(MatriculeFiscale, idUser, UserName, Email, Password, Phone, Adress, Role);
-        this.Domaine = Domaine;
+    public SousPharmacie(String NomPharmacie, String MatriculeFiscale, int idUser, String UserName, String Email, String Password, String Phone, String Adress) {
+        super(MatriculeFiscale, idUser, UserName, Email, Password, Phone, Adress);
+        this.NomPharmacie = NomPharmacie;
     }
 
  
-    public String getDomaine() {
-        return Domaine;
+    public String getNomPharmacie() {
+        return NomPharmacie;
     }
 
-    public void setDomaine(String Domaine) {
-        this.Domaine = Domaine;
+    public void setNomPharmacie(String NomPharmacie) {
+        this.NomPharmacie = NomPharmacie;
     }
 
     @Override
     public String toString() {
-        return "SousPharmacie{" + "Domaine=" + Domaine + '}';
+        return "SousPharmacie{" + "Domaine=" + NomPharmacie + '}';
     }
 
  

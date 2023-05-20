@@ -9,31 +9,31 @@ package com.PIproject.entities;
  * @Ayoub Ben Yaala
  */
 public class Livreur extends User {
-    private String NumCNSS;
+    private int CIN;
 
-    public Livreur(String NumCNSS, String UserName, String Email, String Password, String Phone, String Adress, String Role) {
-        super(UserName, Email, Password, Phone, Adress, Role);
-        this.NumCNSS = NumCNSS;
+    public Livreur(int CIN, String UserName, String Email, String Password, String Phone, String Adress) {
+        super(UserName, Email, Password, Phone, Adress);
+        this.CIN = CIN;
     }
 
-    public Livreur(String NumCNSS, int idUser, String UserName, String Email, String Password, String Phone, String Adress, String Role) {
-        super(idUser, UserName, Email, Password, Phone, Adress, Role);
-        this.NumCNSS = NumCNSS;
+    public Livreur(int CIN, int idUser, String UserName, String Email, String Password, String Phone, String Adress) {
+        super(idUser, UserName, Email, Password, Phone, Adress);
+        this.CIN = CIN;
     }
 
  
 
-    public String getNumCNSS() {
-        return NumCNSS;
+    public int getCIN() {
+        return CIN;
     }
 
-    public void setNumCNSS(String NumCNSS) {
-        this.NumCNSS = NumCNSS;
+    public void setNumCNSS(int CIN) {
+        this.CIN = CIN;
     }
 
     @Override
     public String toString() {
-        return "Livreur{" + "NumCNSS=" + NumCNSS + '}';
+        return "Livreur{" + "NumCNSS=" + CIN + '}';
     }
     
     
