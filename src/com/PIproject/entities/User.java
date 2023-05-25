@@ -8,7 +8,7 @@ package com.PIproject.entities;
  *
  * @Ayoub Ben Yaala
  */
-public class User {
+public abstract class User {
     
     
     private int idUser;
@@ -31,6 +31,13 @@ public class User {
         this.Phone = Phone;
         this.Adress = Adress;
         
+    }
+
+    public User(String UserName, String Email, String Phone, String Adress) {
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Adress = Adress;
     }
 
     public User(int idUser, String UserName, String Email, String Password, String Phone, String Adress) {

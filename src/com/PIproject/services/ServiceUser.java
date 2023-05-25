@@ -37,7 +37,7 @@ public class ServiceUser {
             pstLivreur.setString(3, user.getPassword());
             pstLivreur.setString(4, user.getPhone());
             pstLivreur.setString(5, user.getAdress());
-            pstLivreur.setInt(6, ((Livreur) user).getCIN());
+            pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.setString(7,"Livreur");
             pstLivreur.executeUpdate();
             System.out.println("Livreur ajoutée !");
@@ -108,7 +108,7 @@ public class ServiceUser {
             pstLivreur.setString(3, user.getPassword());
             pstLivreur.setString(4, user.getPhone());
             pstLivreur.setString(5, user.getAdress());
-            pstLivreur.setInt(6, ((Livreur) user).getCIN());
+            pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.executeUpdate();
             System.out.println("Livreur modifiée !");
             break;
@@ -178,7 +178,7 @@ public class ServiceUser {
             PreparedStatement pst = cnx.prepareStatement(req);
             ResultSet rs = pst.executeQuery();
             while(rs.next()) {
-                list.add(new User(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Email"), rs.getString("Password"), rs.getString("Phone"), rs.getString("Adress")));
+                list.add(new Livreur(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Email"), rs.getString("Password"), rs.getString("Phone"), rs.getString("Adress")));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
