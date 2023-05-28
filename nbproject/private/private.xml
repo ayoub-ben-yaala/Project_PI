@@ -3,14 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/entities/ligne_commande.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/entities/Panier.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/services/service_ligne_commande.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/services/service_commande.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/services/service_panier.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/main/PIJava.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/entities/Commande.java</file>
-            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/PI%20Java/src/pi/util/DataSource.java</file>
+            <file>file:/C:/Users/usernvme/Documents/NetBeansProjects/dossier/PI%20Java/src/pi/gui/commande_adminController.java</file>
         </group>
     </open-files>
 </project-private>

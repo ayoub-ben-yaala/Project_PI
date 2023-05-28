@@ -29,7 +29,7 @@ public class service_commande {
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setString(1, c.getEtat());
             pst.setObject(2, c.getDate());
-            pst.setInt(3, c.getId_phar());
+            pst.setInt(3, c.pharmacie.getId());
             
             pst.executeUpdate();
             System.out.println("commande ajoutée !");
@@ -45,7 +45,7 @@ public class service_commande {
             pst.setInt(5, c.getId_commande());
             pst.setString(1, c.getEtat());
             pst.setObject(2,c.getDate());
-            pst.setInt(3,c.getId_phar());
+            //pst.setInt(3,c.getId_phar());
             
             pst.executeUpdate();
             System.out.println("Commande modifiée !");
@@ -74,7 +74,7 @@ public class service_commande {
             PreparedStatement pst = cnx.prepareStatement(req);
             ResultSet rs = pst.executeQuery();
             while(rs.next()) {
-                list.add(new Commande(rs.getInt("id"), rs.getString("etat"), rs.getDate("date"),rs.getInt("id_pharmacie"),rs.getFloat("prix_total")));
+                //list.add(new Commande(rs.getInt("id"), rs.getString("etat"), rs.getDate("date"),rs.getInt("id_pharmacie"),rs.getFloat("prix_total")));
             }
             System.out.println(list);
         } catch (SQLException ex) {

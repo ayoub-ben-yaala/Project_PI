@@ -4,6 +4,7 @@
  */
 package pi.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -13,26 +14,26 @@ import java.util.Date;
 public class Commande {
     int id_commande;
     String etat;
-    Date date;
-    int id_phar;
+    LocalDate date;
+    public Pharmacie pharmacie;
     
 
-    public Commande(int id_commande, String etat, Date date, int id_phar, float prix_tot) {
+    public Commande(int id_commande, String etat, LocalDate date, Pharmacie pharmacie, float prix_tot) {
         this.id_commande = id_commande;
         this.etat = etat;
         this.date = date;
-        this.id_phar = id_phar;
+        this.pharmacie = pharmacie;
         
     }
 
-    public Commande(String etat, Date date, int id_phar) {
+    public Commande(String etat, LocalDate date, Pharmacie phar) {
         this.etat = etat;
         this.date = date;
-        this.id_phar = id_phar;
+        this.pharmacie = phar;
         
     }
 
-    public Commande(int id_commande, String etat, Date date) {
+    public Commande(int id_commande, String etat, LocalDate date) {
         this.id_commande = id_commande;
         this.etat = etat;
         this.date = date;
@@ -55,27 +56,30 @@ public class Commande {
         this.etat = etat;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public int getId_phar() {
-        return id_phar;
+    public Pharmacie getPharmacie() {
+        return pharmacie;
     }
 
-    public void setId_phar(int id_phar) {
-        this.id_phar = id_phar;
+    public void setPharmacie(Pharmacie pharmacie) {
+        this.pharmacie = pharmacie;
     }
 
    
 
     @Override
     public String toString() {
-        return "commande{" + "id_commande=" + id_commande + ", etat=" + etat + ", date=" + date + ", id_phar=" + id_phar +  '}';
+        return "commande{" + "id_commande=" + id_commande + ", etat=" + etat + ", date=" + date + ", phar=" + pharmacie +  '}';
+    }
+
+    public Commande() {
     }
            
     

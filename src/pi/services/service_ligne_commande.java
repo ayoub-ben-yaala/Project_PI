@@ -64,24 +64,7 @@ public class service_ligne_commande {
         }
     }
     
-    public List<Commande> afficher() {
-        List<Commande> list = new ArrayList<>();
-        
-        String req = "SELECT * FROM commande";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(req);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()) {
-                list.add(new Commande(rs.getInt("id"), rs.getString("etat"), rs.getDate("date"),rs.getInt("id_pharmacie"),rs.getFloat("prix_total")));
-            }
-            System.out.println(list);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        
-        
-        return list;
-    }
+   
     
     
     
