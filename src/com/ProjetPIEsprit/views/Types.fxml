@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="609.0" prefWidth="756.0" style="-fx-background-color: C1E1C1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ProjetPIEsprit.controllers.TypesController">
+   <children>
+      <Label layoutX="89.0" layoutY="129.0" text="Types">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="typeTF" layoutX="208.0" layoutY="186.0" prefHeight="31.0" prefWidth="200.0" />
+      <Label layoutX="89.0" layoutY="193.0" text="Nom de type">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="Ajouter" layoutX="440.0" layoutY="189.0" mnemonicParsing="false" onAction="#Ajouter" prefHeight="26.0" prefWidth="85.0" text="Ajouter">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tabtypes" layoutX="208.0" layoutY="251.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="coltype" prefWidth="199.0" text="Types" />
+        </columns>
+      </TableView>
+      <Button fx:id="Supprimer" layoutX="644.0" layoutY="189.0" mnemonicParsing="false" onAction="#Supprimer" prefHeight="26.0" prefWidth="85.0" text="Supprimer">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="Modifier" layoutX="542.0" layoutY="189.0" mnemonicParsing="false" onAction="#Modifier" prefHeight="26.0" prefWidth="85.0" text="Modifier">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
