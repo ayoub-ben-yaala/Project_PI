@@ -8,14 +8,14 @@ package com.PIproject.entities;
  *
  * @Ayoub Ben Yaala
  */
-public abstract class User {
+public /*abstract*/ class User {
     
     
     private int idUser;
     private String UserName;
     private String Email;
     private String Password;
-    private String Phone;
+    private int Phone;
     private String Adress;
 
     public User(int idUser) {
@@ -24,7 +24,7 @@ public abstract class User {
 
     
     
-    public User(String UserName, String Email, String Password, String Phone, String Adress) {
+    public User(String UserName, String Email, String Password, int Phone, String Adress) {
         this.UserName = UserName;
         this.Email = Email;
         this.Password = Password;
@@ -33,14 +33,14 @@ public abstract class User {
         
     }
 
-    public User(String UserName, String Email, String Phone, String Adress) {
+    public User(String UserName, String Email, int Phone, String Adress) {
         this.UserName = UserName;
         this.Email = Email;
         this.Phone = Phone;
         this.Adress = Adress;
     }
 
-    public User(int idUser, String UserName, String Email, String Password, String Phone, String Adress) {
+    public User(int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
         this.idUser = idUser;
         this.UserName = UserName;
         this.Email = Email;
@@ -83,11 +83,11 @@ public abstract class User {
         this.Password = Password;
     }
 
-    public String getPhone() {
+    public int getPhone() {
         return Phone;
     }
 
-    public void setPhone(String Phone) {
+    public void setPhone(int Phone) {
         this.Phone = Phone;
     }
 

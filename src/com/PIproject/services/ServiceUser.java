@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -35,7 +37,7 @@ public class ServiceUser {
             pstLivreur.setString(1, user.getUserName());
             pstLivreur.setString(2, user.getEmail());
             pstLivreur.setString(3, user.getPassword());
-            pstLivreur.setString(4, user.getPhone());
+            pstLivreur.setInt(4, user.getPhone());
             pstLivreur.setString(5, user.getAdress());
             pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.setString(7,"Livreur");
@@ -49,7 +51,7 @@ public class ServiceUser {
             pstSousPharmacie.setString(1, user.getUserName());
             pstSousPharmacie.setString(2, user.getEmail());
             pstSousPharmacie.setString(3, user.getPassword());
-            pstSousPharmacie.setString(4, user.getPhone());
+            pstSousPharmacie.setInt(4, user.getPhone());
             pstSousPharmacie.setString(5, user.getAdress());
             pstSousPharmacie.setString(6, ((SousPharmacie) user).getNomPharmacie());
             pstSousPharmacie.setString(7,"SousPharmacie");
@@ -63,7 +65,7 @@ public class ServiceUser {
             pstSuperPharmacie.setString(1, user.getUserName());
             pstSuperPharmacie.setString(2, user.getEmail());
             pstSuperPharmacie.setString(3, user.getPassword());
-            pstSuperPharmacie.setString(4, user.getPhone());
+            pstSuperPharmacie.setInt(4, user.getPhone());
             pstSuperPharmacie.setString(5, user.getAdress());
             pstSuperPharmacie.setString(6,((SuperPharmacie) user).getMatriculeFiscale());
             pstSuperPharmacie.setString(7,"SuperPharmacie"); 
@@ -106,7 +108,7 @@ public class ServiceUser {
             pstLivreur.setString(1, user.getUserName());
             pstLivreur.setString(2, user.getEmail());
             pstLivreur.setString(3, user.getPassword());
-            pstLivreur.setString(4, user.getPhone());
+            pstLivreur.setInt(4, user.getPhone());
             pstLivreur.setString(5, user.getAdress());
             pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.executeUpdate();
@@ -120,7 +122,7 @@ public class ServiceUser {
             pstSousPharmacie.setString(1, user.getUserName());
             pstSousPharmacie.setString(2, user.getEmail());
             pstSousPharmacie.setString(3, user.getPassword());
-            pstSousPharmacie.setString(4, user.getPhone());
+            pstSousPharmacie.setInt(4, user.getPhone());
             pstSousPharmacie.setString(5, user.getAdress());
             pstSousPharmacie.setString(6, ((SousPharmacie) user).getNomPharmacie());
             pstSousPharmacie.setString(7, ((SousPharmacie) user).getMatriculeFiscale());
@@ -135,7 +137,7 @@ public class ServiceUser {
             pstSuperPharmacie.setString(1, user.getUserName());
             pstSuperPharmacie.setString(2, user.getEmail());
             pstSuperPharmacie.setString(3, user.getPassword());
-            pstSuperPharmacie.setString(4, user.getPhone());
+            pstSuperPharmacie.setInt(4, user.getPhone());
             pstSuperPharmacie.setString(5, user.getAdress());
             pstSuperPharmacie.setString(6,((SuperPharmacie) user).getMatriculeFiscale());
             pstSuperPharmacie.executeUpdate();
@@ -170,20 +172,52 @@ public class ServiceUser {
         }
     }
     
-    public List<User> afficher() {
-        List<User> list = new ArrayList<>();
+
+ public ObservableList<User> afficher() {
+     ObservableList<User> utilisateurs =  FXCollections.observableArrayList();
+
+    try {
         
-        String req = "SELECT * FROM User";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(req);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()) {
-                list.add(new Livreur(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Email"), rs.getString("Password"), rs.getString("Phone"), rs.getString("Adress")));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            String reqSousPharmacie = "SELECT * FROM user WHERE Role = 'SousPharmacie'";
+        PreparedStatement pstSousPharmacie = cnx.prepareStatement(reqSousPharmacie);
+        ResultSet rsSousPharmacie = pstSousPharmacie.executeQuery();
+        while (rsSousPharmacie.next()) {
+            SousPharmacie sousPharmacie = new SousPharmacie(
+                    rsSousPharmacie.getString("NomPharmacie"),
+                    rsSousPharmacie.getString("MatriculeFiscale"),
+                    rsSousPharmacie.getInt("idUser"),
+                    rsSousPharmacie.getString("UserName"),
+                    rsSousPharmacie.getString("Email"),
+                    rsSousPharmacie.getString("Password"),
+                    rsSousPharmacie.getInt("Phone"),
+                    rsSousPharmacie.getString("Adress")
+            );
+            utilisateurs.add(sousPharmacie);
         }
         
-        return list;
+        // Récupérer les livreurs
+        String reqLivreur = "SELECT * FROM user WHERE Role = 'Livreur'";
+        PreparedStatement pstLivreur = cnx.prepareStatement(reqLivreur);
+        ResultSet rsLivreur = pstLivreur.executeQuery();
+        while (rsLivreur.next()) {
+            Livreur livreur = new Livreur(
+                    rsLivreur.getInt("CIN"),
+                    rsLivreur.getInt("idUser"),
+                    rsLivreur.getString("UserName"),
+                    rsLivreur.getString("Email"),
+                    rsLivreur.getString("Password"),
+                    rsLivreur.getInt("Phone"),
+                    rsLivreur.getString("Adress")
+            );
+            utilisateurs.add(livreur);
+        }
+       
+    
+                
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+    
+    return utilisateurs;
+}
 }

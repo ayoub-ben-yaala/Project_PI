@@ -6,10 +6,11 @@ package com.PIproject.Controller;
 
 import com.PIproject.entities.Livreur;
 import com.PIproject.entities.User;
+import com.PIproject.services.ServiceUser;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -24,7 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class AficherAllUserController implements Initializable {
 
     @FXML
-    private TableView<Livreur> UsersTV;
+    private TableView<User> UsersTV;
     @FXML
     private TableColumn<Livreur,Integer> CinCol;
     @FXML
@@ -35,28 +36,24 @@ public class AficherAllUserController implements Initializable {
     private TableColumn<Livreur, String> AdressCol;
     @FXML
     private TableColumn<Livreur, Integer> PhoneCol;
-
+   
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+       
+        ServiceUser Suser =new ServiceUser();
+        UsersTV.setItems(FXCollections.observableArrayList(Suser.afficher()));
         // Accéder à la liste des éléments dans le TableView
           CinCol.setCellValueFactory(new PropertyValueFactory<>("Cin"));
           UserNameCol.setCellValueFactory(new PropertyValueFactory<>("UserName"));
           EmailCol.setCellValueFactory(new PropertyValueFactory<>("Email"));
           AdressCol.setCellValueFactory(new PropertyValueFactory<>("Adress"));
           PhoneCol.setCellValueFactory(new PropertyValueFactory<>("Phone"));
-
-
+    }
 
   
-    }
-     public void setUsers(Livreur livreur) {
-        // Ajouter les utilisateurs au TableView
-        UsersTV.getItems().add(livreur);
-        //UsersTV.getColumns().addAll(CinCol,UserNameCol,EmailCol,AdressCol,PhoneCol);
-        
-    }
+   
 }

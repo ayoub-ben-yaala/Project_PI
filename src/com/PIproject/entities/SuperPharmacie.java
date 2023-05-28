@@ -17,12 +17,12 @@ public class SuperPharmacie extends User {
     }
 
     
-    public SuperPharmacie(String MatriculeFiscale, String UserName, String Email, String Password, String Phone, String Adress) {
+    public SuperPharmacie(String MatriculeFiscale, String UserName, String Email, String Password, int Phone, String Adress) {
         super(UserName, Email, Password, Phone, Adress);
         this.MatriculeFiscale = MatriculeFiscale;
     }
 
-    public SuperPharmacie(String MatriculeFiscale, int idUser, String UserName, String Email, String Password, String Phone, String Adress) {
+    public SuperPharmacie(String MatriculeFiscale, int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
         super(idUser, UserName, Email, Password, Phone, Adress);
         this.MatriculeFiscale = MatriculeFiscale;
     }

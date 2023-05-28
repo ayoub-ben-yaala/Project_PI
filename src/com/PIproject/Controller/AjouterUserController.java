@@ -58,10 +58,10 @@ public class AjouterUserController implements Initializable {
     @FXML
     private void AddUser() throws IOException {
       
-        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), PhoneFT.getText(), AdressFT.getText());
+        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
         
         ServiceUser Suser =new ServiceUser();
-        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), PasswordFT.getText(), PhoneFT.getText(), AdressFT.getText()));
+        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), PasswordFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText()));
 
         JOptionPane.showMessageDialog(null, "User Added !");
         
@@ -71,10 +71,7 @@ public class AjouterUserController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/aficherAllUser.fxml"));
             Parent root = loader.load();
-
-            AficherAllUserController afficher = loader.getController();
-
-            afficher.setUsers(livreur);
+ 
 
             Scene scene = new Scene(root);
             Stage primaryStage = (Stage) Add.getScene().getWindow();
