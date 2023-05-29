@@ -128,6 +128,7 @@ public class commande_adminController implements Initializable {
 
     
 
+    
     public void table() {
         ObservableList<Commande> commandes = FXCollections.observableArrayList();
         String sql = "SELECT * FROM commande";
