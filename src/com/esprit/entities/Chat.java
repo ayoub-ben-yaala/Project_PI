@@ -13,14 +13,14 @@ public class Chat {
     private int id_livreur;
     private int id_pharmacie;
     private String message;
-    private String order_message;
 
-    public Chat(int id_chat, int id_livreur, int id_pharmacie, String message, String order_message) {
+
+    public Chat(int id_chat, int id_livreur, int id_pharmacie, String message) {
         this.id_chat = id_chat;
         this.id_livreur = id_livreur;
         this.id_pharmacie = id_pharmacie;
         this.message = message;
-        this.order_message = order_message;
+
     }
 
     // Getters and Setters
@@ -56,13 +56,7 @@ public class Chat {
         this.message = message;
     }
 
-    public String getOrderMessage() {
-        return order_message;
-    }
 
-    public void setOrderMessage(String order_message) {
-        this.order_message = order_message;
-    }
 
     // Other methods
     public void envoyerMessageLivreur(String message) {

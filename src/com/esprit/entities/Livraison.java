@@ -13,19 +13,29 @@ public class Livraison {
     private String reference;
     private int id_commande;
     private int id_livreur;
-   
-    // Constructeur
+    private String nom;
+     // Constructeur
     public Livraison(int id, String reference, int id_commande, int id_livreur) {
         this.id = id;
         this.reference = reference;
         this.id_commande = id_commande;
         this.id_livreur = id_livreur;
     }
+        public Livraison(int id, String reference, int id_commande, String nom) {
+        this.id = id;
+        this.reference = reference;
+        this.id_commande = id_commande;
+        this.nom = nom;
+    }
         public Livraison( String reference, int id_commande, int id_livreur) {
        
         this.reference = reference;
         this.id_commande = id_commande;
         this.id_livreur = id_livreur;
+    }
+
+    public Livraison() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
    
     // Méthodes d'accès (getters) et de modification (setters)
@@ -36,6 +46,14 @@ public class Livraison {
     public void setId(int id) {
         this.id = id;
     }
+        public String getNom() {
+        return nom;
+    }
+   
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+   
    
     public String getReference() {
         return reference;

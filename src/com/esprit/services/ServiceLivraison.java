@@ -3,6 +3,7 @@ package com.esprit.services;
 import com.esprit.entities.Livraison;
 import com.esprit.utils.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,12 +52,12 @@ public class ServiceLivraison implements IService<Livraison> {
     public List<Livraison> afficher() {
         List<Livraison> list = new ArrayList<>();
 
-        String req = "SELECT * FROM livraison";
+        String req = "SELECT id,reference,id_commande,(select nom_livreur from livreur where id=l.id_livreur)as nom FROM livraison l";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                list.add(new Livraison(rs.getInt("id"), rs.getString("reference"), rs.getInt("id_commande"), rs.getInt("id_livreur")));
+                list.add(new Livraison(rs.getInt("id"), rs.getString("reference"), rs.getInt("id_commande"), rs.getString("nom")));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -64,4 +65,35 @@ public class ServiceLivraison implements IService<Livraison> {
 
         return list;
     }
+      public List<String> afficher_livreur() {
+        List<String> list = new ArrayList<>();
+
+        String req = "SELECT nom_livreur FROM livreur";
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                list.add(rs.getString("nom_livreur"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
+ public int get_livreur_id(String s) throws SQLException {
+    int idLivreur = 0;
+    String req = "SELECT id FROM livreur WHERE nom_livreur = ?";
+    try (PreparedStatement preparedStatement = cnx.prepareStatement(req)) {
+        preparedStatement.setString(1, s);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            idLivreur = rs.getInt("id");
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return idLivreur;
+}
+    
 }

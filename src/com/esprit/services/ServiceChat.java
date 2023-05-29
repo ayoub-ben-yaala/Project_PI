@@ -16,13 +16,13 @@ public class ServiceChat {
 
     public void ajouter(Chat chat) {
         try {
-            String req = "INSERT INTO chat(id_chat, id_livreur, id_pharmacie, message, order_message) VALUES (?, ?, ?, ?, ?)";
+            String req = "INSERT INTO chat(id_chat, id_livreur, id_pharmacie, message) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setInt(1, chat.getIdChat());
             pst.setInt(2, chat.getIdLivreur());
             pst.setInt(3, chat.getIdPharmacie());
             pst.setString(4, chat.getMessage());
-            pst.setString(5, chat.getOrderMessage());
+     
             pst.executeUpdate();
             System.out.println("Chat ajouté !");
         } catch (SQLException ex) {
@@ -32,12 +32,12 @@ public class ServiceChat {
 
     public void modifier(Chat chat) {
         try {
-            String req = "UPDATE chat SET id_livreur=?, id_pharmacie=?, message=?, order_message=? WHERE id_chat=?";
+            String req = "UPDATE chat SET id_livreur=?, id_pharmacie=?, message=? WHERE id_chat=?";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setInt(1, chat.getIdLivreur());
             pst.setInt(2, chat.getIdPharmacie());
             pst.setString(3, chat.getMessage());
-            pst.setString(4, chat.getOrderMessage());
+            
             pst.setInt(5, chat.getIdChat());
             pst.executeUpdate();
             System.out.println("Chat modifié !");
@@ -70,8 +70,8 @@ public class ServiceChat {
                         rs.getInt("id_chat"),
                         rs.getInt("id_livreur"),
                         rs.getInt("id_pharmacie"),
-                        rs.getString("message"),
-                        rs.getString("order_message")
+                        rs.getString("message")
+                     
                 );
                 list.add(chat);
             }

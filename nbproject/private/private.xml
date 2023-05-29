@@ -5,7 +5,12 @@
         <group>
             <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/utils/DataSource.java</file>
             <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/tests/MainProg.java</file>
+            <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/GUI/AjoutPersonneController.java</file>
+            <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/services/ServiceChat.java</file>
+            <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/services/ServiceLivraison.java</file>
             <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/entities/Livraison.java</file>
+            <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/GUI/AjoutPersonne.fxml</file>
+            <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/entities/Chat.java</file>
             <file>file:/C:/Users/gdallegi/Downloads/WorkshopPI1CINFO4/WorkshopPI1CINFO4/src/com/esprit/entities/RendezVous.java</file>
         </group>
     </open-files>

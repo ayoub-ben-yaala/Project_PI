@@ -22,7 +22,7 @@ public class MainProg {
 //        ServicePersonne sp = new ServicePersonne();
 //        System.out.println(sp.afficher());
         ServiceLivraison sL = new ServiceLivraison();
-        sL.ajouter(new Livraison("50", 1,1));
+        sL.ajouter(new Livraison(5,"50", 1,1));
         ServiceRendezVous sR = new ServiceRendezVous();
       
     }
