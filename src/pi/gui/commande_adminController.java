@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,12 +22,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
@@ -63,7 +68,6 @@ public class commande_adminController implements Initializable {
     Connection conn = DataSource.getInstance().getCnx();
     PreparedStatement pst;
     PreparedStatement pst1;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,7 +75,11 @@ public class commande_adminController implements Initializable {
         table();
         ColEtat.setEditable(true);
 
-        ColEtat.setCellFactory(TextFieldTableCell.forTableColumn());
+        ColEtat.setCellFactory(column -> {
+            ComboBoxTableCell<Commande, String> cell = new ComboBoxTableCell<>(new MapConverter());
+            cell.getItems().addAll(new MapConverter().getValuesList());
+            return cell;
+        });
 
         ColEtat.setOnEditCommit((TableColumn.CellEditEvent<Commande, String> t) -> {
             t.getTableView().getItems().get(t.getTablePosition().getRow()).setEtat(t.getNewValue());
@@ -126,9 +134,6 @@ public class commande_adminController implements Initializable {
         });
     }
 
-    
-
-    
     public void table() {
         ObservableList<Commande> commandes = FXCollections.observableArrayList();
         String sql = "SELECT * FROM commande";
@@ -161,8 +166,6 @@ public class commande_adminController implements Initializable {
 
             tableCommande.setItems(commandes);
 
-            
-
             ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
             ColDate.setCellValueFactory(new PropertyValueFactory<>("date"));
             ColPharmacie.setCellValueFactory(new PropertyValueFactory<>("pharmacie"));
@@ -175,16 +178,31 @@ public class commande_adminController implements Initializable {
 
     @FXML
     private void supprimer_commande(ActionEvent event) {
-
         try {
             del = tableCommande.getSelectionModel().getSelectedItem();
-            String deleteQuery = "DELETE FROM commande WHERE id = ? ";
-            PreparedStatement pst = conn.prepareStatement(deleteQuery);
-            pst.setInt(1, del.getId_commande());
-            pst.executeUpdate();
-            table();
-            System.out.println("Successful DELETE");
 
+            // Create a confirmation dialog
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Delete Commande");
+            confirmationDialog.setContentText("Are you sure you want to delete the selected command?");
+
+            // Set OK and Cancel buttons
+            ButtonType okButton = new ButtonType("OK");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmationDialog.getButtonTypes().setAll(okButton, cancelButton);
+
+            // Show the confirmation dialog and wait for user response
+            Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+            if (result.isPresent() && result.get() == okButton) {
+                String deleteQuery = "DELETE FROM commande WHERE id = ? ";
+                PreparedStatement pst = conn.prepareStatement(deleteQuery);
+                pst.setInt(1, del.getId_commande());
+                pst.executeUpdate();
+                table();
+                System.out.println("Successful DELETE");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +210,7 @@ public class commande_adminController implements Initializable {
 
     @FXML
     private void ajouter_commande(ActionEvent event) {
-        String sql = "SELECT id from `pharmacie` WHERE nom = ?";
+        String sql = "SELECT id FROM `pharmacie` WHERE nom = ?";
         try {
             pst = conn.prepareStatement(sql);
             pst.setString(1, BoxPharmacie.getValue());
@@ -201,10 +219,27 @@ public class commande_adminController implements Initializable {
                 Pharmacie p = new Pharmacie(rs.getInt("id"));
                 String etat = BoxEtat.getValue();
                 LocalDate date = BoxDate.getValue();
-                Commande co;
-                co = new Commande(etat, date, p);
-                ajouter(co);
-                table();
+
+                // Create a confirmation dialog
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Confirmation");
+                confirmationDialog.setHeaderText("Add Commande");
+                confirmationDialog.setContentText("Are you sure you want to add this command?");
+
+                // Set OK and Cancel buttons
+                ButtonType okButton = new ButtonType("OK");
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                confirmationDialog.getButtonTypes().setAll(okButton, cancelButton);
+
+                // Show the confirmation dialog and wait for user response
+                Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+                if (result.isPresent() && result.get() == okButton) {
+                    Commande co = new Commande(etat, date, p);
+                    ajouter(co);
+                    table();
+                    System.out.println("Successful command addition");
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
