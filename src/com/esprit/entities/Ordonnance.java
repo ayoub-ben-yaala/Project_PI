@@ -5,6 +5,7 @@
 package com.esprit.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -13,27 +14,35 @@ import java.sql.Date;
 public class Ordonnance {
     private int id ;
     private int Reference;
-    private int id_Medecin ;
-    private int id_Médicament ;
+    private String Nom_Medecin ;
+    private String Nom_Medicament ;
     private Date date ;
     private String Statut ; 
 
-    public Ordonnance(int id, int Reference, int id_Medecin, int id_Médicament, Date date, String Statut) {
+    public Ordonnance(int id, int Reference, String nom_Medecin, String Nom_Medicament, Date date, String Statut) {
         this.id = id;
         this.Reference = Reference;
-        this.id_Medecin = id_Medecin;
-        this.id_Médicament = id_Médicament;
+        this.Nom_Medecin = Nom_Medecin;
+        this.Nom_Medicament = Nom_Medicament;
         this.date = date;
         this.Statut = Statut;
     }
 
-      public Ordonnance( int Reference, int id_Medecin, int id_Médicament, Date date, String Statut) {
+      public Ordonnance( int Reference, String Nom_Medecin, String Nom_Medicament, Date date, String Statut) {
       
         this.Reference = Reference;
-        this.id_Medecin = id_Medecin;
-        this.id_Médicament = id_Médicament;
+        this.Nom_Medecin = Nom_Medecin;
+        this.Nom_Medicament = Nom_Medicament;
         this.date = date;
         this.Statut = Statut;
+    }
+
+    public Ordonnance(int reference, String Nom_Medecin, String Nom_Medicament, LocalDate date, String statut) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Ordonnance(String nomMedecin, String nomMedicament, Date date, String statut) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getId() {
@@ -52,20 +61,20 @@ public class Ordonnance {
         this.Reference = Reference;
     }
 
-    public int getid_Medecin() {
-        return id_Medecin;
+    public String getNom_Medecin() {
+        return Nom_Medecin;
     }
 
-    public void setNom_Medecin(int id_Medecin) {
-        this.id_Medecin = id_Medecin;
+    public void setNom_Medecin(String Nom_Medecin) {
+        this.Nom_Medecin = Nom_Medecin;
     }
 
-    public int getId_Médicament() {
-        return id_Médicament;
+    public String getNom_Medicament() {
+        return Nom_Medicament;
     }
 
-    public void setId_Médicament(int id_Médicament) {
-        this.id_Médicament = id_Médicament;
+    public void setNom_Medicament(String Nom_Medicament) {
+        this.Nom_Medicament = Nom_Medicament;
     }
 
     public Date getDate() {
@@ -83,10 +92,6 @@ public class Ordonnance {
     public void setStatut(String Statut) {
         this.Statut = Statut;
     }    
-
-    public int getId_Medicament() {
-        return this.id_Médicament;
-      }
 
     public Date getDateOrdonnance() {
         return this.date;

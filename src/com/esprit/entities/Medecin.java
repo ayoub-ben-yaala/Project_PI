@@ -4,22 +4,28 @@
  */
 package com.esprit.entities;
 
+import javafx.scene.control.cell.PropertyValueFactory;
+
 /**
  *
  *
  */
-public class Médecin {
+public class Medecin {
+
+    public static void setCellValueFactory(PropertyValueFactory<Object, Object> propertyValueFactory) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     private int id;
     private String nom;
     private String prenom;
     private String spécialité ; 
-    public Médecin(String nom, String prenom) {
+    public Medecin(String nom, String prenom) {
         this.nom = nom;
         this.prenom = prenom;
     }
 
-    public Médecin(int id, String nom, String prenom , String spécialité ) {
+    public Medecin(int id, String nom, String prenom , String spécialité ) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -28,6 +34,12 @@ public class Médecin {
 
     public int getId() {
         return id;
+    }
+
+    public Medecin(String nom, String prenom, String spécialité) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.spécialité = spécialité;
     }
 
     public void setId(int id) {

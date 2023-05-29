@@ -4,10 +4,10 @@
  */
 package com.esprit.tests;
 
-import com.esprit.entities.Médecin;
+import com.esprit.entities.Medecin;
 import com.esprit.entities.Ordonnance;
-import com.esprit.services.ServiceOrdonnance;
-import com.esprit.services.ServiceMédecin;
+import com.esprit.services.ServiceOrdonnancee;
+import com.esprit.services.ServiceMedecin;
 import com.esprit.utils.DataSource;
 import java.time.LocalDate;
 import java.sql.Date;
@@ -20,9 +20,11 @@ import java.sql.Date;
 public class MainProg {
     
     public static void main(String[] args) {
-//        ServicePersonne sp = new ServicePersonne();
-//        System.out.println(sp.afficher());
-        ServiceOrdonnance so = new ServiceOrdonnance();
-        so.ajouter(new Ordonnance( 1,1, 1, Date.valueOf(LocalDate.now()),""));
+
+       ServiceOrdonnancee so = new ServiceOrdonnancee();
+       so.ajouter(new Ordonnance( 1,"frsfsf", "fdfdsf", Date.valueOf(LocalDate.now()),"Non Traité"));
+      // ServiceMedecin x=new ServiceMedecin();
+     //  x.ajouter(new Medecin("000","....","test"));
+        
     }
 }

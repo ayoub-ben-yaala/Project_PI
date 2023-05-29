@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.esprit.services;
 
 import com.esprit.entities.Ordonnance;
@@ -15,28 +14,33 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceOrdonnance implements IService<Ordonnance> {
+public class ServiceOrdonnancee implements IService<Ordonnance> {
 
-    private  Connection cnx = DataSource.getInstance().getCnx();
-public void ajouter(Ordonnance ordonnance) {
-    try {
-        String req = "INSERT INTO ordonnance(id, reference, id_medicament, id_medecin, date_ordonnance, statut) VALUES ("
-                + ordonnance.getId() + ",'" + ordonnance.getReference() + "'," + ordonnance.getId_Medicament() + ","
-                + ordonnance.getid_Medecin() + ",'" + ordonnance.getDateOrdonnance() + "','" + ordonnance.getStatut() + "')";
-        Statement st = cnx.createStatement();
-        st.executeUpdate(req);
-        System.out.println("Ordonnance ajoutée !");
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
+    private Connection cnx = DataSource.getInstance().getCnx();
+
+    @Override
+    public void ajouter(Ordonnance ordonnance) {
+        try {
+            String req = "INSERT INTO `ordonnance`(`id`, `reference`, `Nom_medecin`, `Nom_medicament`, `date_ordonnance`, `statut`)VALUES (?,?,?,?,?,?)";
+            PreparedStatement st = cnx.prepareStatement(req);
+            st.setInt(1, ordonnance.getId());
+            st.setInt(2, ordonnance.getReference());
+            st.setString(3, ordonnance.getNom_Medecin());
+            st.setString(4, ordonnance.getNom_Medicament());
+            st.setDate(5, ordonnance.getDateOrdonnance());
+            st.setString(6, ordonnance.getStatut());
+            st.executeUpdate();
+            System.out.println("Ordonnance ajoutée !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
-}
-
 
     @Override
     public void modifier(Ordonnance ordonnance) {
         try {
-            String req = "UPDATE ordonnance SET  reference='"+ordonnance.getReference()   + "', id_medicament='" + ordonnance.getId_Medicament() + "', id_medecin='"
-                    + ordonnance.getid_Medecin() + "', date_ordonnance='" + ordonnance.getDateOrdonnance() + "', statut='"
+            String req = "UPDATE ordonnance SET  reference='" + ordonnance.getReference() + "', Nom_Medicament='" + ordonnance.getNom_Medicament() + "', Nom_medecin='"
+                    + ordonnance.getNom_Medecin() + "', date_ordonnance='" + ordonnance.getDateOrdonnance() + "', statut='"
                     + ordonnance.getStatut() + "' WHERE id=" + ordonnance.getId();
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
@@ -67,7 +71,7 @@ public void ajouter(Ordonnance ordonnance) {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                list.add(new Ordonnance( rs.getInt("id"),rs.getInt("Reference"), rs.getInt("id_medecin"), rs.getInt("id_medicament"),
+                list.add(new Ordonnance(rs.getInt("id"), rs.getInt("Reference"), rs.getString("Nom_medecin"), rs.getString("Nom_Medicament"),
                         rs.getDate("date_ordonnance"), rs.getString("statut")));
             }
         } catch (SQLException ex) {
@@ -76,4 +80,5 @@ public void ajouter(Ordonnance ordonnance) {
 
         return list;
     }
+
 }
