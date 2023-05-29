@@ -4,8 +4,10 @@
  */
 package com.PIproject.Controller;
 
+import com.PIproject.entities.Livreur;
 import com.PIproject.entities.User;
 import com.PIproject.services.ServiceUser;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -14,13 +16,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
@@ -50,6 +57,19 @@ public class AceuilController implements Initializable {
     private TableColumn<User, String> MatriculeCol;
     
     ObservableList<User> Data;
+    @FXML
+    private Button ajouter;
+    @FXML
+    private Button modifier;
+    private TextField PasswordFT;
+    private TextField AdressFT;
+    private TextField EmailFT;
+    private TextField UserNameFT;
+    private TextField PhoneFT;
+    private TextField CinFT;
+    private Button update;
+    @FXML
+    private Button supprimer;
 
     /**
      * Initializes the controller class.
@@ -64,11 +84,22 @@ public class AceuilController implements Initializable {
 
     @FXML
     private void handleModifierButton(ActionEvent event) {
+       User selectedUser = UsersTV.getSelectionModel().getSelectedItem();
+    if (selectedUser != null) {
+          try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ModifierUser.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) modifier.getScene().getWindow();
+            primaryStage.setScene(scene);
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     }
 
-    @FXML
-    private void ajouterUser(ActionEvent event) {
-    }
 
     @FXML
     private void handleSupprimerButton(ActionEvent event) {
@@ -105,5 +136,22 @@ if (result.isPresent() && result.get() == ButtonType.OK && selectedUser != null)
           Data =Suser.afficher();
           UsersTV.setItems(Data);
     }
+
+    @FXML
+    private void ajouterUserInterface(ActionEvent event) {
+        
+          try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/AjouterUser.fxml"));
+            Parent root = loader.load();
+ 
+
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) ajouter.getScene().getWindow();
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     
 }

@@ -5,12 +5,9 @@
 package com.PIproject.Controller;
 
 import com.PIproject.entities.Livreur;
-import com.PIproject.entities.User;
 import com.PIproject.services.ServiceUser;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -29,28 +25,27 @@ import javax.swing.JOptionPane;
  *
  * @author bazinfo
  */
-public class AjouterUserController implements Initializable {
+public class ModifierUserController implements Initializable {
 
-    @FXML
-    private TextField UserNameFT;
-    @FXML
-    private TextField EmailFT;
     @FXML
     private TextField PasswordFT;
     @FXML
     private TextField AdressFT;
     @FXML
-    private TextField PhoneFT;
+    private TextField EmailFT;
     @FXML
-    private Button Add;
+    private TextField UserNameFT;
+    @FXML
+    private TextField PhoneFT;
     @FXML
     private TextField CinFT;
     @FXML
     private TextField NomPharmFT;
     @FXML
     private TextField mattriculeTF;
-    
-    
+    @FXML
+    private Button update;
+
     /**
      * Initializes the controller class.
      */
@@ -60,29 +55,25 @@ public class AjouterUserController implements Initializable {
     }    
 
     @FXML
-    private void AddUser() throws IOException {
-      
-        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
+   
+    private void modifier(ActionEvent event) {
+        
+              try {
+                  Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
         
         ServiceUser Suser =new ServiceUser();
-        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), PasswordFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText()));
-
-        JOptionPane.showMessageDialog(null, "User Added !");
+        Suser.modifier(livreur);
+        JOptionPane.showMessageDialog(null, "User Updated !");
         
-        // List<Livreur> livreurs = new ArrayList<>();
-         //   livreurs.add(livreur);
-        
-        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/Aceuil.fxml"));
             Parent root = loader.load();
- 
-
             Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) Add.getScene().getWindow();
+            Stage primaryStage = (Stage) update.getScene().getWindow();
             primaryStage.setScene(scene);
+            
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
 }
