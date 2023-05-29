@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,7 +52,10 @@ public class DetailsLivController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ServiceLivraison serviceLivraison = new ServiceLivraison();
         List<String> livreurs = serviceLivraison.afficher_livreur();
-        livreurChoiceBox.setItems(FXCollections.observableArrayList(livreurs));
+        ObservableList<String> livreurList = FXCollections.observableArrayList("Selectioner");
+livreurList.addAll(livreurs);
+livreurChoiceBox.setItems(livreurList);
+
 
         supp.setCellValueFactory(new PropertyValueFactory<>("Reference"));
         tfIdCommande.setCellValueFactory(new PropertyValueFactory<>("idCommande"));
@@ -117,24 +121,27 @@ public class DetailsLivController implements Initializable {
 
             String nomLivreur = livreurChoiceBox.getSelectionModel().getSelectedItem();
             int idLivreur = serviceLivraison.get_livreur_id(nomLivreur);
-
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Confirmation");
-            confirmationAlert.setHeaderText("Update Confirmation");
-            confirmationAlert.setContentText("Are you sure you want to update this item?");
-
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                selectedLivraison.setReference(reference);
-                selectedLivraison.setIdCommande(idCommande);
-                selectedLivraison.setIdLivreur(idLivreur);
-
-                serviceLivraison.modifier(selectedLivraison);
-
-                clearInputFields();
-                LIVRAISONTV.refresh();
-                LIVRAISONTV.getItems().clear();
-                afficherLivraisons();
+            if ("Selectioner".equals(nomLivreur)){
+} else {
+                
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Confirmation");
+                confirmationAlert.setHeaderText("Update Confirmation");
+                confirmationAlert.setContentText("Are you sure you want to update this item?");
+                
+                Optional<ButtonType> result = confirmationAlert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    selectedLivraison.setReference(reference);
+                    selectedLivraison.setIdCommande(idCommande);
+                    selectedLivraison.setIdLivreur(idLivreur);
+                    
+                    serviceLivraison.modifier(selectedLivraison);
+                    
+                    clearInputFields();
+                    LIVRAISONTV.refresh();
+                    LIVRAISONTV.getItems().clear();
+                    afficherLivraisons();
+                }
             }
         }
     }
@@ -146,9 +153,21 @@ public class DetailsLivController implements Initializable {
     }
 
     public void afficherLivraisons() {
+        
         ServiceLivraison serviceLivraison = new ServiceLivraison();
         List<Livraison> livraisons = serviceLivraison.afficher();
         LIVRAISONTV.getItems().addAll(livraisons);
+    }
+        public void Search() {
+        String nomLivreur = livreurChoiceBox.getSelectionModel().getSelectedItem();
+        LIVRAISONTV.getItems().clear();
+        if ("Selectioner".equals(nomLivreur)){
+        afficherLivraisons();
+    } else{
+        ServiceLivraison serviceLivraison = new ServiceLivraison();
+        
+        List<Livraison> livraisons = serviceLivraison.Search(nomLivreur);
+        LIVRAISONTV.getItems().addAll(livraisons);}
     }
 
     public void supprimerLivraison(Livraison livraison) {
@@ -158,28 +177,33 @@ public class DetailsLivController implements Initializable {
         System.out.println("Livraison supprimée !");
     }
 
+
     @FXML
     private void ajouterLivraison() throws SQLException {
+        
         ServiceLivraison serviceLivraison = new ServiceLivraison();
         String reference = tfReference1.getText();
         int idCommande = Integer.parseInt(tfIdCommande1.getText());
 
         String nomLivreur = livreurChoiceBox.getSelectionModel().getSelectedItem();
         int idLivreur = serviceLivraison.get_livreur_id(nomLivreur);
-
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Confirmation");
-        confirmationAlert.setHeaderText("Add Confirmation");
-        confirmationAlert.setContentText("Are you sure you want to add this delivery?");
-
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Livraison livraison = new Livraison(reference, idCommande, idLivreur);
-            serviceLivraison.ajouter(livraison);
-            clearInputFields();
-            LIVRAISONTV.refresh();
-            LIVRAISONTV.getItems().clear();
-            afficherLivraisons();
+        if ("Selectioner".equals(nomLivreur)){
+    } else {
+            
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirmation");
+            confirmationAlert.setHeaderText("Add Confirmation");
+            confirmationAlert.setContentText("Are you sure you want to add this delivery?");
+            
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Livraison livraison = new Livraison(reference, idCommande, idLivreur);
+                serviceLivraison.ajouter(livraison);
+                clearInputFields();
+                LIVRAISONTV.refresh();
+                LIVRAISONTV.getItems().clear();
+                afficherLivraisons();
+            }
         }
     }
 }

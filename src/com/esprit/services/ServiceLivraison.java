@@ -65,6 +65,26 @@ public class ServiceLivraison implements IService<Livraison> {
 
         return list;
     }
+    
+    public List<Livraison> Search( String N) {
+        List<Livraison> list = new ArrayList<>();
+
+        String req = "SELECT l.id, reference, id_commande, lv.nom_livreur FROM livraison l " +
+             "INNER JOIN livreur lv ON lv.id = l.id_livreur " +
+             "WHERE lv.nom_livreur = '" + N + "'";
+
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                list.add(new Livraison(rs.getInt("id"), rs.getString("reference"), rs.getInt("id_commande"), rs.getString("nom_livreur")));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
       public List<String> afficher_livreur() {
         List<String> list = new ArrayList<>();
 
