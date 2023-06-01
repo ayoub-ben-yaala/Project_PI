@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.PIproject.Controller;
+package com.PIproject.controllers;
 
 import com.PIproject.entities.Livreur;
+import com.PIproject.entities.SousPharmacie;
 import com.PIproject.services.ServiceUser;
 import java.io.IOException;
 import java.net.URL;
@@ -25,12 +26,12 @@ import javax.swing.JOptionPane;
  *
  * @author bazinfo
  */
-public class ModifierUserController implements Initializable {
+public class AjouterPharmacieController implements Initializable {
 
     @FXML
-    private TextField PasswordFT;
-    @FXML
     private TextField AdressFT;
+    @FXML
+    private Button Add;
     @FXML
     private TextField EmailFT;
     @FXML
@@ -38,13 +39,11 @@ public class ModifierUserController implements Initializable {
     @FXML
     private TextField PhoneFT;
     @FXML
-    private TextField CinFT;
-    @FXML
     private TextField NomPharmFT;
     @FXML
     private TextField mattriculeTF;
     @FXML
-    private Button update;
+    private Button Président;
 
     /**
      * Initializes the controller class.
@@ -55,25 +54,48 @@ public class ModifierUserController implements Initializable {
     }    
 
     @FXML
-   
-    private void modifier(ActionEvent event) {
+    private void AddPharmacie(ActionEvent event) throws IOException{
         
-              try {
-                  Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
+             
+        SousPharmacie pharmacie = new SousPharmacie(NomPharmFT.getText(),mattriculeTF.getText(),UserNameFT.getText(), EmailFT.getText(),"open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
         
         ServiceUser Suser =new ServiceUser();
-        Suser.modifier(livreur);
-        JOptionPane.showMessageDialog(null, "User Updated !");
+        Suser.ajouter(pharmacie);
+
+        JOptionPane.showMessageDialog(null, "Pharmacie Ajouter !");
         
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/Aceuil.fxml"));
+        
+        
+        try {
+            //Stage stage = (Stage) Add.getScene().getWindow();
+            //stage.close();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionPharmacie.fxml"));
             Parent root = loader.load();
+ 
+
             Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) update.getScene().getWindow();
+            Stage primaryStage = (Stage) Add.getScene().getWindow();
             primaryStage.setScene(scene);
             
-            
+             
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+       @FXML
+    private void Président(ActionEvent event) throws IOException {
+        // Stage stage = (Stage) Add.getScene().getWindow();
+          //  stage.close();
+        
+             
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionPharmacie.fxml"));
+            Parent root = loader.load();
+ 
+
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) Add.getScene().getWindow();
+            primaryStage.setScene(scene);
+            
     }
 }

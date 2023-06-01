@@ -17,6 +17,7 @@ public /*abstract*/ class User {
     private String Password;
     private int Phone;
     private String Adress;
+    private String Statut;
 
     public User(int idUser) {
         this.idUser = idUser;
@@ -99,11 +100,17 @@ public /*abstract*/ class User {
         this.Adress = Adress;
     }
 
-   
+   public String getStatut() {
+        return Statut;
+    }
+
+    public void setStatut(String Statut) {
+        this.Statut = Statut;
+    }
 
     @Override
     public String toString() {
-        return "User{" + "idUser=" + idUser + ", UserName=" + UserName + ", Email=" + Email + ", Password=" + Password + ", Phone=" + Phone + ", Adress=" + Adress +'}';
+        return "User{" + "idUser=" + idUser + ", UserName=" + UserName + ", Email=" + Email + ", Password=" + Password + ", Phone=" + Phone + ", Adress=" + Adress +", Statut=" + Statut +'}';
     }
 
   

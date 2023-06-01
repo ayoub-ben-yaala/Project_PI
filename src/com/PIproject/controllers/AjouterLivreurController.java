@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.PIproject.Controller;
+package com.PIproject.controllers;
 
 import com.PIproject.entities.Livreur;
 import com.PIproject.entities.User;
@@ -29,26 +29,25 @@ import javax.swing.JOptionPane;
  *
  * @author bazinfo
  */
-public class AjouterUserController implements Initializable {
+public class AjouterLivreurController implements Initializable {
 
     @FXML
     private TextField UserNameFT;
     @FXML
     private TextField EmailFT;
-    @FXML
-    private TextField PasswordFT;
+    
     @FXML
     private TextField AdressFT;
     @FXML
     private TextField PhoneFT;
-    @FXML
     private Button Add;
     @FXML
     private TextField CinFT;
     @FXML
-    private TextField NomPharmFT;
+    private Button add;
     @FXML
-    private TextField mattriculeTF;
+    private Button Président;
+
     
     
     /**
@@ -59,30 +58,52 @@ public class AjouterUserController implements Initializable {
         // TODO
     }    
 
+
     @FXML
-    private void AddUser() throws IOException {
-      
-        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
+    private void AddLivreur(ActionEvent event) throws IOException{
+        
+          
+        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(),"open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
         
         ServiceUser Suser =new ServiceUser();
-        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), PasswordFT.getText(), Integer.parseInt(PhoneFT.getText()), AdressFT.getText()));
+        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), "Open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText()));
 
-        JOptionPane.showMessageDialog(null, "User Added !");
+        JOptionPane.showMessageDialog(null, "Livreur Ajouter !");
         
         // List<Livreur> livreurs = new ArrayList<>();
          //   livreurs.add(livreur);
-        
+        Stage stage = (Stage) Add.getScene().getWindow();
+            stage.close();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/Aceuil.fxml"));
+             
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
             Parent root = loader.load();
  
 
             Scene scene = new Scene(root);
             Stage primaryStage = (Stage) Add.getScene().getWindow();
             primaryStage.setScene(scene);
+            
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void Président(ActionEvent event) throws IOException {
+        // Stage stage = (Stage) Add.getScene().getWindow();
+          //  stage.close();
+        
+             
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
+            Parent root = loader.load();
+ 
+
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) Add.getScene().getWindow();
+            primaryStage.setScene(scene);
+            
     }
     
 }

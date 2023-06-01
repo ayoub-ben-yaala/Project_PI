@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ServiceUser {
             
          switch (user.getClass().getSimpleName()) {
             case "Livreur":
-            String reqLivreur = "INSERT INTO User(UserName,Email,Password,Phone, Adress,CIN,Role) VALUES (?,?,?,?,?,?,?);";
+            String reqLivreur = "INSERT INTO User(UserName,Email,Password,Phone, Adress,CIN,Role,Statut) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement pstLivreur = cnx.prepareStatement(reqLivreur);
             pstLivreur.setString(1, user.getUserName());
             pstLivreur.setString(2, user.getEmail());
@@ -41,12 +42,14 @@ public class ServiceUser {
             pstLivreur.setString(5, user.getAdress());
             pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.setString(7,"Livreur");
+            pstLivreur.setString(8,"suspendue");
+
             pstLivreur.executeUpdate();
             System.out.println("Livreur ajoutée !");
             break;
             
             case "SousPharmacie":
-            String reqSousPharmacie = "INSERT INTO User(UserName,Email,Password,Phone, Adress,NomPharmacie,Role) VALUES (?,?,?,?,?,?,?);";
+            String reqSousPharmacie = "INSERT INTO User(UserName,Email,Password,Phone, Adress,NomPharmacie,Role,Statut) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement pstSousPharmacie = cnx.prepareStatement(reqSousPharmacie);
             pstSousPharmacie.setString(1, user.getUserName());
             pstSousPharmacie.setString(2, user.getEmail());
@@ -55,10 +58,11 @@ public class ServiceUser {
             pstSousPharmacie.setString(5, user.getAdress());
             pstSousPharmacie.setString(6, ((SousPharmacie) user).getNomPharmacie());
             pstSousPharmacie.setString(7,"SousPharmacie");
+            pstSousPharmacie.setString(8,"suspendue");
             pstSousPharmacie.executeUpdate();
             System.out.println("Sous Pharmacie ajoutée !");
             break;
-            
+            /*
             case "SuperPharmacie":
             String reqSuperPharmacie = "INSERT INTO User(UserName,Email,Password,Phone, Adress,MatriculeFiscale,Role) VALUES (?,?,?,?,?,?,?);";
             PreparedStatement pstSuperPharmacie = cnx.prepareStatement(reqSuperPharmacie);
@@ -71,33 +75,54 @@ public class ServiceUser {
             pstSuperPharmacie.setString(7,"SuperPharmacie"); 
             pstSuperPharmacie.executeUpdate();
             System.out.println("Super Pharmacie ajoutée !");
-            break;     
+            break;    */ 
              }
-            /*
-            String req = "INSERT INTO User(UserName,Email,Password,Phone, Adress,NomPharmacie,CIN,MatriculeFiscale,Role) VALUES (?,?,?,?,,?,?,?,?,?);";
-            PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setString(1, user.getUserName());
-            pst.setString(2, user.getEmail());
-            pst.setString(3, user.getPassword());
-             pst.setString(4, user.getPhone());
-            pst.setString(5, user.getAdress());
-            if (user instanceof Livreur){
-            pst.setString(6,"Livreur");
-            pst.setInt(8, ((Livreur) user).getCIN());
-            }else if (user instanceof SousPharmacie){
-            pst.setString(6,"SousPharmacie");
-            pst.setString(7, ((SousPharmacie) user).getNomPharmacie());
-            }else
-            pst.setString(6,"SuperPharmacie");
-            pst.setString(9,((SuperPharmacie) user).getMatriculeFiscale());
-            pst.executeUpdate();
-            System.out.println("Utilisateur ajoutée !");*/
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
+   
     
-    public void modifier(User user) {
+
+public void modifier(User user) {
+    try {
+        String req;
+        if (user instanceof Livreur) {
+            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, CIN=? ,Statut=? WHERE IdUser=?";
+        } else if (user instanceof SousPharmacie) {
+            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, NomPharmacie=?, MatriculeFiscale=?, Statut=? WHERE IdUser=?";
+        } else {
+            System.out.println("Type d'utilisateur non pris en charge");
+            return;
+        }
+
+        PreparedStatement pst = cnx.prepareStatement(req);
+        pst.setString(1, user.getUserName());
+        pst.setString(2, user.getEmail());
+        pst.setString(3, user.getPassword());
+        pst.setInt(4, user.getPhone());
+        pst.setString(5, user.getAdress());
+        
+        if (user instanceof Livreur) {
+            pst.setInt(6, ((Livreur) user).getCin());
+            pst.setString(7, user.getAdress());
+            pst.setString(8,user.getStatut());
+        } else if (user instanceof SousPharmacie) {
+            pst.setString(6, ((SousPharmacie) user).getNomPharmacie());
+            pst.setString(7, ((SousPharmacie) user).getMatriculeFiscale());
+            pst.setInt(8, user.getIdUser());
+        }
+
+        
+        
+        pst.executeUpdate();
+        System.out.println("Utilisateur modifié !");
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+}
+    public void modifier1(User user) {
+        /*
         try {
             
             switch (user.getClass().getSimpleName()) {
@@ -155,25 +180,43 @@ public class ServiceUser {
             pst.setString(5, user.getAdress());
             pst.executeUpdate();
             System.out.println("Utilisateur modifiée !");*/
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+       // } catch (SQLException ex) {
+          //  System.out.println(ex.getMessage());
+        //}
     }
     
     public void supprimer(User user) {
         try {
-            String req = "DELETE from User WHERE IdUser=?";
+            
+            String req = "UPDATE User SET Statut='Désactiver' WHERE IdUser=?";
             PreparedStatement pst = cnx.prepareStatement(req);
             pst.setInt(1, user.getIdUser());
             pst.executeUpdate();
-            System.out.println("Utilisateur supprimée !");
+            System.out.println("Compte Désactiver !");
+            JOptionPane.showMessageDialog(null, "Compte Désactiver !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
     
+    
+      public void supprimer1(User user) {
+        try {
+            
+            String req = "UPDATE User SET Statut='Active' WHERE IdUser=?";
+            PreparedStatement pst = cnx.prepareStatement(req);
+            pst.setInt(1, user.getIdUser());
+            pst.executeUpdate();
+            System.out.println("Compte Atctiver !");
+            JOptionPane.showMessageDialog(null, "Compte Activer !");
 
- public ObservableList<User> afficher() {
+             } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+      }
+    
+    
+ public ObservableList<User> afficherPharmacie() {
      ObservableList<User> utilisateurs =  FXCollections.observableArrayList();
 
     try {
@@ -195,6 +238,21 @@ public class ServiceUser {
             utilisateurs.add(sousPharmacie);
         }
         
+    
+                
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    
+    return utilisateurs;
+}
+
+ public ObservableList<User> afficherLivreur() {
+     ObservableList<User> utilisateurs =  FXCollections.observableArrayList();
+
+    try {
+        
+           
         // Récupérer les livreurs
         String reqLivreur = "SELECT * FROM user WHERE Role = 'Livreur'";
         PreparedStatement pstLivreur = cnx.prepareStatement(reqLivreur);

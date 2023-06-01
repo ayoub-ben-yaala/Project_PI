@@ -23,7 +23,7 @@ public class FXMainGUI extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/Aceuil.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/Login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

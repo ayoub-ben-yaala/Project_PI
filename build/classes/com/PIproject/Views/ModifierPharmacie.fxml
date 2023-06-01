@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIproject.controllers.ModifierPharmacieController">
+   <children>
+      <Label layoutX="204.0" layoutY="219.0" text="Adresse :" />
+      <TextField fx:id="AdressFT" layoutX="272.0" layoutY="215.0" />
+      <Button fx:id="update" layoutX="500.0" layoutY="361.0" mnemonicParsing="false" onAction="#modifier" text="Update" />
+      <TextField fx:id="EmailFT" layoutX="127.0" layoutY="134.0" />
+      <TextField fx:id="UserNameFT" layoutX="127.0" layoutY="96.0" />
+      <TextField fx:id="PhoneFT" layoutX="272.0" layoutY="178.0" />
+      <Label layoutX="204.0" layoutY="182.0" text="Phone :" />
+      <Label layoutX="51.0" layoutY="138.0" text="Email :" />
+      <Label layoutX="51.0" layoutY="100.0" text="UserName :" />
+      <Label layoutX="224.0" layoutY="45.0" text="Modifier Pharmacie">
+         <font>
+            <Font name="Baskerville Old Face" size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NomPharmFT" layoutX="434.0" layoutY="253.0" />
+      <Label layoutX="318.0" layoutY="257.0" text="Nom Pharmacie :" />
+      <TextField fx:id="mattriculeTF" layoutX="434.0" layoutY="291.0" />
+      <Label layoutX="318.0" layoutY="296.0" text="Matricule Fiscale :" />
+      <Button fx:id="Président" layoutX="562.0" layoutY="14.0" mnemonicParsing="false" onAction="#Président" text="X" />
+   </children>
+</AnchorPane>
