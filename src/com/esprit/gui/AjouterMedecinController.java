@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -73,8 +74,28 @@ public class AjouterMedecinController implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             Medecin data = getTableView().getItems().get(getIndex());
                             System.out.println("selectedData: " + data);
-                            sm.supprimer(data);
-                            medecinList.remove(data);
+
+                            // Create the confirmation dialog
+                            Dialog<ButtonType> dialog = new Dialog<>();
+                            dialog.setTitle("Confirmation Suppression");
+                            dialog.setHeaderText("Voulez-vous vraiment supprimer cet élément ?");
+
+                            ButtonType buttonTypeYes = new ButtonType("Oui", ButtonBar.ButtonData.YES);
+                            ButtonType buttonTypeNo = new ButtonType("Non", ButtonBar.ButtonData.NO);
+
+                            dialog.getDialogPane().getButtonTypes().addAll(buttonTypeYes, buttonTypeNo);
+                            Optional<ButtonType> result = dialog.showAndWait();
+
+                            if (result.isPresent() && result.get() == buttonTypeYes) {
+                                // User clicked "Oui", perform deletion
+                                sm.supprimer(data);
+                                medecinList.remove(data);
+                                table.getItems().remove(data);
+                                
+                            } else {
+                                dialog.close();
+                            }
+
                         });}
 
                     @Override
@@ -98,6 +119,24 @@ public class AjouterMedecinController implements Initializable {
 
     @FXML
     private void ajout(ActionEvent event) throws IOException {
+        String nom = idNom.getText();
+        String prenom = idprenom.getText();
+        String specialite = idspecialite.getSelectionModel().getSelectedItem();
+        String emailText = email.getText();
+
+        if (nom.isEmpty() || prenom.isEmpty() || specialite == null || emailText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs !", ButtonType.OK);
+            alert.show();
+            return;
+        }
+
+        
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        if (!emailText.matches(emailRegex)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez entrer une adresse e-mail valide !", ButtonType.OK);
+            alert.show();
+            return;
+        }
         ServiceMedecin sm = new ServiceMedecin();
         Medecin medecin = new Medecin(idNom.getText(), idprenom.getText(), Specialite.valueOf(idspecialite.getSelectionModel().getSelectedItem()),email.getText());
         Dialog<ButtonType> dialog = new Dialog<>();

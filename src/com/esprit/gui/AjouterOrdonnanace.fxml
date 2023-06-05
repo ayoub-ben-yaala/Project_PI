@@ -47,9 +47,9 @@
             </Label>
             <AnchorPane id="AnchorPane" fx:id="modifier" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="ajouter" layoutX="260.0" layoutY="297.0" mnemonicParsing="false" onAction="#ajouter" style="-fx-background-color: #056939;" text="ajouter" />
-                  <Button fx:id="modifierButton" layoutX="359.0" layoutY="297.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #056939;" text="modifier" />
-                  <Button fx:id="supprimer" layoutX="490.0" layoutY="297.0" mnemonicParsing="false" onAction="#supprimer" style="-fx-background-color: #056939;" text="supprimer" />
+                  <Button fx:id="ajouter" layoutX="260.0" layoutY="297.0" mnemonicParsing="false" onAction="#ajouter" style="-fx-background-color: #056939;" text="Ajouter" textFill="WHITE" />
+                  <Button fx:id="modifierButton" layoutX="359.0" layoutY="297.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #056939;" text="Modifier" textFill="#fcfcfc" />
+                  <Button fx:id="supprimer" layoutX="490.0" layoutY="297.0" mnemonicParsing="false" onAction="#supprimer" style="-fx-background-color: #056939;" text="Supprimer" textFill="WHITE" />
                   <Pane prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #8bc051;">
                      <children>
                         <Label layoutX="9.0" layoutY="14.0" text="Reference :">
@@ -94,6 +94,7 @@
                         <TableColumn prefWidth="15.0" />
                      </columns>
                   </TableView>
+                  <Button fx:id="reset" layoutX="359.0" layoutY="339.0" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #056939;" text="Reset" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children>

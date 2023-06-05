@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/gui/AjouterMedecinController.java</file>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/services/ServiceMedecin.java</file>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/gui/AjouterOrdonnanceController.java</file>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/services/ServiceOrdonnancee.java</file>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/entities/Ordonnance.java</file>
-            <file>file:/C:/Users/SADOK/Downloads/TestProject/TestProject/src/com/esprit/tests/NewFXMain.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/services/IService.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/entities/Ordonnance.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/tests/NewFXMain.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/services/ServiceMedecin.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/tests/MainProg.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/services/ServiceOrdonnancee.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/gui/AjouterMedecinController.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/entities/Specialite.java</file>
+            <file>file:/C:/Users/pc/Desktop/Projet_Pi/Project_PI/src/com/esprit/gui/AjouterOrdonnanceController.java</file>
         </group>
     </open-files>
 </project-private>
