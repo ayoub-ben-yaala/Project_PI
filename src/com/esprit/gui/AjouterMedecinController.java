@@ -21,6 +21,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,12 +43,16 @@ public class AjouterMedecinController implements Initializable {
     private TableColumn<Medecin, String> nom;
     @FXML
     private TableColumn<Medecin, String> prenom;
-   @FXML
-    private TableColumn<Medecin, String>specialite;
+    @FXML
+    private TableColumn<Medecin, String> specialite;
     @FXML
     private TextField email;
     @FXML
     private TableColumn<Medecin, String> email_col;
+    @FXML
+    private TextField search;
+    @FXML
+    private Label medecinCountLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,12 +60,15 @@ public class AjouterMedecinController implements Initializable {
         prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         specialite.setCellValueFactory(new PropertyValueFactory<>("specialite"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-      
-    idspecialite.getItems().addAll("CARDIOLOGISTE","DERMATOLOGISTE","GYNECOLOGUE","PEDIATRE");
+
+        idspecialite.getItems().addAll("CARDIOLOGISTE", "DERMATOLOGISTE", "GYNECOLOGUE", "PEDIATRE");
 
         ServiceMedecin sm = new ServiceMedecin();
         ObservableList<Medecin> medecinList = FXCollections.observableArrayList(sm.afficher());
         table.setItems(medecinList);
+
+        int count = sm.countMedecins();
+        medecinCountLabel.setText("Total Medecins: " + count);
 
         TableColumn<Medecin, Void> colBtn = new TableColumn<>("Suprimer");
         Callback<TableColumn<Medecin, Void>, TableCell<Medecin, Void>> cellFactory = new Callback<TableColumn<Medecin, Void>, TableCell<Medecin, Void>>() {
@@ -68,14 +76,14 @@ public class AjouterMedecinController implements Initializable {
             public TableCell<Medecin, Void> call(final TableColumn<Medecin, Void> param) {
                 final TableCell<Medecin, Void> cell = new TableCell<Medecin, Void>() {
 
-                    private final Button btn = new Button("Suprimer");
+                    private final Button btn = new Button("Supprimer");
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Medecin data = getTableView().getItems().get(getIndex());
                             System.out.println("selectedData: " + data);
 
-                            // Create the confirmation dialog
+                            
                             Dialog<ButtonType> dialog = new Dialog<>();
                             dialog.setTitle("Confirmation Suppression");
                             dialog.setHeaderText("Voulez-vous vraiment supprimer cet élément ?");
@@ -87,16 +95,19 @@ public class AjouterMedecinController implements Initializable {
                             Optional<ButtonType> result = dialog.showAndWait();
 
                             if (result.isPresent() && result.get() == buttonTypeYes) {
-                                // User clicked "Oui", perform deletion
+                                
                                 sm.supprimer(data);
                                 medecinList.remove(data);
-                                table.getItems().remove(data);
-                                
+                                getTableView().getItems().remove(data);
+                                int count = medecinList.size();
+                                medecinCountLabel.setText("Total Medecins: " + count);
+                                table.refresh();
                             } else {
                                 dialog.close();
                             }
+                        });
 
-                        });}
+                    }
 
                     @Override
                     public void updateItem(Void item, boolean empty) {
@@ -114,7 +125,22 @@ public class AjouterMedecinController implements Initializable {
 
         colBtn.setCellFactory(cellFactory);
         table.getColumns().add(colBtn);
-        
+        ///search
+
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            String searchTerm = newValue.toLowerCase();
+
+            ObservableList<Medecin> filteredList = FXCollections.observableArrayList();
+            for (Medecin medecin : medecinList) {
+                if (medecin.getNom().toLowerCase().contains(searchTerm)) {
+                    filteredList.add(medecin);
+                }
+            }
+
+            table.setItems(filteredList);
+        });
+        ////end search
+
     }
 
     @FXML
@@ -130,7 +156,6 @@ public class AjouterMedecinController implements Initializable {
             return;
         }
 
-        
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         if (!emailText.matches(emailRegex)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez entrer une adresse e-mail valide !", ButtonType.OK);
@@ -138,7 +163,7 @@ public class AjouterMedecinController implements Initializable {
             return;
         }
         ServiceMedecin sm = new ServiceMedecin();
-        Medecin medecin = new Medecin(idNom.getText(), idprenom.getText(), Specialite.valueOf(idspecialite.getSelectionModel().getSelectedItem()),email.getText());
+        Medecin medecin = new Medecin(nom, prenom, Specialite.valueOf(specialite), emailText);
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Confirmation Ajout");
         dialog.setHeaderText("Voulez-vous vraiment ajouter ce medecin");
@@ -150,18 +175,23 @@ public class AjouterMedecinController implements Initializable {
         Optional<ButtonType> result = dialog.showAndWait();
 
         if (result.isPresent() && result.get() == buttonTypeYes) {
-        sm.ajouter(medecin);
 
-        table.getItems().add(medecin);
+            sm.ajouter(medecin);
 
-        idNom.clear();
-        idprenom.clear();
-        email.clear();
-        idspecialite.setValue(null);
-    }
-        else{
+            int count = sm.countMedecins();
+            medecinCountLabel.setText("Total Medecins: " + count);
+
+            table.getItems().add(medecin);
+            ObservableList<Medecin> updatedList = FXCollections.observableArrayList(sm.afficher());
+            table.setItems(updatedList);
+
+            idNom.clear();
+            idprenom.clear();
+            email.clear();
+            idspecialite.setValue(null);
+        } else {
             dialog.close();
-            
+
         }
-}
+    }
 }

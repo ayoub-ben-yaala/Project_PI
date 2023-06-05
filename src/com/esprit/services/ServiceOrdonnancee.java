@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.esprit.services;
 
 import com.esprit.entities.Ordonnance;
@@ -19,23 +16,31 @@ public class ServiceOrdonnancee implements IService<Ordonnance> {
 
     private Connection cnx = DataSource.getInstance().getCnx();
 
-    @Override
-    public void ajouter(Ordonnance ordonnance) {
-        try {
-            String req = "INSERT INTO `ordonnance`(`id`, `reference`, `id_medecin`, `id_medicament`, `date_ordonnance`, `statut`)VALUES (?,?,?,?,?,?)";
-            PreparedStatement st = cnx.prepareStatement(req);
-            st.setInt(1, ordonnance.getId());
-            st.setInt(2, ordonnance.getReference());
-            st.setInt(3, ordonnance.getId_Medecin());
-            st.setInt(4, ordonnance.getId_Medicament());
-            st.setDate(5, ordonnance.getDateOrdonnance());
-            st.setString(6, ordonnance.getStatut());
-            st.executeUpdate();
-            System.out.println("Ordonnance ajoutée !");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+   @Override
+public void ajouter(Ordonnance ordonnance) {
+    try {
+        String req = "INSERT INTO `ordonnance`(`reference`, `id_medecin`, `id_medicament`, `date_ordonnance`, `statut`) VALUES (?,?,?,?,?)";
+        PreparedStatement st = cnx.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
+        st.setInt(1, ordonnance.getReference());
+        st.setInt(2, ordonnance.getId_Medecin());
+        st.setInt(3, ordonnance.getId_Medicament());
+        st.setDate(4, ordonnance.getDateOrdonnance());
+        st.setString(5, ordonnance.getStatut());
+        
+        st.executeUpdate();
+        
+        
+        ResultSet generatedKeys = st.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            int generatedId = generatedKeys.getInt(1);
+            ordonnance.setId(generatedId); 
         }
+        
+        System.out.println("Ordonnance ajoutée !");
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+}
 
    @Override
 public void modifier(Ordonnance ordonnance) {
@@ -57,17 +62,23 @@ public void modifier(Ordonnance ordonnance) {
 }
 
 
-    @Override
-    public void supprimer(Ordonnance ordonnance) {
-        try {
-            String req = "DELETE from ordonnance WHERE id=" + ordonnance.getId();
-            Statement st = cnx.createStatement();
-            st.executeUpdate(req);
-            System.out.println("Ordonnance supprimée !");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+   @Override
+public boolean supprimer(Ordonnance ordonnance) {
+    try {
+        System.out.println("Deleting Ordonnance with ID: " + ordonnance.getId());
+       
+        String deleteOrdonnanceReq = "DELETE FROM ordonnance WHERE id = ?";
+        PreparedStatement deleteOrdonnanceStmt = cnx.prepareStatement(deleteOrdonnanceReq);
+        deleteOrdonnanceStmt.setInt(1, ordonnance.getId());
+        int affectedRows = deleteOrdonnanceStmt.executeUpdate();
+        deleteOrdonnanceStmt.close();
+
+        return affectedRows > 0;
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        return false;
     }
+}
 
     @Override
     public List<Ordonnance> afficher() {

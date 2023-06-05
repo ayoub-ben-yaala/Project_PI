@@ -80,8 +80,7 @@ public class AjouterOrdonnanceController implements Initializable {
     private Ordonnance selectedOrdonnance;
     @FXML
     private Button modifierButton;
-    @FXML
-    private Button reset;
+    
 
     public void setStage(Stage stage) {
     }
@@ -186,7 +185,7 @@ public class AjouterOrdonnanceController implements Initializable {
         }
     }
 
-    @FXML
+   @FXML
 private void supprimer(ActionEvent event) {
     ServiceOrdonnancee so = new ServiceOrdonnancee();
     Dialog<ButtonType> dialog = new Dialog<>();
@@ -280,15 +279,6 @@ private void supprimer(ActionEvent event) {
         }
     }
 
-    @FXML
-    private void reset(ActionEvent event) {
-        
-            reference.clear();
-            medecin.setValue(null);
-            medicament.setValue(null);
-            date.setValue(null);
-            statue.clear();
-            selectedOrdonnance = null;
-    }
+    
 
 }

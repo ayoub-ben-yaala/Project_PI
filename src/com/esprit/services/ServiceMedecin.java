@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.esprit.services;
 
 import com.esprit.entities.Medecin;
@@ -20,17 +17,21 @@ public class ServiceMedecin implements IService<Medecin> {
     private Connection cnx = DataSource.getInstance().getCnx();
 
     @Override
-    public void ajouter(Medecin medecin) {
-        try {
-            String req = "INSERT INTO medecin( nom, prenom, specialite,email) VALUES ('" + medecin.getNom() + "','" + medecin.getPrenom() + "','"
-                    + medecin.getSpecialite() + "','"+medecin.getEmail()+"')";
-            Statement st = cnx.createStatement();
-            st.executeUpdate(req);
-            System.out.println("Médecin ajouté !");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+public void ajouter(Medecin medecin) {
+    try {
+        String req = "INSERT INTO `medecin`(`nom`, `prenom`, `specialite`, `email`) VALUES (?,?,?,?)";
+        PreparedStatement st = cnx.prepareStatement(req);
+        st.setString(1, medecin.getNom());
+        st.setString(2, medecin.getPrenom());
+        st.setString(3, medecin.getSpecialite().toString());
+        st.setString(4, medecin.getEmail());
+        st.executeUpdate();
+        System.out.println("Médecin ajouté !");
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+}
+
 
     public void modifier(Medecin medecin) {
         try {
@@ -44,16 +45,33 @@ public class ServiceMedecin implements IService<Medecin> {
         }
     }
 
-    public void supprimer(Medecin medecin) {
-        try {
-            String req = "DELETE from medecin WHERE id=" + medecin.getId();
-            Statement st = cnx.createStatement();
-            st.executeUpdate(req);
-            System.out.println("Médecin supprimé !");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+    public boolean supprimer(Medecin medecin) {
+    try {
+        
+        String deleteOrdonnanceReq = "DELETE FROM ordonnance WHERE id_medecin = ?";
+        PreparedStatement deleteOrdonnanceStmt = cnx.prepareStatement(deleteOrdonnanceReq);
+        deleteOrdonnanceStmt.setInt(1, medecin.getId());
+        deleteOrdonnanceStmt.executeUpdate();
+        deleteOrdonnanceStmt.close();
+
+        
+        String deleteMedecinReq = "DELETE FROM medecin WHERE id = ?";
+        PreparedStatement deleteMedecinStmt = cnx.prepareStatement(deleteMedecinReq);
+        deleteMedecinStmt.setInt(1, medecin.getId());
+        int affectedRows = deleteMedecinStmt.executeUpdate();
+        deleteMedecinStmt.close();
+        
+        return affectedRows > 0;
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        return false;
     }
+}
+
+
+
+
+
 
     @Override
     public List<Medecin> afficher() {
@@ -94,6 +112,22 @@ public class ServiceMedecin implements IService<Medecin> {
 
         return list;
     }
+    public int countMedecins() {
+    int count = 0;
+    String req = "SELECT COUNT(*) AS count FROM medecin";
+    try {
+        Statement st = cnx.createStatement();
+        ResultSet resultSet = st.executeQuery(req);
+        if (resultSet.next()) {
+            count = resultSet.getInt("count");
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return count;
+}
+
+
       public Medecin getMdecinById(int id) {
         Medecin medecin = new Medecin();
 

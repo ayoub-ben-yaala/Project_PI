@@ -94,7 +94,6 @@
                         <TableColumn prefWidth="15.0" />
                      </columns>
                   </TableView>
-                  <Button fx:id="reset" layoutX="359.0" layoutY="339.0" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #056939;" text="Reset" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children>
