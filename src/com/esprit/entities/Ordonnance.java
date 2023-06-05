@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.esprit.entities;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
-/**
- *
- * @author 
- */
 public class Ordonnance {
     private int id ;
     private int Reference;
@@ -38,11 +31,11 @@ public class Ordonnance {
     }
 
     public Ordonnance(int reference, int id_Medecin, int Nom_Medicament, LocalDate date, String statut) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public Ordonnance(int id_Medecin, String nomMedicament, Date date, String statut) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public int getId() {
