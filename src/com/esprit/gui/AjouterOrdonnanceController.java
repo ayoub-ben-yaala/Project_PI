@@ -35,6 +35,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -95,13 +96,15 @@ public class AjouterOrdonnanceController implements Initializable {
     private Ordonnance selectedOrdonnance;
     @FXML
     private Button modifierButton;
+    @FXML
+    private Button listmed;
 
     public void setStage(Stage stage) {
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Reference.setCellValueFactory(new PropertyValueFactory<>("Reference"));
+        Reference.setCellValueFactory(new PropertyValueFactory<>("Reference")); 
         Medecin.setCellValueFactory(new PropertyValueFactory<>("Medecin"));
         Medicament.setCellValueFactory(new PropertyValueFactory<>("Medicament"));
         Date.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -109,12 +112,12 @@ public class AjouterOrdonnanceController implements Initializable {
         ServiceOrdonnancee so = new ServiceOrdonnancee();
         table.getItems().addAll(so.afficher());
         ServiceMedecin sm = new ServiceMedecin();
-        ObservableList<String> medecinList = FXCollections.observableArrayList(sm.getMedecins());
-        medecin.setItems(medecinList);
+        ObservableList<String> medecinList = FXCollections.observableArrayList(sm.getMedecins());// get medecin par nom et prenom
+        medecin.setItems(medecinList); // yaffichihom fcombox medecin
         Medecin.setCellValueFactory(cellData -> {
-            Medecin medecin = sm.getMdecinById(cellData.getValue().getId_Medecin());
-            String fullName = medecin.getNom() + " " + medecin.getPrenom();
-            return new SimpleStringProperty(fullName);
+            Medecin medecin = sm.getMdecinById(cellData.getValue().getId_Medecin());//getMdecinById
+            String fullName = medecin.getNom() + " " + medecin.getPrenom(); // fullName nom prenom
+            return new SimpleStringProperty(fullName); // retur full name
         });
 
         /* ServiceMedicament sme = new ServiceMedicament();
@@ -123,7 +126,7 @@ public class AjouterOrdonnanceController implements Initializable {
             String fullName = medicament.getNom();
             return new SimpleStringProperty(fullName);
         });*/
-        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> { // selection un ligne
             if (newSelection != null) {
 
                 selectedOrdonnance = newSelection;
@@ -419,6 +422,16 @@ public class AjouterOrdonnanceController implements Initializable {
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void listmed(ActionEvent event) throws IOException {
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterMedecin.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
     }
 
 }

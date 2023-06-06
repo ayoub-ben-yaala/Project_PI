@@ -15,7 +15,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -30,6 +32,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -65,15 +70,15 @@ public class AjouterMedecinController implements Initializable {
         nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         specialite.setCellValueFactory(new PropertyValueFactory<>("specialite"));
-        email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
+        email_col.setCellValueFactory(new PropertyValueFactory<>("email")); // column add email
 
         idspecialite.getItems().addAll("CARDIOLOGISTE", "DERMATOLOGISTE", "GYNECOLOGUE", "PEDIATRE");
 
         ServiceMedecin sm = new ServiceMedecin();
         medecinList = FXCollections.observableArrayList(sm.afficher());
-        table.setItems(medecinList);
+        table.setItems(medecinList); // table show liste medecin
 
-        int count = sm.countMedecins();
+        int count = sm.countMedecins(); //  methode en l'appelle en service pour le count des medecin
         medecinCountLabel.setText("Total Medecins: " + count);
 
         TableColumn<Medecin, Void> colBtn = new TableColumn<>("Suprimer");
@@ -89,25 +94,25 @@ public class AjouterMedecinController implements Initializable {
                             Medecin data = getTableView().getItems().get(getIndex());
                             System.out.println("selectedData: " + data);
 
-                            Dialog<ButtonType> dialog = new Dialog<>();
-                            dialog.setTitle("Confirmation Suppression");
+                            Dialog<ButtonType> dialog = new Dialog<>(); // confiramation supp 
+                            dialog.setTitle("Confirmation Suppression"); 
                             dialog.setHeaderText("Voulez-vous vraiment supprimer cet élément ?");
 
                             ButtonType buttonTypeYes = new ButtonType("Oui", ButtonBar.ButtonData.YES);
                             ButtonType buttonTypeNo = new ButtonType("Non", ButtonBar.ButtonData.NO);
 
                             dialog.getDialogPane().getButtonTypes().addAll(buttonTypeYes, buttonTypeNo);
-                            Optional<ButtonType> result = dialog.showAndWait();
+                            Optional<ButtonType> result = dialog.showAndWait();// end confiramation supp 
 
-                            if (result.isPresent() && result.get() == buttonTypeYes) {
+                            if (result.isPresent() && result.get() == buttonTypeYes) { // supp oui 
 
-                                sm.supprimer(data);
-                                medecinList.remove(data);
-                                getTableView().getItems().remove(data);
-                                int count = medecinList.size();
-                                medecinCountLabel.setText("Total Medecins: " + count);
+                                sm.supprimer(data);// apel service
+                                medecinList.remove(data);// supp
+                                getTableView().getItems().remove(data); //update table
+                                int count = medecinList.size(); // update count
+                                medecinCountLabel.setText("Total Medecins: " + count); // update label
                                 table.refresh();
-                                Image image = new Image("com/esprit/images/check.png");
+                                Image image = new Image("com/esprit/images/check.png");//notif
 
                                 ImageView imageView = new ImageView(image);
                                 imageView.setFitWidth(50);
@@ -117,11 +122,11 @@ public class AjouterMedecinController implements Initializable {
                                         .graphic(imageView)
                                         .text("Medecin supprimer avec succée !")
                                         .title("Message d'information")
-                                        .hideAfter(Duration.seconds(5));
+                                        .hideAfter(Duration.seconds(5)); // end notif
 
                                 notif.show();
                             } else {
-                                dialog.close();
+                                dialog.close(); // end if  (no)
                             }
                         });
 
@@ -162,19 +167,19 @@ public class AjouterMedecinController implements Initializable {
     }
 
     @FXML
-    private void ajout(ActionEvent event) throws IOException {
+    private void ajout(ActionEvent event) throws IOException { 
         String nom = idNom.getText();
         String prenom = idprenom.getText();
         String specialite = idspecialite.getSelectionModel().getSelectedItem();
         String emailText = email.getText();
 
-        if (nom.isEmpty() || prenom.isEmpty() || specialite == null || emailText.isEmpty()) {
+        if (nom.isEmpty() || prenom.isEmpty() || specialite == null || emailText.isEmpty()) {// controle de saisie champ vide
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs !", ButtonType.OK);
             alert.show();
             return;
         }
 
-        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";// controle de saisie email
         if (!emailText.matches(emailRegex)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez entrer une adresse e-mail valide !", ButtonType.OK);
             alert.show();
@@ -234,4 +239,18 @@ public class AjouterMedecinController implements Initializable {
 
         }
     }
+
+    @FXML
+    private void ord(ActionEvent event) throws IOException {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterOrdonnanace.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+    }
+
+
+    
+
 }
