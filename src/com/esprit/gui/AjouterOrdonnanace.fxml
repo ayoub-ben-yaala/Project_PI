@@ -107,5 +107,6 @@
             <TableColumn fx:id="Statue" prefWidth="88.0" text="Statue" />
          </columns>
       </TableView>
+      <Button fx:id="listmed" layoutX="701.0" layoutY="14.0" mnemonicParsing="false" onAction="#listmed" text="List_Medecin" />
    </children>
 </AnchorPane>
