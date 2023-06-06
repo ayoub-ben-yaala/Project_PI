@@ -3,6 +3,7 @@ package com.esprit.gui;
 import com.esprit.entities.Medecin;
 import com.esprit.entities.Ordonnance;
 import com.esprit.entities.Specialite;
+import com.esprit.mail.Mail;
 import com.esprit.services.ServiceMedecin;
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class AjouterMedecinController implements Initializable {
 
@@ -53,6 +58,7 @@ public class AjouterMedecinController implements Initializable {
     private TextField search;
     @FXML
     private Label medecinCountLabel;
+    private ObservableList<Medecin> medecinList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,7 +70,7 @@ public class AjouterMedecinController implements Initializable {
         idspecialite.getItems().addAll("CARDIOLOGISTE", "DERMATOLOGISTE", "GYNECOLOGUE", "PEDIATRE");
 
         ServiceMedecin sm = new ServiceMedecin();
-        ObservableList<Medecin> medecinList = FXCollections.observableArrayList(sm.afficher());
+        medecinList = FXCollections.observableArrayList(sm.afficher());
         table.setItems(medecinList);
 
         int count = sm.countMedecins();
@@ -83,7 +89,6 @@ public class AjouterMedecinController implements Initializable {
                             Medecin data = getTableView().getItems().get(getIndex());
                             System.out.println("selectedData: " + data);
 
-                            
                             Dialog<ButtonType> dialog = new Dialog<>();
                             dialog.setTitle("Confirmation Suppression");
                             dialog.setHeaderText("Voulez-vous vraiment supprimer cet élément ?");
@@ -95,13 +100,26 @@ public class AjouterMedecinController implements Initializable {
                             Optional<ButtonType> result = dialog.showAndWait();
 
                             if (result.isPresent() && result.get() == buttonTypeYes) {
-                                
+
                                 sm.supprimer(data);
                                 medecinList.remove(data);
                                 getTableView().getItems().remove(data);
                                 int count = medecinList.size();
                                 medecinCountLabel.setText("Total Medecins: " + count);
                                 table.refresh();
+                                Image image = new Image("com/esprit/images/check.png");
+
+                                ImageView imageView = new ImageView(image);
+                                imageView.setFitWidth(50);
+                                imageView.setFitHeight(50);
+
+                                Notifications notif = Notifications.create()
+                                        .graphic(imageView)
+                                        .text("Medecin supprimer avec succée !")
+                                        .title("Message d'information")
+                                        .hideAfter(Duration.seconds(5));
+
+                                notif.show();
                             } else {
                                 dialog.close();
                             }
@@ -181,14 +199,36 @@ public class AjouterMedecinController implements Initializable {
             int count = sm.countMedecins();
             medecinCountLabel.setText("Total Medecins: " + count);
 
-            table.getItems().add(medecin);
-            ObservableList<Medecin> updatedList = FXCollections.observableArrayList(sm.afficher());
-            table.setItems(updatedList);
+            medecinList.add(medecin);
+            Mail.sendEmail(medecin);
+
+            ObservableList<Medecin> filteredList = FXCollections.observableArrayList();
+            String searchTerm = search.getText().toLowerCase();
+            for (Medecin medc : medecinList) {
+                if (medc.getNom().toLowerCase().contains(searchTerm)) {
+                    filteredList.add(medc);
+                }
+            }
+            table.setItems(filteredList);
 
             idNom.clear();
             idprenom.clear();
             email.clear();
             idspecialite.setValue(null);
+            Image image = new Image("com/esprit/images/check.png");
+
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(50);
+            imageView.setFitHeight(50);
+
+            Notifications notif = Notifications.create()
+                    .graphic(imageView)
+                    .text("Medecin créer avec succée !")
+                    .title("Message d'information")
+                    .hideAfter(Duration.seconds(5));
+
+            notif.show();
+
         } else {
             dialog.close();
 
