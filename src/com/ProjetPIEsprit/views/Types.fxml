@@ -41,5 +41,6 @@
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="Save" layoutX="358.0" layoutY="140.0" mnemonicParsing="false" onAction="#Save" text="Save" />
    </children>
 </AnchorPane>

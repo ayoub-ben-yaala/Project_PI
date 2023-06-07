@@ -14,18 +14,62 @@ public class Medicament {
     private String notice;
     private int prix;
     private String DateExp;
-    private Categorie cat;
-    private Type ty;
+    private String categorie;
+    private String type;
+    private String nomcat;
+    private String nomtyp;
     
-     public Medicament(String nom_medi,int reference,String notice, int prix, String DateExp, Categorie cat, Type ty) {
-         this.cat = cat;
-         this.ty = ty;
+     public Medicament(String nomcat, String nomtyp, String nom_medi, int reference, String DateExp, int prix, String notice) {
+         this.nomcat = nomcat;
+         this.nomtyp = nomtyp;
          this.nom_medi = nom_medi;
         this.reference = reference;
-        this.notice = notice;
-        this.prix = prix;
         this.DateExp=DateExp;
+        this.prix = prix;
+        this.notice = notice;
+             
     }
+
+    public Medicament(String nom_medi, String nomcat, String nomtyp) {
+        this.nom_medi = nom_medi;
+        this.nomcat = nomcat;
+        this.nomtyp = nomtyp;
+    }
+
+    public String getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+  
+
+    public String getNomcat() {
+        return nomcat;
+    }
+
+    public void setNomcat(String nomcat) {
+        this.nomcat = nomcat;
+    }
+
+    public String getNomtyp() {
+        return nomtyp;
+    }
+
+    public void setNomtyp(String nomtyp) {
+        this.nomtyp = nomtyp;
+    }
+
 
     public Medicament(String nom_medi, int reference, String notice, int prix, String DateExp) {
         this.nom_medi = nom_medi;
@@ -43,21 +87,6 @@ public class Medicament {
         this.DateExp = DateExp;
     }
 
-    public Categorie getCat() {
-        return cat;
-    }
-
-    public void setCat(Categorie cat) {
-        this.cat = cat;
-    }
-
-    public Type getTy() {
-        return ty;
-    }
-
-    public void setTy(Type ty) {
-        this.ty = ty;
-    }
      
        public String getnom_medi() {
         return nom_medi;

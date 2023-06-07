@@ -52,8 +52,10 @@ public class CategoriesController implements Initializable {
     private Button Supprimer;
     @FXML
     private Button Modifier;
+    
+    private Categorie Newcat;
     @FXML
-    private Button save;
+    private Button Save;
    
     /**
      * Initializes the controller class.
@@ -107,21 +109,26 @@ public class CategoriesController implements Initializable {
     }
 
       @FXML
-    private void Modifier(ActionEvent tt) {
-        Categorie selectedCategorie = tabcategories.getSelectionModel().getSelectedItem();
-         categorieTF.setText(selectedCategorie.getNomcategorie());
+    private void Save(ActionEvent tt) {
+      
         
+         String newNameCat = categorieTF.getText();
+        Newcat.setNomcategorie(newNameCat);
+        Newcat.setid_categorie(Newcat.getid_categorie());
+        ServiceCategorie serv = new ServiceCategorie();
+        serv.modifier(Newcat);
+                           JOptionPane.showMessageDialog(null, "Categorie Modifiée !");
+           categorieTF.setText(null);
+        afficher();
     }
-
     @FXML
-    private void save(ActionEvent event) {
-        ServiceCategorie m = new ServiceCategorie();
-        Categorie categorie = new Categorie(categorieTF.getText());
-                   m.modifier(categorie);
-                   JOptionPane.showMessageDialog(null, "Categorie Modifiée !");
+    private void Modifier() {
+   Categorie selectedCategorie = tabcategories.getSelectionModel().getSelectedItem();
 
-                afficher();
-                
+        this.Newcat= selectedCategorie;
+         categorieTF.setText(Newcat.getNomcategorie());
         
     }
+
+    
 }
