@@ -22,9 +22,22 @@ public class SousPharmacie extends SuperPharmacie {
         super(MatriculeFiscale, UserName, Email, Password, Phone, Adress);
         this.NomPharmacie = NomPharmacie;
     }
+       public SousPharmacie(String NomPharmacie, String MatriculeFiscale, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        super(MatriculeFiscale, UserName, Email, Password, Phone, Adress,Statut);
+        this.NomPharmacie = NomPharmacie;
+    }
 
     public SousPharmacie(String NomPharmacie, String MatriculeFiscale, int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
         super(MatriculeFiscale, idUser, UserName, Email, Password, Phone, Adress);
+        this.NomPharmacie = NomPharmacie;
+    }
+     public SousPharmacie(String NomPharmacie, String MatriculeFiscale, int idUser, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        super(MatriculeFiscale, idUser, UserName, Email, Password, Phone, Adress,Statut);
+        this.NomPharmacie = NomPharmacie;
+    }
+
+    public SousPharmacie(String NomPharmacie, String MatriculeFiscale, int idUser, String UserName, String Email, int Phone, String Adress, String Statut) {
+        super(MatriculeFiscale, idUser, UserName, Email, Phone, Adress, Statut);
         this.NomPharmacie = NomPharmacie;
     }
 

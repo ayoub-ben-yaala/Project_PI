@@ -5,7 +5,6 @@
 package com.PIproject.controllers;
 
 import com.PIproject.entities.Livreur;
-import com.PIproject.entities.SousPharmacie;
 import com.PIproject.entities.User;
 import com.PIproject.services.ServiceUser;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -30,11 +30,12 @@ import javax.swing.JOptionPane;
  *
  * @author bazinfo
  */
-public class ModifierLivreurController implements Initializable {
+public class ModifierProfileLivreurController implements Initializable {
 
-   
     @FXML
     private TextField AdressFT;
+    @FXML
+    private Button update;
     @FXML
     private TextField EmailFT;
     @FXML
@@ -43,9 +44,9 @@ public class ModifierLivreurController implements Initializable {
     private TextField PhoneFT;
     @FXML
     private TextField CinFT;
+    private User currentUser;
     @FXML
-    private Button update;
-    private User userData;
+    private PasswordField Password;
     @FXML
     private Button Président;
 
@@ -57,38 +58,38 @@ public class ModifierLivreurController implements Initializable {
         // TODO
     }    
     
-
-     public void setUserData(User user) {
-        this.userData = user;
+    void setLoggedInUser(User user) {
+        this.currentUser = user;
+         UserNameFT.setText(currentUser.getUserName());
+        EmailFT.setText(currentUser.getEmail());
+        PhoneFT.setText(String.valueOf(currentUser.getPhone()));
+        AdressFT.setText(currentUser.getAdress());
         
-        UserNameFT.setText(userData.getUserName());
-        EmailFT.setText(userData.getEmail());
-        PhoneFT.setText(String.valueOf(userData.getPhone()));
-        AdressFT.setText(userData.getAdress());
         Livreur livreur = (Livreur) user;
-        CinFT.setText(String.valueOf(livreur.getCin()));  
-     }
-    
-    @FXML
+        CinFT.setText(String.valueOf(livreur.getCin()));
+    }
+   @FXML
     private void modifier(ActionEvent event) {
         
               try {
+                  
                   
                    String newUserName = UserNameFT.getText();
                    String newEmail = EmailFT.getText();
                    Integer newPhone = Integer.parseInt(PhoneFT.getText());
                    String newAdress =AdressFT.getText();
-                  
+                   String newPassword =Password.getText();
+
                    
-                   userData.setUserName(newUserName);
-                   userData.setEmail(newEmail);
-                   userData.setPassword("open");
-                   userData.setPhone(newPhone);
-                   userData.setAdress(newAdress);
-                   userData.setIdUser(userData.getIdUser());
+                   currentUser.setUserName(newUserName);
+                   currentUser.setEmail(newEmail);
+                   currentUser.setPassword(newPassword);
+                   currentUser.setPhone(newPhone);
+                   currentUser.setAdress(newAdress);
+                   currentUser.setIdUser(currentUser.getIdUser());
               
                    
-                     Livreur livreur = (Livreur) userData;
+                     Livreur livreur = (Livreur) currentUser;
                      int newCIN = Integer.parseInt(CinFT.getText());
                         livreur.setCin(newCIN);
                     
@@ -99,24 +100,15 @@ public class ModifierLivreurController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
              ServiceUser Suser =new ServiceUser();
-            Suser.modifier(userData);
-            JOptionPane.showMessageDialog(null, "Livreur Modifier !");
-            Stage stage = (Stage) update.getScene().getWindow();
-            stage.close();
-            Suser.afficherLivreur();
+            Suser.modifier(currentUser);
+            JOptionPane.showMessageDialog(null, "Profile Modifier !");
+          
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilLivreur.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            
-            
             Stage primaryStage = (Stage) update.getScene().getWindow();
-            primaryStage.setScene(scene);  
-             primaryStage.setScene(scene);
-            GestionLivreurController GestionLivreurController = loader.getController();
-            
-            GestionLivreurController.afficher();
-            GestionLivreurController.refreshPage();
+            primaryStage.setScene(scene);
 
                   }
                   else{
@@ -130,13 +122,13 @@ public class ModifierLivreurController implements Initializable {
         }
     }
 
-    @FXML
+      @FXML
     private void Président(ActionEvent event) throws IOException {
         // Stage stage = (Stage) Add.getScene().getWindow();
           //  stage.close();
         
              
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilLivreur.fxml"));
             Parent root = loader.load();
  
 

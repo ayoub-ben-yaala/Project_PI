@@ -4,6 +4,10 @@
  */
 package com.PIproject.controllers;
 
+import com.PIproject.entities.Livreur;
+import com.PIproject.entities.SousPharmacie;
+import com.PIproject.entities.SuperPharmacie;
+import com.PIproject.entities.User;
 import com.PIproject.utils.DataSource;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +28,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import static org.mindrot.jbcrypt.BCrypt.checkpw;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  * FXML Controller class
@@ -42,7 +49,7 @@ public class LoginController implements Initializable {
     private Button forgetPassword;
         private Connection cnx = DataSource.getInstance().getCnx();
 
-
+static User loggedInUser ;
     /**
      * Initializes the controller class.
      */
@@ -52,21 +59,38 @@ public class LoginController implements Initializable {
     }    
 
     @FXML
-    private void Connexion(ActionEvent event) throws IOException {
+    private void Connexion(ActionEvent event) throws IOException, SQLException {
         
              String email = EmailFT.getText();
         String password = PasswordFT.getText();
 
-        if (validateLogin(email, password)) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Aceuil.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);            
-            Stage primaryStage = (Stage) Login.getScene().getWindow();
-            primaryStage.setScene(scene);  
-             primaryStage.setScene(scene);
-        } else {
-            
-            showAlert(Alert.AlertType.ERROR, "Erreur de connexion", "Identifiants incorrects", "Veuillez vérifier votre e-mail et votre mot de passe.");
+        if (/*(retrieveUserPasswordAndVerif(email,password))&&*/(validateLogin(email, password)) ) {
+                   
+   
+             // Récupérer le rôle de l'utilisateur à partir de la base de données
+    String userRole = retrieveUserRole(email);
+
+                // Utiliser une structure conditionnelle pour rediriger vers la page d'accueil appropriée
+                switch (userRole) {
+                    case "SuperPharmacie":
+                        // Redirection vers la page d'accueil de l'administrateur
+                        redirectToPharmacieHomePage();
+                        break;
+                    case "SousPharmacie":
+                        // Redirection vers la page d'accueil de l'utilisateur
+                        redirectToMiniPharmacieHomePage();
+                        break;
+                    case "Livreur":
+                        // Redirection vers la page d'accueil des invités
+                        redirectToLivreurHomePage();
+                        break;
+                    default:
+                        break;
+                }
+
+ } else {
+        showAlert(Alert.AlertType.ERROR, "Erreur de connexion", "Identifiants incorrects", "Veuillez vérifier votre e-mail et votre mot de passe.");
+
         }
         
          
@@ -74,20 +98,154 @@ public class LoginController implements Initializable {
              
     }
     
-       private boolean validateLogin(String email, String password) {
-        try {
-            String query = "SELECT * FROM user WHERE Email = ? AND Password = ?";
+       private boolean validateLogin(String email, String password) throws SQLException {
+       
+            String query = "SELECT * FROM user WHERE Email = ? AND Password = ? And Statut='Active'";
             PreparedStatement statement = cnx.prepareStatement(query);
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
+if (resultSet.next() )  {
+    // Récupérer le rôle de l'utilisateur connecté
+    String userRole = retrieveUserRole(email);
 
-            return resultSet.next(); 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+                switch (userRole) {
+                    case "SuperPharmacie":
+                        loggedInUser = new SuperPharmacie(
+                                resultSet.getString("MatriculeFiscale"),
+                                resultSet.getInt("idUser"),
+                                resultSet.getString("UserName"),
+                                resultSet.getString("Email"),
+                                resultSet.getString("Password"),
+                                resultSet.getInt("Phone"),
+                                resultSet.getString("Adress"),
+                                resultSet.getString("Statut")
+                        );            
+                        break;
+                    case "SousPharmacie":
+                        loggedInUser = new SousPharmacie(
+                                resultSet.getString("NomPharmacie"),
+                                resultSet.getString("MatriculeFiscale"),
+                                resultSet.getInt("idUser"),
+                                resultSet.getString("UserName"),
+                                resultSet.getString("Email"),
+                                resultSet.getString("Password"),
+                                resultSet.getInt("Phone"),
+                                resultSet.getString("Adress"),
+                                resultSet.getString("Statut")
+                        );              break;
+                    case "Livreur":
+                        loggedInUser = new Livreur(
+                                resultSet.getInt("Cin"),
+                                resultSet.getInt("idUser"),
+                                resultSet.getString("UserName"),
+                                resultSet.getString("Email"),
+                                resultSet.getString("Password"),
+                                resultSet.getInt("Phone"),
+                                resultSet.getString("Adress"),
+                                resultSet.getString("Statut")
+                        );              break;
+                    default:
+                        break;
+                }
+
+    return true;
+} else {
+    return false; // Aucun utilisateur trouvé avec les informations de connexion fournies      
+       
+    }}
+       private String retrieveUserRole(String email) {
+    String userRole = "";
+    
+    try {
+        String query = "SELECT Role FROM user WHERE Email = ?";
+        PreparedStatement statement = cnx.prepareStatement(query);
+        statement.setString(1, email);
+        
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            userRole = resultSet.getString("Role");
         }
+    } catch (SQLException e) {
+        // Gérer l'erreur de récupération du rôle de l'utilisateur
+        
     }
+    
+    return userRole;
+}
+       
+       
+         private boolean retrieveUserPasswordAndVerif(String email,String password) throws SQLException {
+    String userPassword = "";
+    
+   
+        String query = "SELECT Password FROM user WHERE Email = ?";
+        PreparedStatement statement = cnx.prepareStatement(query);
+        statement.setString(1, email);
+        
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            userPassword = resultSet.getString("Password");
+            
+        }
+        return BCrypt.checkpw(password,userPassword);
+}     
+       private void redirectToLivreurHomePage() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilLivreur.fxml"));
+        Parent root = loader.load();
+        
+        // Créer une nouvelle scène avec la page d'accueil des invités
+        Scene scene = new Scene(root);
+        
+        // Obtenir la fenêtre actuelle et la changer avec la nouvelle scène
+        Stage stage = (Stage) Login.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Gérer l'erreur de chargement de la page d'accueil des invités
+    }
+}
+       private void redirectToPharmacieHomePage() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
+        Parent root = loader.load();
+        
+        // Créer une nouvelle scène avec la page d'accueil des invités
+        Scene scene = new Scene(root);
+        
+        // Obtenir la fenêtre actuelle et la changer avec la nouvelle scène
+        Stage stage = (Stage) Login.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Gérer l'erreur de chargement de la page d'accueil des invités
+    }
+}
+       private void redirectToMiniPharmacieHomePage() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilMiniPharmacie.fxml"));
+        Parent root = loader.load();
+        
+        // Créer une nouvelle scène avec la page d'accueil des invités
+        Scene scene = new Scene(root);
+        
+        // Obtenir la fenêtre actuelle et la changer avec la nouvelle scène
+        Stage stage = (Stage) Login.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Gérer l'erreur de chargement de la page d'accueil des invités
+    }
+}
+
+       
         private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

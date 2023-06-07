@@ -12,12 +12,13 @@
    <children>
       <TableView fx:id="UsersTV" layoutX="22.0" layoutY="197.0" prefHeight="271.0" prefWidth="636.0">
          <columns>
-            <TableColumn fx:id="UserNameCol" minWidth="5.0" prefWidth="86.0" text="UserName" />
-            <TableColumn fx:id="EmailCol" minWidth="0.0" prefWidth="99.0" text="Email" />
-            <TableColumn fx:id="AdressCol" prefWidth="104.0" text="Adress" />
-            <TableColumn fx:id="PhoneCol" prefWidth="87.0" text="Phone" />
-            <TableColumn fx:id="PharmCol" prefWidth="118.0" text="Nom pharmacie" />
-            <TableColumn fx:id="MatriculeCol" prefWidth="148.0" text="Matricule Fiscale" />
+            <TableColumn fx:id="UserNameCol" minWidth="5.0" prefWidth="75.0" text="UserName" />
+            <TableColumn fx:id="EmailCol" minWidth="0.0" prefWidth="116.0" text="Email" />
+            <TableColumn fx:id="AdressCol" prefWidth="79.0" text="Adress" />
+            <TableColumn fx:id="PhoneCol" prefWidth="72.0" text="Phone" />
+            <TableColumn fx:id="PharmCol" prefWidth="106.0" text="Nom pharmacie" />
+            <TableColumn fx:id="MatriculeCol" prefWidth="118.0" text="Matricule Fiscale" />
+            <TableColumn fx:id="StatutCol" prefWidth="75.0" text="Statut" />
          </columns>
          <opaqueInsets>
             <Insets />

@@ -11,19 +11,33 @@ package com.PIproject.entities;
 public class Livreur extends User {
     private int cin;
 
-    public Livreur(int cin, String UserName, String Email, String Password, int Phone, String Adress) {
-        super(UserName, Email, Password, Phone, Adress);
+    public Livreur(int cin, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        super(UserName, Email, Password, Phone, Adress,Statut);
         this.cin = cin;
     }
 
-    public Livreur(int cin, int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
-        super(idUser, UserName, Email, Password, Phone, Adress);
+    public Livreur(int cin, int idUser, String UserName, String Email, String Password, int Phone, String Adress, String Statut) {
+        super(idUser, UserName, Email, Password, Phone, Adress , Statut);
         this.cin = cin;
     }
 
-    public Livreur(int cin,String UserName, String Email, int Phone, String Adress) {
+    public Livreur(int cin,String UserName, String Email, int Phone, String Adress,String Statut) {
+        super(UserName, Email, Phone, Adress,Statut);
+        this.cin =cin;
+    }
+      public Livreur(int cin,String UserName, String Email, int Phone, String Adress) {
         super(UserName, Email, Phone, Adress);
         this.cin =cin;
+    }
+
+    public Livreur(int cin, int idUser, String UserName, String Email, int Phone, String Adress, String Statut) {
+        super(idUser, UserName, Email, Phone, Adress, Statut);
+        this.cin = cin;
+    }
+      
+
+    public Livreur() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
  

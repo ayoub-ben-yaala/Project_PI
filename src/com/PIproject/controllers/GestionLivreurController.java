@@ -61,6 +61,8 @@ public class GestionLivreurController implements Initializable {
     private Button Président;
     @FXML
     private Button activer;
+    @FXML
+    private TableColumn<?, ?> StatutCol;
 
     /**
      * Initializes the controller class.
@@ -95,6 +97,7 @@ public class GestionLivreurController implements Initializable {
           AdressCol.setCellValueFactory(new PropertyValueFactory<>("Adress"));
           PhoneCol.setCellValueFactory(new PropertyValueFactory<>("Phone"));
           CinCol.setCellValueFactory(new PropertyValueFactory<>("Cin"));
+          StatutCol.setCellValueFactory(new PropertyValueFactory<>("Statut"));
           Data =Suser.afficherLivreur();
           UsersTV.setItems(Data);
     }
@@ -159,7 +162,7 @@ if (result.isPresent() && result.get() == ButtonType.OK && selectedUser != null)
           //  stage.close();
         
              
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Aceuil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
             Parent root = loader.load();
  
 

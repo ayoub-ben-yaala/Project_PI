@@ -4,6 +4,8 @@
  */
 package com.PIproject.controllers;
 
+import com.PIproject.entities.Livreur;
+import com.PIproject.entities.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,12 +23,8 @@ import javafx.stage.Stage;
  *
  * @author bazinfo
  */
-public class AceuilController implements Initializable {
+public class AceuilLivreurController implements Initializable {
 
-    @FXML
-    private Button Pharmacie;
-    @FXML
-    private Button Livreur;
     @FXML
     private Button logout;
     @FXML
@@ -40,34 +38,7 @@ public class AceuilController implements Initializable {
         // TODO
     }    
 
-    @FXML
-    private void GestionPharmacie(ActionEvent event) throws IOException {
-       // Stage stage = (Stage) Pharmacie.getScene().getWindow();
-         //   stage.close();
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionPharmacie.fxml"));
-            Parent root1 = loader.load();
-            Scene scene = new Scene(root1);
-            Stage primaryStage = (Stage) Pharmacie.getScene().getWindow();
-            primaryStage.setScene(scene);  
-             
-             
-             
-    }
-
-    @FXML
-    private void GestionLivreur(ActionEvent event) throws IOException {
-            // Stage stage = (Stage) Livreur.getScene().getWindow();
-            //stage.close();
-FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) Livreur.getScene().getWindow();
-            primaryStage.setScene(scene);
-            
-            
-    }
-
-    @FXML
+      @FXML
     private void logout(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Login.fxml"));
             Parent root = loader.load();
@@ -77,15 +48,19 @@ FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivre
         
     }
 
+  
+    
     @FXML
     private void profil(ActionEvent event)throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ModifierProfilePharmacie.fxml"));
+      
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ModifierProfileLivreur.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage primaryStage = (Stage) logout.getScene().getWindow();
             primaryStage.setScene(scene);
-            ModifierProfilePharmacieController modifierProfilePharmacieController = loader.getController();
-            modifierProfilePharmacieController.setLoggedInUser(LoginController.loggedInUser);
+            ModifierProfileLivreurController modifierProfileLivreurController = loader.getController();
+modifierProfileLivreurController.setLoggedInUser(LoginController.loggedInUser);
         
     }
+    
 }

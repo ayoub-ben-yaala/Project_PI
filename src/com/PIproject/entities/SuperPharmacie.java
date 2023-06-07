@@ -21,11 +21,25 @@ public class SuperPharmacie extends User {
         super(UserName, Email, Password, Phone, Adress);
         this.MatriculeFiscale = MatriculeFiscale;
     }
+        public SuperPharmacie(String MatriculeFiscale, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        super(UserName, Email, Password, Phone, Adress,Statut);
+        this.MatriculeFiscale = MatriculeFiscale;
+    }
+
+    public SuperPharmacie(String MatriculeFiscale, int idUser, String UserName, String Email, int Phone, String Adress, String Statut) {
+        super(idUser, UserName, Email, Phone, Adress, Statut);
+        this.MatriculeFiscale = MatriculeFiscale;
+    }
 
     public SuperPharmacie(String MatriculeFiscale, int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
         super(idUser, UserName, Email, Password, Phone, Adress);
         this.MatriculeFiscale = MatriculeFiscale;
     }
+     public SuperPharmacie(String MatriculeFiscale, int idUser, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        super(idUser, UserName, Email, Password, Phone, Adress,Statut);
+        this.MatriculeFiscale = MatriculeFiscale;
+    }
+
 
   
 

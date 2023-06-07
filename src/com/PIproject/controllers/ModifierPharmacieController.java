@@ -149,7 +149,7 @@ public class ModifierPharmacieController implements Initializable {
  
 
             Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) update.getScene().getWindow();
+            Stage primaryStage = (Stage) Président.getScene().getWindow();
             primaryStage.setScene(scene);
             
     }

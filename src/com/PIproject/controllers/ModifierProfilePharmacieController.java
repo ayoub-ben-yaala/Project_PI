@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -30,11 +31,12 @@ import javax.swing.JOptionPane;
  *
  * @author bazinfo
  */
-public class ModifierLivreurController implements Initializable {
+public class ModifierProfilePharmacieController implements Initializable {
 
-   
     @FXML
     private TextField AdressFT;
+    @FXML
+    private Button update;
     @FXML
     private TextField EmailFT;
     @FXML
@@ -42,10 +44,12 @@ public class ModifierLivreurController implements Initializable {
     @FXML
     private TextField PhoneFT;
     @FXML
-    private TextField CinFT;
+    private TextField NomPharmFT;
     @FXML
-    private Button update;
-    private User userData;
+    private TextField mattriculeTF;
+    private User currentUser;
+    @FXML
+    private PasswordField Password;
     @FXML
     private Button Président;
 
@@ -56,20 +60,18 @@ public class ModifierLivreurController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
-
-     public void setUserData(User user) {
-        this.userData = user;
+   void setLoggedInUser(User user) {
+        this.currentUser = user;
+        UserNameFT.setText(currentUser.getUserName());
+        EmailFT.setText(currentUser.getEmail());
+        PhoneFT.setText(String.valueOf(currentUser.getPhone()));
+        AdressFT.setText(currentUser.getAdress());
         
-        UserNameFT.setText(userData.getUserName());
-        EmailFT.setText(userData.getEmail());
-        PhoneFT.setText(String.valueOf(userData.getPhone()));
-        AdressFT.setText(userData.getAdress());
-        Livreur livreur = (Livreur) user;
-        CinFT.setText(String.valueOf(livreur.getCin()));  
-     }
-    
-    @FXML
+       SousPharmacie sousPharmacie = (SousPharmacie) user;
+        mattriculeTF.setText(sousPharmacie.getMatriculeFiscale());
+          NomPharmFT.setText(sousPharmacie.getNomPharmacie());
+    }
+     @FXML
     private void modifier(ActionEvent event) {
         
               try {
@@ -78,19 +80,24 @@ public class ModifierLivreurController implements Initializable {
                    String newEmail = EmailFT.getText();
                    Integer newPhone = Integer.parseInt(PhoneFT.getText());
                    String newAdress =AdressFT.getText();
+                   String newPassword =Password.getText();
                   
                    
-                   userData.setUserName(newUserName);
-                   userData.setEmail(newEmail);
-                   userData.setPassword("open");
-                   userData.setPhone(newPhone);
-                   userData.setAdress(newAdress);
-                   userData.setIdUser(userData.getIdUser());
+                   currentUser.setUserName(newUserName);
+                   currentUser.setEmail(newEmail);
+                   currentUser.setPassword(newPassword);
+                   currentUser.setPhone(newPhone);
+                   currentUser.setAdress(newAdress);
+                   currentUser.setIdUser(currentUser.getIdUser());
               
                    
-                     Livreur livreur = (Livreur) userData;
-                     int newCIN = Integer.parseInt(CinFT.getText());
-                        livreur.setCin(newCIN);
+                   
+        SousPharmacie sousPharmacie = (SousPharmacie) currentUser;
+        String newNomPharmacie = NomPharmFT.getText();
+        sousPharmacie.setNomPharmacie(newNomPharmacie);
+         String newMatricule = mattriculeTF.getText();
+        sousPharmacie.setMatriculeFiscale(newMatricule);
+     
                     
                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
@@ -99,25 +106,19 @@ public class ModifierLivreurController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
              ServiceUser Suser =new ServiceUser();
-            Suser.modifier(userData);
-            JOptionPane.showMessageDialog(null, "Livreur Modifier !");
-            Stage stage = (Stage) update.getScene().getWindow();
-            stage.close();
-            Suser.afficherLivreur();
+            Suser.modifier(currentUser);
+            JOptionPane.showMessageDialog(null, "Profile Modifier !");
+                   
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            
-            
             Stage primaryStage = (Stage) update.getScene().getWindow();
-            primaryStage.setScene(scene);  
-             primaryStage.setScene(scene);
-            GestionLivreurController GestionLivreurController = loader.getController();
+            primaryStage.setScene(scene);
             
-            GestionLivreurController.afficher();
-            GestionLivreurController.refreshPage();
-
+            
+                     
+                
                   }
                   else{
                    
@@ -130,13 +131,13 @@ public class ModifierLivreurController implements Initializable {
         }
     }
 
-    @FXML
+        @FXML
     private void Président(ActionEvent event) throws IOException {
         // Stage stage = (Stage) Add.getScene().getWindow();
           //  stage.close();
         
              
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/GestionLivreur.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
             Parent root = loader.load();
  
 
@@ -145,4 +146,6 @@ public class ModifierLivreurController implements Initializable {
             primaryStage.setScene(scene);
             
     }
+
+    
 }

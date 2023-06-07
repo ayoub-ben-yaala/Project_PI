@@ -24,6 +24,6 @@
       </Label>
       <TextField fx:id="CinFT" layoutX="420.0" layoutY="295.0" />
       <Label layoutX="364.0" layoutY="299.0" text="Cin :" />
-      <Button fx:id="Président" layoutX="572.0" layoutY="24.0" mnemonicParsing="false" onAction="#Président" text="X" />
+      <Button fx:id="Président" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#Président" text="Retour" />
    </children>
 </AnchorPane>

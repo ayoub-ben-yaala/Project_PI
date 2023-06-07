@@ -18,6 +18,8 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  *
@@ -37,12 +39,12 @@ public class ServiceUser {
             PreparedStatement pstLivreur = cnx.prepareStatement(reqLivreur);
             pstLivreur.setString(1, user.getUserName());
             pstLivreur.setString(2, user.getEmail());
-            pstLivreur.setString(3, user.getPassword());
+            pstLivreur.setString(3,user.getPassword() );
             pstLivreur.setInt(4, user.getPhone());
             pstLivreur.setString(5, user.getAdress());
             pstLivreur.setInt(6, ((Livreur) user).getCin());
             pstLivreur.setString(7,"Livreur");
-            pstLivreur.setString(8,"suspendue");
+            pstLivreur.setString(8,"En Attente");
 
             pstLivreur.executeUpdate();
             System.out.println("Livreur ajoutée !");
@@ -53,7 +55,7 @@ public class ServiceUser {
             PreparedStatement pstSousPharmacie = cnx.prepareStatement(reqSousPharmacie);
             pstSousPharmacie.setString(1, user.getUserName());
             pstSousPharmacie.setString(2, user.getEmail());
-            pstSousPharmacie.setString(3, user.getPassword());
+            pstSousPharmacie.setString(3,user.getPassword() );
             pstSousPharmacie.setInt(4, user.getPhone());
             pstSousPharmacie.setString(5, user.getAdress());
             pstSousPharmacie.setString(6, ((SousPharmacie) user).getNomPharmacie());
@@ -88,9 +90,9 @@ public void modifier(User user) {
     try {
         String req;
         if (user instanceof Livreur) {
-            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, CIN=? ,Statut=? WHERE IdUser=?";
+            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, CIN=?  WHERE IdUser=?";
         } else if (user instanceof SousPharmacie) {
-            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, NomPharmacie=?, MatriculeFiscale=?, Statut=? WHERE IdUser=?";
+            req = "UPDATE User SET UserName=?, Email=?, Password=?, Phone=?, Adress=?, NomPharmacie=?, MatriculeFiscale=? WHERE IdUser=?";
         } else {
             System.out.println("Type d'utilisateur non pris en charge");
             return;
@@ -99,14 +101,13 @@ public void modifier(User user) {
         PreparedStatement pst = cnx.prepareStatement(req);
         pst.setString(1, user.getUserName());
         pst.setString(2, user.getEmail());
-        pst.setString(3, user.getPassword());
+        pst.setString(3,user.getPassword() );
         pst.setInt(4, user.getPhone());
         pst.setString(5, user.getAdress());
         
         if (user instanceof Livreur) {
             pst.setInt(6, ((Livreur) user).getCin());
-            pst.setString(7, user.getAdress());
-            pst.setString(8,user.getStatut());
+            pst.setInt(7, user.getIdUser());
         } else if (user instanceof SousPharmacie) {
             pst.setString(6, ((SousPharmacie) user).getNomPharmacie());
             pst.setString(7, ((SousPharmacie) user).getMatriculeFiscale());
@@ -231,9 +232,9 @@ public void modifier(User user) {
                     rsSousPharmacie.getInt("idUser"),
                     rsSousPharmacie.getString("UserName"),
                     rsSousPharmacie.getString("Email"),
-                    rsSousPharmacie.getString("Password"),
                     rsSousPharmacie.getInt("Phone"),
-                    rsSousPharmacie.getString("Adress")
+                    rsSousPharmacie.getString("Adress"),
+                    rsSousPharmacie.getString("Statut")
             );
             utilisateurs.add(sousPharmacie);
         }
@@ -263,9 +264,9 @@ public void modifier(User user) {
                     rsLivreur.getInt("idUser"),
                     rsLivreur.getString("UserName"),
                     rsLivreur.getString("Email"),
-                    rsLivreur.getString("Password"),
                     rsLivreur.getInt("Phone"),
-                    rsLivreur.getString("Adress")
+                    rsLivreur.getString("Adress"),
+                    rsLivreur.getString("Statut")
             );
             utilisateurs.add(livreur);
         }

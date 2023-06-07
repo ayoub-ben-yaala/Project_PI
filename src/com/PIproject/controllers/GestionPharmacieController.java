@@ -59,6 +59,8 @@ public class GestionPharmacieController implements Initializable {
     private Button Président;
     @FXML
     private Button activer;
+    @FXML
+    private TableColumn<?, ?> StatutCol;
 
     /**
      * Initializes the controller class.
@@ -92,6 +94,7 @@ public class GestionPharmacieController implements Initializable {
           PhoneCol.setCellValueFactory(new PropertyValueFactory<>("Phone"));
           PharmCol.setCellValueFactory(new PropertyValueFactory<>("NomPharmacie"));
           MatriculeCol.setCellValueFactory(new PropertyValueFactory<>("MatriculeFiscale"));
+          StatutCol.setCellValueFactory(new PropertyValueFactory<>("Statut"));
           Data =Suser.afficherPharmacie();
           UsersTV.setItems(Data);
     }
@@ -155,7 +158,7 @@ if (result.isPresent() && result.get() == ButtonType.OK && selectedUser != null)
           //  stage.close();
         
              
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Aceuil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
             Parent root = loader.load();
  
 

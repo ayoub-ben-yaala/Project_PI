@@ -13,10 +13,11 @@
       <TableView fx:id="UsersTV" layoutX="57.0" layoutY="214.0" prefHeight="292.0" prefWidth="523.0">
          <columns>
             <TableColumn fx:id="UserNameCol" minWidth="5.0" prefWidth="86.0" text="UserName" />
-            <TableColumn fx:id="EmailCol" minWidth="0.0" prefWidth="99.0" text="Email" />
-            <TableColumn fx:id="AdressCol" prefWidth="104.0" text="Adress" />
-            <TableColumn fx:id="PhoneCol" prefWidth="87.0" text="Phone" />
-            <TableColumn fx:id="CinCol" prefWidth="145.0" sortable="false" text="CIN" />
+            <TableColumn fx:id="EmailCol" minWidth="0.0" prefWidth="118.0" text="Email" />
+            <TableColumn fx:id="AdressCol" prefWidth="77.0" text="Adress" />
+            <TableColumn fx:id="PhoneCol" prefWidth="89.0" text="Phone" />
+            <TableColumn fx:id="CinCol" prefWidth="71.0" sortable="false" text="CIN" />
+            <TableColumn fx:id="StatutCol" prefWidth="81.0" text="Statut" />
          </columns>
          <opaqueInsets>
             <Insets />

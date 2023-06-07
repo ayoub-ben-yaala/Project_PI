@@ -25,7 +25,56 @@ public /*abstract*/ class User {
 
     
     
-    public User(String UserName, String Email, String Password, int Phone, String Adress) {
+    public User(String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Password = Password;
+        this.Phone = Phone;
+        this.Adress = Adress;
+        this.Statut=Statut;
+
+        
+    }
+
+    public User(int idUser, String UserName, String Email, int Phone, String Adress, String Statut) {
+        this.idUser = idUser;
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Adress = Adress;
+        this.Statut = Statut;
+    }
+    
+    
+
+    public User(String UserName, String Email, int Phone, String Adress,String Statut) {
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Adress = Adress;
+        this.Statut=Statut;
+
+    }
+   public User(String UserName, String Email, int Phone, String Adress) {
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Adress = Adress;
+        
+
+    }
+   
+    public User(int idUser, String UserName, String Email, String Password, int Phone, String Adress,String Statut) {
+        this.idUser = idUser;
+        this.UserName = UserName;
+        this.Email = Email;
+        this.Password = Password;
+        this.Phone = Phone;
+        this.Adress = Adress;
+        this.Statut=Statut;
+    }
+       public User(int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
+        this.idUser = idUser;
         this.UserName = UserName;
         this.Email = Email;
         this.Password = Password;
@@ -34,22 +83,19 @@ public /*abstract*/ class User {
         
     }
 
-    public User(String UserName, String Email, int Phone, String Adress) {
-        this.UserName = UserName;
-        this.Email = Email;
-        this.Phone = Phone;
-        this.Adress = Adress;
-    }
-
-    public User(int idUser, String UserName, String Email, String Password, int Phone, String Adress) {
-        this.idUser = idUser;
+      public User( String UserName, String Email, String Password, int Phone, String Adress) {
+       
         this.UserName = UserName;
         this.Email = Email;
         this.Password = Password;
         this.Phone = Phone;
         this.Adress = Adress;
+        
     }
 
+    public User() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 
     public int getIdUser() {

@@ -6,20 +6,22 @@
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/GestionPharmacieController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/ChangerPasswordController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/services/ServiceUser.java</file>
-            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/LoginController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/main/FXMainGUI.java</file>
-            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/GestionLivreurController.java</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/LoginController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/AceuilController.java</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/GestionLivreurController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/GestionPharmacie.fxml</file>
-            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/entities/User.java</file>
-            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/ChangerPassword.fxml</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/utils/DataSource.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/AjouterLivreurController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/AjouterPharmacieController.java</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/Login.fxml</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/ModifierLivreur.fxml</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/GestionLivreur.fxml</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/ModifierPharmacieController.java</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/Aceuil.fxml</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/ForgetPasswordController.java</file>
-            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/GestionLivreur%20.fxml</file>
             <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/controllers/ModifierLivreurController.java</file>
+            <file>file:/C:/Users/bazinfo/Documents/NetBeansProjects/ProjetPI/src/com/PIproject/views/ModifierPharmacie.fxml</file>
         </group>
     </open-files>
 </project-private>

@@ -12,7 +12,9 @@
             <Image url="file:///C:/Users/bazinfo/Downloads/téléchargement.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="Livreur" layoutX="53.0" layoutY="48.0" mnemonicParsing="false" onAction="#GestionLivreur" prefHeight="32.0" prefWidth="173.0" text="Gestion Livreurs" />
-      <Button fx:id="Pharmacie" layoutX="382.0" layoutY="48.0" mnemonicParsing="false" onAction="#GestionPharmacie" prefHeight="32.0" prefWidth="173.0" text="Gestion Pharmacies" />
+      <Button fx:id="Livreur" layoutX="52.0" layoutY="98.0" mnemonicParsing="false" onAction="#GestionLivreur" prefHeight="32.0" prefWidth="173.0" text="Gestion Livreurs" />
+      <Button fx:id="Pharmacie" layoutX="382.0" layoutY="98.0" mnemonicParsing="false" onAction="#GestionPharmacie" prefHeight="32.0" prefWidth="173.0" text="Gestion Pharmacies" />
+      <Button fx:id="logout" layoutX="531.0" layoutY="2.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="66.0" text="Logout" />
+      <Button fx:id="profile" layoutX="460.0" layoutY="2.0" mnemonicParsing="false" onAction="#profil" prefHeight="32.0" prefWidth="66.0" text="Profile" />
    </children>
 </AnchorPane>

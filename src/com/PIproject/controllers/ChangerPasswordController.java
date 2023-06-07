@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * FXML Controller class
@@ -51,13 +52,15 @@ public class ChangerPasswordController implements Initializable {
     private void NewPassword(ActionEvent event) throws IOException, SQLException {
         String newPassword = passwordFT.getText();
         String confirmPassword = CpasswordFT.getText();
-        
+        String hashedPassword1 = BCrypt.hashpw(newPassword, BCrypt.gensalt(10));
+        String hashedPassword2 = hashedPassword1;
+
         if (newPassword.equals(confirmPassword)) {
              try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/piproject", "root", "");
             String query = "UPDATE user SET Password = ? WHERE email = ?";
                  PreparedStatement statement = conn.prepareStatement(query);
-                statement.setString(1, newPassword);
+                statement.setString(1, hashedPassword2);
                 statement.setString(2, emailFT.getText()); 
                 
                 statement.executeUpdate();

@@ -63,10 +63,10 @@ public class AjouterLivreurController implements Initializable {
     private void AddLivreur(ActionEvent event) throws IOException{
         
           
-        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(),"open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText());
+        Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(),"open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText(),"En attend");
         
         ServiceUser Suser =new ServiceUser();
-        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), "Open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText()));
+        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), "open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText(),"En attend"));
 
         JOptionPane.showMessageDialog(null, "Livreur Ajouter !");
         
