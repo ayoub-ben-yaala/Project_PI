@@ -40,7 +40,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginController implements Initializable {
 
     @FXML
-    private TextField EmailFT;
+     TextField EmailFT;
     @FXML
     private TextField PasswordFT;
     @FXML

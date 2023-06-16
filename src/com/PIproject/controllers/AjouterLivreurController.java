@@ -66,13 +66,11 @@ public class AjouterLivreurController implements Initializable {
         Livreur livreur = new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(),"open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText(),"En attend");
         
         ServiceUser Suser =new ServiceUser();
-        Suser.ajouter(new Livreur (Integer.parseInt(CinFT.getText()),UserNameFT.getText(), EmailFT.getText(), "open", Integer.parseInt(PhoneFT.getText()), AdressFT.getText(),"En attend"));
+        Suser.ajouter(livreur);
 
         JOptionPane.showMessageDialog(null, "Livreur Ajouter !");
         
-        // List<Livreur> livreurs = new ArrayList<>();
-         //   livreurs.add(livreur);
-        Stage stage = (Stage) Add.getScene().getWindow();
+           Stage stage = (Stage) Add.getScene().getWindow();
             stage.close();
         try {
              
