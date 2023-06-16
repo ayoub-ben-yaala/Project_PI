@@ -1,4 +1,4 @@
-    /*
+/*
      * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
      * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
@@ -56,7 +56,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-public class AjouterOrdonnanceController implements Initializable {
+public class AjouterOrdonnanceController_phar implements Initializable {
 
     @FXML
     private TableView<Ordonnance> table;
@@ -91,11 +91,10 @@ public class AjouterOrdonnanceController implements Initializable {
     private TableColumn<Ordonnance, Date> Date;
     @FXML
     private TableColumn<Ordonnance, String> Statue;
-    @FXML
-    private AnchorPane modifier;
+  
+    
     private Ordonnance selectedOrdonnance;
-    @FXML
-    private Button modifierButton;
+    
     @FXML
     private Button listmed;
 
@@ -273,127 +272,7 @@ public class AjouterOrdonnanceController implements Initializable {
         }
     }
 
-    @FXML
-    private void supprimer(ActionEvent event) {
-        ServiceOrdonnancee so = new ServiceOrdonnancee();
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Confirmation de suppression");
-        dialog.setHeaderText("Voulez-vous vraiment supprimer cette ordonnance ?");
-
-        ButtonType buttonTypeYes = new ButtonType("Oui", ButtonBar.ButtonData.YES);
-        ButtonType buttonTypeNo = new ButtonType("Non", ButtonBar.ButtonData.NO);
-
-        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeYes, buttonTypeNo);
-        Optional<ButtonType> result = dialog.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonTypeYes) {
-            Ordonnance selectedOrdonnance = table.getSelectionModel().getSelectedItem();
-            if (selectedOrdonnance != null) {
-                so.supprimer(selectedOrdonnance);
-                table.getItems().remove(selectedOrdonnance);
-                Image image = new Image("com/esprit/images/check.png");
-
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(50);
-                imageView.setFitHeight(50);
-
-                Notifications notif = Notifications.create()
-                        .graphic(imageView)
-                        .text("Ordonnance supprimer avec succée !")
-                        .title("Message d'information")
-                        .hideAfter(Duration.seconds(5));
-
-                notif.show();
-            }
-        } else {
-            dialog.close();
-        }
-    }
-
-    @FXML
-    private void modifier(ActionEvent event) {
-        String referenceText = reference.getText();
-        String medecinValue = medecin.getValue();
-        String statueText = statue.getText();
-
-        if (referenceText.isEmpty() || medecinValue == null || statueText.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs !", ButtonType.OK);
-            alert.show();
-            return;
-        }
-
-        try {
-            int ref = Integer.parseInt(referenceText);
-            if (ref <= 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "La référence doit être un nombre entier supérieur à zéro !", ButtonType.OK);
-                alert.show();
-                return;
-            }
-
-            String nomMedecin = medecin.getValue();
-
-            int nomMedicament = 1;
-            Date dateord = java.sql.Date.valueOf(date.getValue());
-            String statut = statue.getText();
-            ServiceMedecin sm = new ServiceMedecin();
-
-            if (selectedOrdonnance != null) {
-
-                selectedOrdonnance.setReference(ref);
-                selectedOrdonnance.setNom_Medecin(sm.getMdecinByNom(nomMedecin).getId());
-                selectedOrdonnance.setNom_Medicament(nomMedicament);
-                selectedOrdonnance.setDate(dateord);
-                selectedOrdonnance.setStatut(statut);
-                Dialog<ButtonType> dialog = new Dialog<>();
-                dialog.setTitle("Confirmation de modification");
-                dialog.setHeaderText("Voulez-vous vraiment modifier cette ordonnance ?");
-
-                ButtonType buttonTypeYes = new ButtonType("Oui", ButtonBar.ButtonData.YES);
-                ButtonType buttonTypeNo = new ButtonType("Non", ButtonBar.ButtonData.NO);
-
-                dialog.getDialogPane().getButtonTypes().addAll(buttonTypeYes, buttonTypeNo);
-                Optional<ButtonType> result = dialog.showAndWait();
-
-                if (result.isPresent() && result.get() == buttonTypeYes) {
-
-                    ServiceOrdonnancee so = new ServiceOrdonnancee();
-                    so.modifier(selectedOrdonnance);
-                    System.out.println(selectedOrdonnance);
-
-                    table.refresh();
-
-                    table.getItems().setAll(so.afficher());
-
-                    reference.clear();
-                    medecin.setValue(null);
-                    medicament.setValue(null);
-                    date.setValue(null);
-                    statue.clear();
-                    selectedOrdonnance = null;
-                    Image image = new Image("com/esprit/images/check.png");
-
-                    ImageView imageView = new ImageView(image);
-                    imageView.setFitWidth(50);
-                    imageView.setFitHeight(50);
-
-                    Notifications notif = Notifications.create()
-                            .graphic(imageView)
-                            .text("Odronnance modifier avec succée !")
-                            .title("Message d'information")
-                            .hideAfter(Duration.seconds(5));
-
-                    notif.show();
-                } else {
-                    dialog.close();
-                }
-
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("La référence doit être un nombre entier !");
-        }
-
-    }
-
+ 
     private void generateOrdonnancePDF(Ordonnance ord) {
         try {
 
@@ -427,7 +306,7 @@ public class AjouterOrdonnanceController implements Initializable {
 
     @FXML
     private void listmed(ActionEvent event) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterMedecin.fxml"));
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterMedecin_phar.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

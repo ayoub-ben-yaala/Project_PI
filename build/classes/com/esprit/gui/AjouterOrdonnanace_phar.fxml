@@ -47,8 +47,7 @@
             </Label>
             <AnchorPane id="AnchorPane" fx:id="modifier" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="ajouter" layoutX="253.0" layoutY="291.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #6eeb83;" text="Ajouter" textFill="WHITE" />
-                  <Button fx:id="modifierButton" layoutX="474.0" layoutY="291.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="88.0" style="-fx-background-color: #6eeb83;" text="Modifier" textFill="#fcfcfc" />
+                  <Button fx:id="ajouter" layoutX="328.0" layoutY="301.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="25.0" prefWidth="347.0" style="-fx-background-color: #6eeb83;" text="Ajouter" textFill="WHITE" />
                   <Pane prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #6eeb83;">
                      <children>
                         <Label layoutX="9.0" layoutY="14.0" text="Reference :">
@@ -106,7 +105,6 @@
             <TableColumn fx:id="Statue" prefWidth="88.0" text="Statue" />
          </columns>
       </TableView>
-      <Button fx:id="listmed" layoutX="701.0" layoutY="14.0" mnemonicParsing="false" onAction="#listmed" prefHeight="48.0" prefWidth="85.0" style="-fx-background-color: #6eeb83;" text="List_Medecin" />
-      <Button fx:id="supprimer" layoutX="688.0" layoutY="291.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #6eeb83;" text="Supprimer" textFill="WHITE" />
+      <Button fx:id="listmed" layoutX="690.0" layoutY="14.0" mnemonicParsing="false" onAction="#listmed" prefHeight="44.0" prefWidth="96.0" style="-fx-background-color: #6eeb83;" text="List_Medecin" />
    </children>
 </AnchorPane>

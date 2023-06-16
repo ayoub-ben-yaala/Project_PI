@@ -47,10 +47,9 @@
             </Label>
             <AnchorPane id="AnchorPane" fx:id="modifier" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="ajouter" layoutX="260.0" layoutY="297.0" mnemonicParsing="false" onAction="#ajouter" style="-fx-background-color: #056939;" text="Ajouter" textFill="WHITE" />
-                  <Button fx:id="modifierButton" layoutX="359.0" layoutY="297.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #056939;" text="Modifier" textFill="#fcfcfc" />
-                  <Button fx:id="supprimer" layoutX="490.0" layoutY="297.0" mnemonicParsing="false" onAction="#supprimer" style="-fx-background-color: #056939;" text="Supprimer" textFill="WHITE" />
-                  <Pane prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #8bc051;">
+                  <Button fx:id="ajouter" layoutX="253.0" layoutY="291.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #6eeb83;" text="Ajouter" textFill="WHITE" />
+                  <Button fx:id="modifierButton" layoutX="474.0" layoutY="291.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="88.0" style="-fx-background-color: #6eeb83;" text="Modifier" textFill="#fcfcfc" />
+                  <Pane prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #6eeb83;">
                      <children>
                         <Label layoutX="9.0" layoutY="14.0" text="Reference :">
                            <font>
@@ -98,7 +97,7 @@
             </AnchorPane>
          </children>
       </Pane>
-      <TableView fx:id="table" layoutX="239.0" layoutY="74.0" prefHeight="200.0" prefWidth="560.0">
+      <TableView fx:id="table" layoutX="239.0" layoutY="74.0" prefHeight="200.0" prefWidth="560.0" style="-fx-background-color: #f3eff5;">
          <columns>
             <TableColumn fx:id="Reference" prefWidth="70.0" text="Réf" />
             <TableColumn fx:id="Medecin" prefWidth="100.0" text="Medecin" />
@@ -107,6 +106,7 @@
             <TableColumn fx:id="Statue" prefWidth="88.0" text="Statue" />
          </columns>
       </TableView>
-      <Button fx:id="listmed" layoutX="701.0" layoutY="14.0" mnemonicParsing="false" onAction="#listmed" text="List_Medecin" />
+      <Button fx:id="listmed" layoutX="701.0" layoutY="14.0" mnemonicParsing="false" onAction="#listmed" prefHeight="48.0" prefWidth="85.0" style="-fx-background-color: #6eeb83;" text="List_Medecin" />
+      <Button fx:id="supprimer" layoutX="688.0" layoutY="291.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: #6eeb83;" text="Supprimer" textFill="WHITE" />
    </children>
 </AnchorPane>

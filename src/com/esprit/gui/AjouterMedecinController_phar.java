@@ -39,7 +39,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-public class AjouterMedecinController implements Initializable {
+public class AjouterMedecinController_phar implements Initializable {
 
     @FXML
     private TextField idNom;
@@ -243,7 +243,7 @@ public class AjouterMedecinController implements Initializable {
     @FXML
     private void ord(ActionEvent event) throws IOException {
         
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterOrdonnanace.fxml"));
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterOrdonnanace_phar.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -25,7 +25,8 @@ public class NewFXMain extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
        // FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AjouterMedecin.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AjouterOrdonnanace.fxml"));
+       // FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AjouterOrdonnanace_phar.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AjouterOrdonnanace.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.getIcons().add(new Image("/com/esprit/images/logo.png"));
