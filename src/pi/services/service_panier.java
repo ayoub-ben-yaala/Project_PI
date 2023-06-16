@@ -22,26 +22,55 @@ public class service_panier {
 
     private Connection cnx = DataSource.getInstance().getCnx();
 
-    public void ajouterPanier(ligne_commande L) {
-        try {
-            System.out.println("test!");
-            Panier panier = new Panier();
+  public void ajouterPanier(ligne_commande L, int userId) {
+    try {
+        // Check if panier exists for the given userId
+        String selectQuery = "SELECT * FROM panier WHERE userId = ?";
+        PreparedStatement selectStmt = cnx.prepareStatement(selectQuery);
+        selectStmt.setInt(1, userId);
+        ResultSet resultSet = selectStmt.executeQuery();
 
+        if (resultSet.next()) {
+            // Panier exists, retrieve the existing panierId and meds
+            int panierId = resultSet.getInt("id");
+            String medsJson = resultSet.getString("meds");
+
+            // Create a new Panier instance with existing meds
+            Panier panier = new Panier(panierId);
+            panier.setMedsFromJson(medsJson);
+
+            // Add the medication to the panier
             panier.ajouterMed(L);
-            String req = "INSERT INTO panier(meds) VALUES (?);";
-            PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setObject(1, panier.getMeds());
-            System.out.println(panier.getMeds());
-           
-            pst.executeUpdate();
-            System.out.println("panier ajoutée !");
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            // Update the panier in the database with the updated medications
+            String updateQuery = "UPDATE panier SET meds = ? WHERE id = ?";
+            PreparedStatement updateStmt = cnx.prepareStatement(updateQuery);
+            updateStmt.setObject(1, panier.convertMedsToJson());
+            updateStmt.setInt(2, panierId);
+            updateStmt.executeUpdate();
+
+            System.out.println("Panier updated!");
+        } else {
+            // Panier doesn't exist, create a new panier
+            String insertQuery = "INSERT INTO panier(userId, meds) VALUES (?, ?)";
+            PreparedStatement insertStmt = cnx.prepareStatement(insertQuery);
+            insertStmt.setInt(1, userId);
+
+            Panier panier = new Panier();
+            panier.ajouterMed(L);
+
+            insertStmt.setObject(2, panier.convertMedsToJson());
+            insertStmt.executeUpdate();
+
+            System.out.println("Panier created!");
         }
-
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+}
     
+  
+    /*
         public void creationPanier(Panier panier) {
         try {
             System.out.println("test!");
@@ -86,23 +115,33 @@ public class service_panier {
             System.out.println(ex.getMessage());
         }
      }
-     
-    public List<Panier> afficher() {
-        List<Panier> list = new ArrayList<>();
-        
-        String req = "SELECT * FROM panier";
-        try {
-            PreparedStatement pst = cnx.prepareStatement(req);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()) {
-                list.add(new Panier(rs.getInt("id"), rs.getInt("quantite"), rs.getInt("meds")));
-            }
-            System.out.println(list);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+   */  
+    public Panier afficher(int userId) {
+
+        try{
+        String selectQuery = "SELECT * FROM panier WHERE userId = ?";
+        PreparedStatement selectStmt = cnx.prepareStatement(selectQuery);
+        selectStmt.setInt(1, userId);
+        ResultSet resultSet = selectStmt.executeQuery();
+
+        if (resultSet.next()) {
+            // Panier exists, retrieve the existing panierId and meds
+            int panierId = resultSet.getInt("id");
+            String medsJson = resultSet.getString("meds");
+
+            // Create a new Panier instance with existing meds
+            Panier panier = new Panier(panierId);
+            panier.setMedsFromJson(medsJson);
+            return panier;
         }
-        
-        
-        return list;
+        }
+         catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+        
+        return (new Panier());
+        
+            
+   
+}
 }

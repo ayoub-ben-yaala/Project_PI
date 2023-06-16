@@ -23,6 +23,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -35,6 +36,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 import pi.entities.Commande;
 import pi.entities.Pharmacie;
 import pi.util.DataSource;
@@ -61,6 +63,8 @@ public class commande_adminController implements Initializable {
     private TableColumn<Commande, String> ColEtat;
     @FXML
     private TableColumn<Commande, LocalDate> ColDate;
+    @FXML
+    private final TableColumn<Commande, Void> deleteColumn = new TableColumn<>("Delete");
 
     /**
      * Initializes the controller class.
@@ -84,6 +88,45 @@ public class commande_adminController implements Initializable {
         ColEtat.setOnEditCommit((TableColumn.CellEditEvent<Commande, String> t) -> {
             t.getTableView().getItems().get(t.getTablePosition().getRow()).setEtat(t.getNewValue());
             modifier((Commande) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        });
+
+        deleteColumn.setCellFactory((TableColumn<Commande, Void> param) -> new TableCell<Commande, Void>() {
+            private final Button deleteButton = new Button("Delete");
+
+            {
+                deleteButton.setOnAction((ActionEvent event) -> {
+                    Commande commande = (Commande) getTableRow().getItem();
+
+                    // Create a confirmation dialog
+                    Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmationDialog.setTitle("Confirmation");
+                    confirmationDialog.setHeaderText("Delete Commande");
+                    confirmationDialog.setContentText("Are you sure you want to delete this command?");
+
+                    // Set OK and Cancel buttons
+                    ButtonType okButton = new ButtonType("OK");
+                    ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    confirmationDialog.getButtonTypes().setAll(okButton, cancelButton);
+
+                    // Show the confirmation dialog and wait for user response
+                    Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+                    if (result.isPresent() && result.get() == okButton) {
+                        deleteCommande(commande);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteButton);
+                }
+            }
         });
 
         ColDate.setCellFactory(column -> {
@@ -132,6 +175,9 @@ public class commande_adminController implements Initializable {
                 }
             };
         });
+
+        deleteColumn.setPrefWidth(110);
+        tableCommande.getColumns().add(deleteColumn);
     }
 
     public void table() {
@@ -174,6 +220,7 @@ public class commande_adminController implements Initializable {
             ex.printStackTrace();
         }
     }
+
     Commande del = null;
 
     @FXML
@@ -209,42 +256,53 @@ public class commande_adminController implements Initializable {
     }
 
     @FXML
-    private void ajouter_commande(ActionEvent event) {
-        String sql = "SELECT id FROM `pharmacie` WHERE nom = ?";
-        try {
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, BoxPharmacie.getValue());
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                Pharmacie p = new Pharmacie(rs.getInt("id"));
-                String etat = BoxEtat.getValue();
-                LocalDate date = BoxDate.getValue();
+private void ajouter_commande(ActionEvent event) {
+    String sql = "SELECT id FROM `pharmacie` WHERE nom = ?";
+    try {
+        pst = conn.prepareStatement(sql);
+        pst.setString(1, BoxPharmacie.getValue());
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            Pharmacie p = new Pharmacie(rs.getInt("id"));
+            String etat = BoxEtat.getValue();
+            LocalDate date = BoxDate.getValue();
 
-                // Create a confirmation dialog
-                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmationDialog.setTitle("Confirmation");
-                confirmationDialog.setHeaderText("Add Commande");
-                confirmationDialog.setContentText("Are you sure you want to add this command?");
-
-                // Set OK and Cancel buttons
-                ButtonType okButton = new ButtonType("OK");
-                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                confirmationDialog.getButtonTypes().setAll(okButton, cancelButton);
-
-                // Show the confirmation dialog and wait for user response
-                Optional<ButtonType> result = confirmationDialog.showAndWait();
-
-                if (result.isPresent() && result.get() == okButton) {
-                    Commande co = new Commande(etat, date, p);
-                    ajouter(co);
-                    table();
-                    System.out.println("Successful command addition");
-                }
+            if (etat == null) {
+                // Display an error dialog
+                Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+                errorDialog.setTitle("Error");
+                errorDialog.setHeaderText("Invalid Input");
+                errorDialog.setContentText("Etat value cannot be null.");
+                errorDialog.showAndWait();
+                return; // Stop execution if etat is null
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+
+            // Create a confirmation dialog
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Add Commande");
+            confirmationDialog.setContentText("Are you sure you want to add this command?");
+
+            // Set OK and Cancel buttons
+            ButtonType okButton = new ButtonType("OK");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmationDialog.getButtonTypes().setAll(okButton, cancelButton);
+
+            // Show the confirmation dialog and wait for user response
+            Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+            if (result.isPresent() && result.get() == okButton) {
+                Commande co = new Commande(etat, date, p);
+                ajouter(co);
+                table();
+                System.out.println("Successful command addition");
+            }
         }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+}
+
 
     public void ajouter(Commande c) {
         try {
@@ -272,7 +330,7 @@ public class commande_adminController implements Initializable {
                 pharmaList.add(pharmaNom);
             }
             BoxPharmacie.getItems().addAll(pharmaList);
-            BoxEtat.getItems().addAll("En cours", "Recue");
+            BoxEtat.getItems().addAll("En Cours", "Recue");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -298,4 +356,16 @@ public class commande_adminController implements Initializable {
         }
     }
 
+    private void deleteCommande(Commande commande) {
+        try {
+            String deleteQuery = "DELETE FROM commande WHERE id = ?";
+            PreparedStatement pst = conn.prepareStatement(deleteQuery);
+            pst.setInt(1, commande.getId_commande());
+            pst.executeUpdate();
+            table();
+            System.out.println("Successful DELETE");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

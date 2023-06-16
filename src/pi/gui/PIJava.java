@@ -5,47 +5,42 @@
 package pi.gui;
 
 import java.io.IOException;
+import java.net.URL;
 
-import java.util.Date;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import pi.entities.Commande;
-import pi.entities.Panier;
-import pi.services.service_commande;
-import pi.services.service_panier;
 
 /**
- *
  * @author usernvme
  */
 public class PIJava extends Application {
 
-    
-    public static void main (String[] args)
-    {
-    launch(args);
+    public static void main(String[] args) {
+        launch(args);
     }
+
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            //Parent root = FXMLLoader.load(getClass().getResource("commande_admin.fxml"));
-            //Scene scene = new Scene(root);
+    public void start(Stage primaryStage) throws IOException {
+        URL resource = getClass().getResource("commande_admin.fxml");
+        Parent root1 = FXMLLoader.load(resource);
+        Scene scene1 = new Scene(root1);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("commande_admin.fxml"));
-            Pane root = loader.load();
-            System.out.println("loaded");
-            Scene scene = new Scene(root);
-            
-            primaryStage.setTitle("Pharmabiotic");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("panier.fxml"));
+        Pane root = loader.load();
+        System.out.println("loaded");
+        Scene scene = new Scene(root);
+       Stage sec=new Stage();
 
+        primaryStage.setTitle("Pharmabiotic");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        sec.setTitle("commande");
+        sec.setScene(scene1);
+        sec.show();
+       
     }
 }

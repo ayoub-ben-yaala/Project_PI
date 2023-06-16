@@ -11,7 +11,7 @@ public class MapConverter extends StringConverter<String> {
 
     public MapConverter() {
         valueMap.put("en cours", "En Cours"); 
-        valueMap.put("delivered", "Delivered"); 
+        valueMap.put("Recue", "Recue"); 
     }
 
     @Override

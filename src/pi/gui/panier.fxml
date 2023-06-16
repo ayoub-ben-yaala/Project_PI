@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi.gui.panier_controller" style="-fx-background-color: #8BC34A;">
+   <children>
+      <VBox layoutX="37.0" layoutY="55.0" prefHeight="292.0" prefWidth="210.0">
+         <children>
+            <Label text="MEDICAMENT" />
+            <ChoiceBox fx:id="BoxMed" prefHeight="31.0" prefWidth="214.0" />
+            <Separator orientation="VERTICAL" prefHeight="48.0" prefWidth="4.0" />
+            <Label text="QUANTITE" />
+            <TextField fx:id="qteMed" />
+            <Separator orientation="VERTICAL" prefHeight="65.0" prefWidth="0.0" />
+         </children>
+      </VBox>
+      <TableView fx:id="tablePanier" editable="true" layoutX="315.0" layoutY="72.0" prefHeight="246.0" prefWidth="600.0">
+         <columns>
+            <TableColumn fx:id="colMed" prefWidth="191.0" text="Medicament" />
+            <TableColumn fx:id="PrixUnitaire" prefWidth="176.0" text="Prix unitaire" />
+            <TableColumn fx:id="quantite" prefWidth="105.0" text="Quantite" />
+            <TableColumn fx:id="coutUnitaire" prefWidth="127.0" text="Côut unitaire" />
+         </columns>
+      </TableView>
+      <Button layoutX="106.0" layoutY="346.0" mnemonicParsing="false" onAction="#ajouter_commande" text="Ajouter" />
+   </children>
+</AnchorPane>

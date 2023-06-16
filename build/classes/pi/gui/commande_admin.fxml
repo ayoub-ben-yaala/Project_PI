@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi.gui.commande_adminController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi.gui.commande_adminController">
    <children>
       <VBox layoutX="37.0" layoutY="55.0" prefHeight="292.0" prefWidth="210.0">
          <children>
@@ -24,14 +24,13 @@
             <ChoiceBox fx:id="BoxPharmacie" prefHeight="31.0" prefWidth="213.0" />
          </children>
       </VBox>
-      <TableView fx:id="tableCommande" editable="true" layoutX="315.0" layoutY="72.0" prefHeight="246.0" prefWidth="473.0">
+      <TableView fx:id="tableCommande" editable="true" layoutX="315.0" layoutY="72.0" prefHeight="246.0" prefWidth="600.0">
          <columns>
             <TableColumn fx:id="ColPharmacie" prefWidth="191.0" text="Pharmacie" />
             <TableColumn fx:id="ColEtat" prefWidth="176.0" text="Etat" />
             <TableColumn fx:id="ColDate" prefWidth="105.0" text="Date" />
          </columns>
       </TableView>
-      <Button layoutX="663.0" layoutY="392.0" mnemonicParsing="false" onAction="#supprimer_commande" text="Supprimer" />
       <Button layoutX="101.0" layoutY="392.0" mnemonicParsing="false" onAction="#ajouter_commande" text="Ajouter" />
    </children>
 </AnchorPane>
