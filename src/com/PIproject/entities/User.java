@@ -11,7 +11,7 @@ package com.PIproject.entities;
 public /*abstract*/ class User {
     
     
-    private int idUser;
+    int idUser;
     private String UserName;
     private String Email;
     private String Password;

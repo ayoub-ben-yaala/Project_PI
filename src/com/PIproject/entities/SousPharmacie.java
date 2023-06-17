@@ -41,6 +41,13 @@ public class SousPharmacie extends SuperPharmacie {
         this.NomPharmacie = NomPharmacie;
     }
 
+    public SousPharmacie() {
+        super();
+    }
+
+   
+
+
  
     public String getNomPharmacie() {
         return NomPharmacie;

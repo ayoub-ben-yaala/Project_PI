@@ -6,6 +6,7 @@ package com.PIproject.controllers;
 
 import com.PIproject.entities.Livreur;
 import com.PIproject.entities.SousPharmacie;
+import com.PIproject.entities.SuperPharmacie;
 import com.PIproject.entities.User;
 import com.PIproject.services.ServiceUser;
 import java.io.IOException;
@@ -66,10 +67,20 @@ public class ModifierProfilePharmacieController implements Initializable {
         EmailFT.setText(currentUser.getEmail());
         PhoneFT.setText(String.valueOf(currentUser.getPhone()));
         AdressFT.setText(currentUser.getAdress());
-        
+        ServiceUser serv = new ServiceUser();
+        String userRole = serv.retrieveUserRole(user.getEmail());
+         switch (userRole) {
+              case "SousPharmacie":
        SousPharmacie sousPharmacie = (SousPharmacie) user;
         mattriculeTF.setText(sousPharmacie.getMatriculeFiscale());
           NomPharmFT.setText(sousPharmacie.getNomPharmacie());
+          break;
+           case "SuperPharmacie":
+               SuperPharmacie superPharmacie = (SuperPharmacie) user;
+        mattriculeTF.setText(superPharmacie.getMatriculeFiscale());
+          
+          break;
+         }
     }
      @FXML
     private void modifier(ActionEvent event) {
@@ -89,14 +100,24 @@ public class ModifierProfilePharmacieController implements Initializable {
                    currentUser.setPhone(newPhone);
                    currentUser.setAdress(newAdress);
                    currentUser.setIdUser(currentUser.getIdUser());
-              
-                   
+              ServiceUser serv = new ServiceUser();
+        String userRole = serv.retrieveUserRole(LoginController.loggedInUser.getEmail());
+                   switch (userRole) {
+              case "SousPharmacie":
                    
         SousPharmacie sousPharmacie = (SousPharmacie) currentUser;
         String newNomPharmacie = NomPharmFT.getText();
         sousPharmacie.setNomPharmacie(newNomPharmacie);
          String newMatricule = mattriculeTF.getText();
         sousPharmacie.setMatriculeFiscale(newMatricule);
+        break;
+        case "SuperPharmacie":
+            SuperPharmacie superPharmacie = (SuperPharmacie) currentUser;
+         String newMatricules = mattriculeTF.getText();
+        superPharmacie.setMatriculeFiscale(newMatricules);
+        break;
+                   }
+        
      
                     
                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -110,7 +131,7 @@ public class ModifierProfilePharmacieController implements Initializable {
             JOptionPane.showMessageDialog(null, "Profile Modifier !");
                    
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage primaryStage = (Stage) update.getScene().getWindow();
@@ -137,7 +158,7 @@ public class ModifierProfilePharmacieController implements Initializable {
           //  stage.close();
         
              
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
             Parent root = loader.load();
  
 

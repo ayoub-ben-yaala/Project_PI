@@ -212,7 +212,7 @@ if (resultSet.next() )  {
 }
        private void redirectToPharmacieHomePage() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilPharmacie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
         Parent root = loader.load();
         
         // Créer une nouvelle scène avec la page d'accueil des invités
@@ -229,7 +229,7 @@ if (resultSet.next() )  {
 }
        private void redirectToMiniPharmacieHomePage() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AceuilMiniPharmacie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicamentphar.fxml"));
         Parent root = loader.load();
         
         // Créer une nouvelle scène avec la page d'accueil des invités

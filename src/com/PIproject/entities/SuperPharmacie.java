@@ -11,11 +11,12 @@ package com.PIproject.entities;
 public class SuperPharmacie extends User {
     
     private String MatriculeFiscale;
-
+   
     public SuperPharmacie(int idUser) {
         super(idUser);
     }
-
+public SuperPharmacie() {
+    }
     
     public SuperPharmacie(String MatriculeFiscale, String UserName, String Email, String Password, int Phone, String Adress) {
         super(UserName, Email, Password, Phone, Adress);

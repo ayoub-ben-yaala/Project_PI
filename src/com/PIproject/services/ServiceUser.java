@@ -185,7 +185,26 @@ public void modifier(User user) {
           //  System.out.println(ex.getMessage());
         //}
     }
+          public String retrieveUserRole(String email) {
+    String userRole = "";
     
+    try {
+        String query = "SELECT Role FROM user WHERE Email = ?";
+        PreparedStatement statement = cnx.prepareStatement(query);
+        statement.setString(1, email);
+        
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            userRole = resultSet.getString("Role");
+        }
+    } catch (SQLException e) {
+        // Gérer l'erreur de récupération du rôle de l'utilisateur
+        
+    }
+    
+    return userRole;
+}
     public void supprimer(User user) {
         try {
             

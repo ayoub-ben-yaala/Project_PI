@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIproject.controllers.MedicamentController">
+   <children>
+      <Label layoutX="297.0" layoutY="119.0" prefHeight="20.0" prefWidth="113.0" text="Medicaments">
+         <font>
+            <Font name="Times New Roman Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="82.0" layoutY="208.0" text="Categories">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="86.0" layoutY="248.0" text="Types">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="293.0" text="Nom medicament">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nommedFT" layoutX="215.0" layoutY="288.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="88.0" layoutY="337.0" text="Reference">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="refFT" layoutX="215.0" layoutY="332.0" />
+      <Label layoutX="85.0" layoutY="377.0" text="Date d'expiration">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="92.0" layoutY="420.0" text="Prix">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="DateFT" layoutX="215.0" layoutY="372.0" />
+      <TextField fx:id="prixFT" layoutX="215.0" layoutY="415.0" />
+      <Label layoutX="93.0" layoutY="458.0" text="Notice">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NoticeFT" layoutX="215.0" layoutY="458.0" prefHeight="74.0" prefWidth="149.0" />
+      <Button fx:id="Ajouter" layoutX="88.0" layoutY="544.0" mnemonicParsing="false" onAction="#ajouterMedicament" style="-fx-background-color: C1E1C1;" text="Ajouter">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="Modifier" layoutX="176.0" layoutY="544.0" mnemonicParsing="false" onAction="#Modifier" style="-fx-background-color: C1E1C1;" text="Modifier">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="Supprimer" layoutX="279.0" layoutY="544.0" mnemonicParsing="false" onAction="#Supprimer" style="-fx-background-color: C1E1C1;" text="Supprimer">
+         <font>
+            <Font name="Times New Roman" size="15.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tabmedi" layoutX="422.0" layoutY="202.0" prefHeight="214.0" prefWidth="315.0">
+        <columns>
+          <TableColumn fx:id="catcol" prefWidth="96.0" text="Categorie" />
+          <TableColumn fx:id="typecol" prefWidth="91.0" text="Types" />
+            <TableColumn fx:id="nomcol" prefWidth="126.0" text="Nom Medicament" />
+        </columns>
+      </TableView>
+      <ChoiceBox fx:id="choicecat" layoutX="215.0" layoutY="203.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="choicetyp" layoutX="215.0" layoutY="245.0" prefWidth="150.0" />
+      <TextField fx:id="NomType" layoutX="569.0" layoutY="82.0" />
+      <TextField fx:id="nomMed" layoutX="117.0" layoutY="82.0" />
+      <TextField fx:id="NomCat" layoutX="348.0" layoutY="82.0" />
+      <Button fx:id="searsh" layoutX="679.0" layoutY="139.0" mnemonicParsing="false" onAction="#searsh" style="-fx-background-color: C1E1C1;" text="Searsh" />
+      <Label layoutX="272.0" layoutY="87.0" text="Categories :">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="518.0" layoutY="85.0" text="Types :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="85.0" text="Medicaments :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="Save" layoutX="381.0" layoutY="544.0" mnemonicParsing="false" onAction="#Save" style="-fx-background-color: C1E1C1;" text="Save" />
+      <ImageView fitHeight="74.0" fitWidth="71.0" layoutX="659.0" layoutY="3.0">
+         <image>
+            <Image url="@../../../../../../logo%20Pharmabiotic_Plan%20de%20travail%201%20(1).png" />
+         </image>
+      </ImageView>
+      <Button fx:id="cat" layoutX="27.0" layoutY="20.0" mnemonicParsing="false" onAction="#GoToPageCategorie" style="-fx-background-color: C1E1C1;" text="Categorie" />
+      <Button fx:id="type" layoutX="106.0" layoutY="20.0" mnemonicParsing="false" onAction="#GoToPageType" style="-fx-background-color: C1E1C1;" text="Type" />
+      <Button fx:id="chat" layoutX="318.0" layoutY="20.0" mnemonicParsing="false" onAction="#searsh" style="-fx-background-color: C1E1C1;" text="Chat" />
+      <Button fx:id="ord" layoutX="233.0" layoutY="20.0" mnemonicParsing="false" onAction="#searsh" style="-fx-background-color: C1E1C1;" text="Ordonance" />
+      <Button fx:id="liv" layoutX="161.0" layoutY="20.0" mnemonicParsing="false" onAction="#searsh" style="-fx-background-color: C1E1C1;" text="Livraison" />
+      <Button fx:id="profil" layoutX="525.0" layoutY="19.0" mnemonicParsing="false" onAction="#profil" style="-fx-background-color: C1E1C1;" text="Profil" />
+      <Button fx:id="logout" layoutX="580.0" layoutY="19.0" mnemonicParsing="false" onAction="#logout" style="-fx-background-color: C1E1C1;" text="Logout" />
+   </children>
+</AnchorPane>
