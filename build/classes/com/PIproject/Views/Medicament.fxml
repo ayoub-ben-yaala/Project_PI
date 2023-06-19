@@ -102,11 +102,7 @@
          </font>
       </Label>
       <Button fx:id="Save" layoutX="381.0" layoutY="544.0" mnemonicParsing="false" onAction="#Save" style="-fx-background-color: C1E1C1;" text="Save" />
-      <ImageView fitHeight="74.0" fitWidth="71.0" layoutX="659.0" layoutY="3.0">
-         <image>
-            <Image url="@../../../../../../logo%20Pharmabiotic_Plan%20de%20travail%201%20(1).png" />
-         </image>
-      </ImageView>
+      
       <Button fx:id="cat" layoutX="27.0" layoutY="20.0" mnemonicParsing="false" onAction="#GoToPageCategorie" style="-fx-background-color: C1E1C1;" text="Categorie" />
       <Button fx:id="type" layoutX="106.0" layoutY="20.0" mnemonicParsing="false" onAction="#GoToPageType" style="-fx-background-color: C1E1C1;" text="Type" />
       <Button fx:id="chat" layoutX="318.0" layoutY="20.0" mnemonicParsing="false" onAction="#searsh" style="-fx-background-color: C1E1C1;" text="Chat" />

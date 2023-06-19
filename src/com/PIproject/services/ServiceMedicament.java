@@ -6,6 +6,7 @@ package com.PIproject.services;
 
 import com.PIproject.entities.Categorie;
 import com.PIproject.entities.Medicament;
+import com.PIproject.entities.SousPharmacie;
 import com.PIproject.entities.Type;
 import com.PIproject.utils.DataSource;
 import java.sql.Connection;
@@ -27,27 +28,28 @@ public class ServiceMedicament {
  private Connection cnx = DataSource.getInstance().getCnx();
     
  public void ajouterMedicament(Medicament medicament) {
-      int typeId = obtenirIdType(medicament.getType());
-      int categorieId = obtenirIdCategorie(medicament.getCategorie());
+    int typeId = obtenirIdType(medicament.getType());
+    int categorieId = obtenirIdCategorie(medicament.getCategorie());
     String query = "INSERT INTO medicament (nom_medi, reference, notice, prix, DateExp, id_categorie, id_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
-   
+
     try (PreparedStatement statement = cnx.prepareStatement(query)) {
-        statement.setInt(6, categorieId);
-        statement.setInt(7, typeId);
         statement.setString(1, medicament.getNom_medi());
         statement.setInt(2, medicament.getReference());
-        statement.setString(5, medicament.getDateExp());
+        statement.setString(3, medicament.getNotice());
         statement.setInt(4, medicament.getPrix());
-       statement.setString(3, medicament.getNotice());
+        statement.setString(5, medicament.getDateExp());
+        statement.setInt(6, categorieId);
+        statement.setInt(7, typeId);
         statement.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
+
  
  public int obtenirIdType(String nomType) {
     String query = "SELECT id_type FROM type WHERE nomtype = ?";
-    int typeId = 0 ; // Valeur par défaut en cas d'échec
+    int typeId = 1 ; // Valeur par défaut en cas d'échec
    
     try (PreparedStatement statement = cnx.prepareStatement(query)) {
         statement.setString(1, nomType);
@@ -81,7 +83,7 @@ public class ServiceMedicament {
     return typenom;
 }
 public String obtenirNomCategorie(int IdCategorie) {
-    String query = "SELECT nomcategorie FROM categorie WHERE id_categorie = ?";
+    String query = "SELECT nomcategorie FROM categorie WHERE  id_categorie= ?";
     String nomcategorie = ""; // Valeur par défaut en cas d'échec
    
     try (PreparedStatement statement = cnx.prepareStatement(query)) {
@@ -175,14 +177,16 @@ public int obtenirIdCategorie(String nomCategorie) {
             System.out.println(ex.getMessage());
         }
     }
-     public void supprimer(int idMedicament) throws SQLException {
+     public void supprimer(Medicament medicament) throws SQLException {
         
         try {
             String query = "DELETE FROM medicament WHERE id_medi = ?";
             PreparedStatement statement = cnx.prepareStatement(query); 
             
-            statement.setInt(1, idMedicament);
+            statement.setInt(1, medicament.getIdMed());
             statement.executeUpdate();
+                        System.out.println("Medicament supprimer !");
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 }
@@ -209,26 +213,50 @@ public int obtenirIdCategorie(String nomCategorie) {
         //List<Medicament> medicaments = new ArrayList<>();
                 ObservableList<Medicament> medicaments = FXCollections.observableArrayList();
 
-        String query = "SELECT * FROM medicament";
-        try (PreparedStatement statement = cnx.prepareStatement(query)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
+        String query = "SELECT * FROM medicament;";
+       PreparedStatement statement = cnx.prepareStatement(query) ;
+            ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
+                    System.out.println(resultSet);
                     Medicament medicament = new Medicament();
                     String nomType = obtenirnomType(Integer.parseInt(resultSet.getString("id_type")));
                     String nomCategorie = obtenirNomCategorie(Integer.parseInt(resultSet.getString("id_categorie")));
                     medicament.setNom_medi(resultSet.getString("nom_medi"));
                     medicament.setReference(resultSet.getInt("reference"));
                     medicament.setCategorie(nomCategorie);
+                        System.out.println(nomCategorie);
                     medicament.setType(nomType);
                     medicament.setPrix(resultSet.getInt("prix"));
                     medicament.setNotice(resultSet.getString("notice"));
                     medicament.setDateExp(resultSet.getString("DateExp"));
                     medicaments.add(medicament);
                 }
-            }
-        }
+            
+        
         return medicaments;
     }
+    
+    public ObservableList<SousPharmacie> SousPharmacie() throws SQLException {
+        //List<Medicament> medicaments = new ArrayList<>();
+                ObservableList<SousPharmacie> souspharm = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM user where Role='SousPharmacie';";
+       PreparedStatement statement = cnx.prepareStatement(query) ;
+            ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    System.out.println(resultSet);
+                    SousPharmacie sousPharmacie = new SousPharmacie();
+                    String nomType = obtenirnomType(Integer.parseInt(resultSet.getString("id_type")));
+                    String nomCategorie = obtenirNomCategorie(Integer.parseInt(resultSet.getString("id_categorie")));
+                    
+                    sousPharmacie.setEmail(resultSet.getString("Email"));
+                    souspharm.add(sousPharmacie);
+                }
+            
+        
+        return souspharm;
+    }
+    
     
     
     public ObservableList<Medicament> rechercheParNomMedicament(String nomMedicament) throws SQLException {

@@ -13,6 +13,7 @@ import com.PIproject.services.ServiceCategorie;
 import com.PIproject.services.ServiceMedicament;
 import com.PIproject.services.ServiceType;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.sql.SQLException;
 import static java.util.Collections.list;
@@ -45,6 +46,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 
@@ -127,9 +136,6 @@ ServiceType serviceType = new ServiceType();
         ObservableList<String> typeList = FXCollections.observableArrayList("");
 typeList.addAll(types);
 choicetyp.setItems(typeList);
-       
-
-    
        try {
            afficher();
        } catch (SQLException ex) {
@@ -140,9 +146,45 @@ choicetyp.setItems(typeList);
     
     }    
     
-    
+    public static void sendMessage(Medicament med) throws SQLException {
+        final String username = "ayoubbenyaala@gmail.com";
+        final String password = "rkefznprclkzjeab";
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            try {
+                message.setFrom(new InternetAddress(username, ""));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ServiceMedicament serv = new ServiceMedicament();
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("ayoubbenyaala@gmail.com"));
+            message.setSubject("Alerte Message");
+            message.setText("Medicament ajouter :"+med.getNom_medi());
+
+            Transport.send(message);
+
+            System.out.println("E-mail envoyé avec succès !");
+        } catch (MessagingException e) {
+            System.out.println("Erreur lors de l'envoi de l'e-mail : " + e.getMessage());
+        }
+    }
+
     @FXML
     public void ajouterMedicament(ActionEvent event) throws SQLException {
+        
     ServiceMedicament sm = new ServiceMedicament();
     int reference = Integer.parseInt(refFT.getText());
     String type = choicetyp.getValue();
@@ -165,6 +207,7 @@ choicetyp.setItems(typeList);
     
     Medicament medicament = new Medicament(String.valueOf(categorieId), String.valueOf(typeId), nom, reference, dateExpiration, prix, notice);
     sm.ajouterMedicament(medicament);
+    sendMessage(medicament);
     
     JOptionPane.showMessageDialog(null, "Médicament ajouté !");
     afficher();
@@ -213,34 +256,47 @@ choicetyp.setItems(typeList);
    // }
     
      public void setUserData(Medicament medicament) {
+         System.out.println(medicament);
         this.MedData = medicament;
         ServiceMedicament servM =new ServiceMedicament();
-        choicecat.setValue(MedData.getCategorie());
-        choicetyp.setValue(MedData.getType());
-        nomMed.setText(MedData.getNom_medi());
-        refFT.setText(String.valueOf(MedData.getReference()));
-        NoticeFT.setText(MedData.getNotice());
-        prixFT.setText(String.valueOf(MedData.getPrix()));
-          DateFT.setText(MedData.getDateExp());
+         System.out.println(medicament.getCategorie());
+       // choicecat.setValue(medicament.getCategorie());
+//        choicetyp.setValue(medicament.getType());
+        nomMed.setText(medicament.getNom_medi());
+        refFT.setText(String.valueOf(medicament.getReference()));
+        NoticeFT.setText(medicament.getNotice());
+        prixFT.setText(String.valueOf(medicament.getPrix()));
+          DateFT.setText(medicament.getDateExp());
         }
     @FXML
     private void Modifier(ActionEvent event) {
         Medicament selectedMed = tabmedi.getSelectionModel().getSelectedItem();
+         choicecat.setValue(selectedMed.getCategorie());
+          choicetyp.setValue(selectedMed.getType());
+        nommedFT.setText(selectedMed.getNom_medi());
+        refFT.setText(String.valueOf(selectedMed.getReference()));
+        NoticeFT.setText(selectedMed.getNotice());
+        prixFT.setText(String.valueOf(selectedMed.getPrix()));
+          DateFT.setText(selectedMed.getDateExp());
+        System.out.println(selectedMed);
         MedicamentController mController = new MedicamentController();          
-            mController.setUserData(selectedMed);
+//            mController.setUserData(selectedMed);
     }
       @FXML
     private void Save(ActionEvent event) throws SQLException {
+                ServiceMedicament serv = new ServiceMedicament();
+
         String newNomCat = choicecat.getValue();
+        int newIdCat=serv.obtenirIdCategorie(newNomCat);
         String newNomType = choicetyp.getValue();
-        String newnomMed =nomMed.getText();
+        int newIdType=serv.obtenirIdType(newNomType);
+        String newnomMed =nommedFT.getText();
         Integer newrefFT = Integer.parseInt(refFT.getText());
         String newNoticeFT = NoticeFT.getText();        
         Integer newprixFT = Integer.parseInt(prixFT.getText());
         String newDateFT = DateFT.getText();
-        
-        MedData.setCategorie(newNomCat);
-        MedData.setType(newNomType);
+        MedData.setCategorie(String.valueOf(newIdCat));
+        MedData.setType(String.valueOf(newIdType));
         MedData.setNom_medi(newnomMed);
         MedData.setReference(newrefFT);
         MedData.setNotice(newNoticeFT);
@@ -264,28 +320,32 @@ choicetyp.setItems(typeList);
 
     @FXML
     private void Supprimer(ActionEvent event) throws SQLException {
-                        ServiceMedicament Smed = new ServiceMedicament();
-            Medicament selectedMed = tabmedi.getSelectionModel().getSelectedItem();
+       ServiceMedicament smed = new ServiceMedicament();
+            Medicament selectedmed = tabmedi.getSelectionModel().getSelectedItem();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 alert.setTitle("Confirmation");
 alert.setHeaderText(null);
 alert.setContentText("Êtes-vous sûr ?");
 Optional<ButtonType> result = alert.showAndWait();
 
-if (result.isPresent() && result.get() == ButtonType.OK && selectedMed != null) {
-    Smed.supprimer(selectedMed.getIdMed());
-                JOptionPane.showMessageDialog(null, "Medicament Supprimer !");
-afficher();
-
-    
+if (result.isPresent() && result.get() == ButtonType.OK && selectedmed != null) {
+    smed.supprimer(selectedmed);
+    afficher();
+} else {
+    afficher();
 }
     }
+    
+    
+    
+
      private void afficher() throws SQLException{
         catcol.setCellValueFactory(new PropertyValueFactory<>("categorie"));
-        typecol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        nomcol.setCellValueFactory(new PropertyValueFactory<>("nom_medi"));
+        typecol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        nomcol.setCellValueFactory(new PropertyValueFactory<>("Nom_medi"));
         ServiceMedicament m =new ServiceMedicament();
         list = m.afficher();
+         System.out.println(list);
         tabmedi.setItems(list);
     }
 
