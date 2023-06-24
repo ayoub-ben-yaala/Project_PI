@@ -33,21 +33,7 @@ public class ServiceChat {
         }
     }
 
-    public void modifier(Chat chat) {
-        try {
-            String req = "UPDATE chat SET id_livreur=?, id_pharmacie=?, message=? ,date_msg=? WHERE id_chat=?";
-            PreparedStatement pst = cnx.prepareStatement(req);
-            pst.setInt(1, chat.getIdLivreur());
-            pst.setInt(2, chat.getIdPharmacie());
-            pst.setString(3, chat.getMessage());
-            pst.setDate(5, chat.getDate_msg());
-            pst.setInt(5, chat.getIdChat());
-            pst.executeUpdate();
-            System.out.println("Chat modifié !");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+
 
     public void supprimer(Chat chat) {
         try {
@@ -85,9 +71,10 @@ public class ServiceChat {
         return list;
     }
     
-        public List<String> afficherPhar(int id) {
-        List<String> list = new ArrayList<>();
-
+        public List<String> afficherPhar_Liv(int id,String role) {
+        
+if (    "livreur".equals(role)){
+    List<String> list = new ArrayList<>();
         String req = "select nom from sous_pharmacie where id in (SELECT distinct id_pharmacie from chat where id_livreur="+id+  ")" ;
         try {
             Statement st = cnx.createStatement();
@@ -98,9 +85,24 @@ public class ServiceChat {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-
-        return list;
+          return list;
+} else {
+    List<String> list = new ArrayList<>();
+        String req = "select nom_livreur from livreur where id in (SELECT distinct id_livreur from chat where id_pharmacie="+id+  ")" ;
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                list.add(rs.getString("nom_livreur"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+         return list;
+}
+       
     }
+
               public List<String> afficherMsg(int id_liv,int id_phar) {
         List<String> list = new ArrayList<>();
 
@@ -117,4 +119,43 @@ public class ServiceChat {
 
         return list;
     }
+              
+  public int id_phar(String nom) {
+    int id = 0;
+    String req = "SELECT id FROM sous_pharmacie WHERE nom='" + nom + "'";
+    try {
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+
+        if (rs.next()) { // Déplace le curseur sur la première ligne de résultats
+            id = rs.getInt("id");
+        }
+
+        rs.close(); // Fermer le ResultSet
+        st.close(); // Fermer la déclaration
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return id;
+}
+  public int id_Liv(String nom) {
+    int id = 0;
+     String req = "SELECT id FROM livreur where nom_livreur='"+nom+"'";
+    try {
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+
+        if (rs.next()) { // Déplace le curseur sur la première ligne de résultats
+            id = rs.getInt("id");
+        }
+
+        rs.close(); // Fermer le ResultSet
+        st.close(); // Fermer la déclaration
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return id;
+}
+  
+                      
 }

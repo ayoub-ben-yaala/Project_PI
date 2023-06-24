@@ -41,16 +41,12 @@ public class ConversationController {
         // Aucune initialisation spécifique requise pour l'instant
         fillChatList();
         
-        messages =chatService.afficherMsg(1, 1);
-                       for (String messag : messages) {
-                   
-        chatTextArea.appendText(messag + "\n");
-    }
+     
     }
     
 @FXML
     private void fillChatList() {
-       List<String> listData = chatService.afficherPhar(1);
+       List<String> listData = chatService.afficherPhar_Liv(1,"pharmacie");
 
         // Remplissez la liste avec les données récupérées
         chatList.getItems().addAll(listData);
@@ -58,7 +54,9 @@ public class ConversationController {
     }
     @FXML
 public void handleItemClick() {
-getMesaages();
+String selectedValue = chatList.getSelectionModel().getSelectedItem().toString();
+    
+getMesaages(1,chatService.id_Liv(selectedValue));
 }
     @FXML
     private void sendMessage() {
@@ -66,32 +64,27 @@ getMesaages();
 
         if (!message.isEmpty()) {
             // Créer un nouvel objet Chat
-            Chat chat = new Chat(0, 0, 0, message, null);
+   
+            Chat chat = new Chat(0, 1, 1, message, null);
 
             // Ajouter le message à la base de données
             chatService.ajouter(chat);
-
-            // Afficher le message dans la zone de texte
-            messages =chatService.afficherMsg(1, 1);
-            chatTextArea.clear();
-               for (String messag : messages) {
-                   
-        chatTextArea.appendText(messag + "\n");
-    }
-            chatTextArea.appendText("You: " + message + "\n");
+String selectedValue = chatList.getSelectionModel().getSelectedItem().toString();
+            getMesaages(1, chatService.id_Liv(selectedValue));
+          
 
             // Effacer le champ de texte après l'envoi du message
             messageTextField.clear();
         }
     }
       @FXML
-    private void getMesaages() {
-        String message = messageTextField.getText().trim();
+    private void getMesaages(int id_l,int id_p) {
+
 
 
 
             // Afficher le message dans la zone de texte
-            messages =chatService.afficherMsg(1, 1);
+            messages =chatService.afficherMsg(id_l, id_p);
             chatTextArea.clear();
                for (String messag : messages) {
                    
