@@ -65,6 +65,10 @@ public class Medicament {
         this.DateExp = DateExp;
     }
 
+    public Medicament(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     @Override
     public String toString() {
         return "Medicament{" + "nom_medi=" + nom_medi + ", reference=" + reference + ", notice=" + notice + ", prix=" + prix + ", DateExp=" + DateExp + '}';

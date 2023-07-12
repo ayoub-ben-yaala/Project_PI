@@ -52,7 +52,7 @@ public class ServiceLivraison implements IService<Livraison> {
     public List<Livraison> afficher() {
         List<Livraison> list = new ArrayList<>();
 
-        String req = "SELECT id,reference,id_commande,(select nom_livreur from livreur where id=l.id_livreur)as nom FROM livraison l";
+        String req = "SELECT id,reference,id_commande,(select UserName from user where IdUser=l.id_livreur)as nom FROM livraison l";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
@@ -69,7 +69,7 @@ public class ServiceLivraison implements IService<Livraison> {
         public List<Livraison> afficherLiv(int id) {
         List<Livraison> list = new ArrayList<>();
 
-        String req = "SELECT id,reference,id_commande,(select nom_livreur from livreur where id=l.id_livreur)as nom FROM livraison l"+" where l.id_livreur = "+id+"";
+        String req = "SELECT id,reference,id_commande,(select UserName from user where IdUser=l.id_livreur)as nom FROM livraison l"+" where l.id_livreur = "+id+"";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
@@ -86,15 +86,15 @@ public class ServiceLivraison implements IService<Livraison> {
     public List<Livraison> Search( String N) {
         List<Livraison> list = new ArrayList<>();
 
-        String req = "SELECT l.id, reference, id_commande, lv.nom_livreur FROM livraison l " +
-             "INNER JOIN livreur lv ON lv.id = l.id_livreur " +
-             "WHERE lv.nom_livreur = '" + N + "'";
+        String req = "SELECT l.id, reference, id_commande, lv.UserName FROM livraison l " +
+             "INNER JOIN user lv ON lv.IdUser = l.id_livreur " +
+             "WHERE lv.UserName = '" + N + "'";
 
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                list.add(new Livraison(rs.getInt("id"), rs.getString("reference"), rs.getInt("id_commande"), rs.getString("nom_livreur")));
+                list.add(new Livraison(rs.getInt("id"), rs.getString("reference"), rs.getInt("id_commande"), rs.getString("UserName")));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -105,12 +105,12 @@ public class ServiceLivraison implements IService<Livraison> {
       public List<String> afficher_livreur() {
         List<String> list = new ArrayList<>();
 
-        String req = "SELECT nom_livreur FROM livreur";
+        String req = "SELECT UserName FROM user where Role='Livreur'";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                list.add(rs.getString("nom_livreur"));
+                list.add(rs.getString("UserName"));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -120,12 +120,12 @@ public class ServiceLivraison implements IService<Livraison> {
     }
  public int get_livreur_id(String s) throws SQLException {
     int idLivreur = 0;
-    String req = "SELECT id FROM livreur WHERE nom_livreur = ?";
+    String req = "SELECT IdUser FROM user WHERE UserName = ?";
     try (PreparedStatement preparedStatement = cnx.prepareStatement(req)) {
         preparedStatement.setString(1, s);
         ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
-            idLivreur = rs.getInt("id");
+            idLivreur = rs.getInt("IdUser");
         }
     } catch (SQLException ex) {
         System.out.println(ex.getMessage());

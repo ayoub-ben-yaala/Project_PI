@@ -40,7 +40,7 @@ public class Map extends javax.swing.JFrame {
         jXMapViewer.setTileFactory(tileFactory);
         GeoPosition geo = new GeoPosition(x, y);
         jXMapViewer.setAddressLocation(geo);
-        jXMapViewer.setZoom(12);
+        jXMapViewer.setZoom(1);
 
         //  Create event mouse move
         MouseInputListener mm = new PanMouseInputListener(jXMapViewer);

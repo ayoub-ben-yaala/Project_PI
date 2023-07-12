@@ -1,6 +1,7 @@
 
 package com.PIproject.services;
 
+import com.PIproject.entities.Medicament;
 import com.PIproject.entities.Ordonnance;
 import com.PIproject.utils.DataSource;
 import java.sql.Connection;
@@ -91,6 +92,25 @@ public boolean supprimer1(Ordonnance ordonnance) {
             while (rs.next()) {
                 list.add(new Ordonnance(rs.getInt("id"), rs.getInt("Reference"), rs.getInt("id_medecin"), rs.getInt("id_Medicament"),
                         rs.getDate("date_ordonnance"), rs.getString("statut")));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
+    
+    public List<String> afficher_nom_med() {
+        List<String> list = new ArrayList<>();
+
+        String req = "SELECT nom_medi FROM medicament";
+           
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                String medi = rs.getString("nom_medi");
+                list.add(medi);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

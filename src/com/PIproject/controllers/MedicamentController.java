@@ -145,7 +145,8 @@ choicetyp.setItems(typeList);
 
     
     }    
-    
+    final String username = "ayoubbenyaala@gmail.com";
+        final String password = "rkefznprclkzjeab";
     public static void sendMessage(Medicament med) throws SQLException {
         final String username = "ayoubbenyaala@gmail.com";
         final String password = "rkefznprclkzjeab";
@@ -416,13 +417,44 @@ if (result.isPresent() && result.get() == ButtonType.OK && selectedmed != null) 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ModifierProfilePharmacie.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) logout.getScene().getWindow();
+            Stage primaryStage = (Stage) profil.getScene().getWindow();
             primaryStage.setScene(scene);
             ModifierProfilePharmacieController modifierProfilePharmacieController = loader.getController();
             modifierProfilePharmacieController.setLoggedInUser(LoginController.loggedInUser);
         
     }
 
-    
+     @FXML
+    private void Livraison(ActionEvent event)throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DetailsLiv.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) liv.getScene().getWindow();
+            primaryStage.setScene(scene);
+            ModifierProfilePharmacieController modifierProfilePharmacieController = loader.getController();
+            modifierProfilePharmacieController.setLoggedInUser(LoginController.loggedInUser);
+        
+    }
+        @FXML
+    private void chat(ActionEvent event)throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Conversation.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) chat.getScene().getWindow();
+            primaryStage.setScene(scene);
+            ModifierProfilePharmacieController modifierProfilePharmacieController = loader.getController();
+            modifierProfilePharmacieController.setLoggedInUser(LoginController.loggedInUser);
+        
+    }
+        @FXML
+    private void Ord(ActionEvent event)throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AjouterOrdonnanace.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage primaryStage = (Stage) ord.getScene().getWindow();
+            primaryStage.setScene(scene);
+  
+        
+    }
 
 }

@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.sql.Date;
 import com.PIproject.entities.Livraison;
 import com.PIproject.services.ServiceLivraison;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +26,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 
 public class DetailsLivController implements Initializable {
@@ -46,16 +51,11 @@ public class DetailsLivController implements Initializable {
     @FXML
     private TextField tfIdCommande1;
     @FXML
-    private TextField tfIdLivreur1;
-    @FXML
-    private VBox checkboxList;
-    @FXML
     private ChoiceBox<String> livreurChoiceBox;
     
        @FXML
-    private Button mainButton;
+    private Button retour;
 
-    @FXML
     public void callMain(ActionEvent event) {
         Map main = new Map(36.853546749967926,10.207102064868804);
         main.setVisible(true);
@@ -156,6 +156,7 @@ LIVRAISONTV.getColumns().add(buttonColumn);
         
     }
 
+    @FXML
     public void updateLivraison() throws SQLException {
         ServiceLivraison serviceLivraison = new ServiceLivraison();
         Livraison selectedLivraison = LIVRAISONTV.getSelectionModel().getSelectedItem();
@@ -202,6 +203,7 @@ LIVRAISONTV.getColumns().add(buttonColumn);
         List<Livraison> livraisons = serviceLivraison.afficher();
         LIVRAISONTV.getItems().addAll(livraisons);
     }
+    @FXML
         public void Search() {
         String nomLivreur = livreurChoiceBox.getSelectionModel().getSelectedItem();
         LIVRAISONTV.getItems().clear();
@@ -249,5 +251,16 @@ LIVRAISONTV.getColumns().add(buttonColumn);
                 afficherLivraisons();
             }
         }
+    }
+
+    @FXML
+    private void retour(ActionEvent event) throws IOException {
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
+    Parent root = loader.load();
+
+    Scene scene = new Scene(root);
+    Stage primaryStage = (Stage) retour.getScene().getWindow();
+    primaryStage.setScene(scene);
+    primaryStage.show();
     }
 }

@@ -4,13 +4,19 @@ import com.PIproject.entities.Chat;
 import com.PIproject.services.ServiceChat;
 import com.PIproject.services.ServiceChat;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ConversationController {
     
@@ -23,20 +29,19 @@ public class ConversationController {
     @FXML
     private TextField messageTextField;
 
-    @FXML
-    private Button sendButton;
     
     @FXML
     private ListView<String> chatList;
 
     private ServiceChat chatService;
+    @FXML
+    private Button retour;
 
     public ConversationController() {
         // Initialise le service de chat
         chatService = new ServiceChat();
     }
 
-    @FXML
     public void initialize() {
         // Aucune initialisation spécifique requise pour l'instant
         fillChatList();
@@ -48,7 +53,6 @@ public class ConversationController {
     }
     }
     
-@FXML
     private void fillChatList() {
        List<String> listData = chatService.afficherPhar(1);
 
@@ -84,7 +88,6 @@ getMesaages();
             messageTextField.clear();
         }
     }
-      @FXML
     private void getMesaages() {
         String message = messageTextField.getText().trim();
 
@@ -101,5 +104,16 @@ getMesaages();
 
           
         
+    }
+
+     @FXML
+    private void retour(ActionEvent event) throws IOException {
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
+    Parent root = loader.load();
+
+    Scene scene = new Scene(root);
+    Stage primaryStage = (Stage) retour.getScene().getWindow();
+    primaryStage.setScene(scene);
+    primaryStage.show();
     }
 }

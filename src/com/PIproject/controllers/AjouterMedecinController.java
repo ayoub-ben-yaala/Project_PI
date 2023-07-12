@@ -64,6 +64,8 @@ public class AjouterMedecinController implements Initializable {
     @FXML
     private Label medecinCountLabel;
     private ObservableList<Medecin> medecinList;
+    @FXML
+    private Button back;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -243,12 +245,13 @@ public class AjouterMedecinController implements Initializable {
     @FXML
     private void ord(ActionEvent event) throws IOException {
         
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterOrdonnanace.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AjouterOrdonnanace.fxml"));
+    Parent root = loader.load();
+
+    Scene scene = new Scene(root);
+    Stage primaryStage = (Stage) back.getScene().getWindow();
+    primaryStage.setScene(scene);
+    primaryStage.show();
     }
 
 

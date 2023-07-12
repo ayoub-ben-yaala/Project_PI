@@ -4,7 +4,7 @@
  */
 package com.PIproject.controllers;
 
-import com.PIproject.entities.Medecin;
+import com.PIproject.entities.*;
 import com.PIproject.entities.Ordonnance;
 import com.PIproject.services.ServiceMedecin;
 import com.PIproject.services.ServiceOrdonnancee;
@@ -98,6 +98,18 @@ public class AjouterOrdonnanceController implements Initializable {
     private Button modifierButton;
     @FXML
     private Button listmed;
+    @FXML
+    private TextField reference;
+    @FXML
+    private ComboBox<?> medecin;
+    @FXML
+    private TextField statue;
+    @FXML
+    private ComboBox<?> medicament;
+    @FXML
+    private DatePicker date;
+    @FXML
+    private Button back;
 
     public void setStage(Stage stage) {
     }
@@ -113,17 +125,19 @@ public class AjouterOrdonnanceController implements Initializable {
         table.getItems().addAll(so.afficher());
         ServiceMedecin sm = new ServiceMedecin();
         ObservableList<String> medecinList = FXCollections.observableArrayList(sm.getMedecins());// get medecin par nom et prenom
-        medecin1.setItems(medecinList); // yaffichihom fcombox medecin
+        ObservableList<String> mediList = FXCollections.observableArrayList(so.afficher_nom_med());// get medecin par nom et prenom
+
+        medecin1.setItems(medecinList);// yaffichihom fcombox medecin
         Medecin.setCellValueFactory(cellData -> {
             Medecin medecin = sm.getMdecinById(cellData.getValue().getId_Medecin());//getMdecinById
             String fullName = medecin.getNom() + " " + medecin.getPrenom(); // fullName nom prenom
             return new SimpleStringProperty(fullName); // retur full name
         });
 
-        /* ServiceMedicament sme = new ServiceMedicament();
+        /* ServiceOrdonnancee sme = new ServiceOrdonnancee();
          Medicament.setCellValueFactory(cellData -> {
-            Medicament medicament = sme.getMedicamentById(cellData.getValue().getId_Medicament());
-            String fullName = medicament.getNom();
+            Medicament medicament = sm.getMdecinById(cellData.getValue().getId_Medecin());//getMdecinById
+            String fullName = medicament.getNom_medi();
             return new SimpleStringProperty(fullName);
         });*/
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> { // selection un ligne
@@ -133,7 +147,9 @@ public class AjouterOrdonnanceController implements Initializable {
 
                 reference1.setText(String.valueOf(selectedOrdonnance.getReference()));
                 medecin1.setValue(sm.getMdecinById(selectedOrdonnance.getId_Medecin()).getNom() + " " + sm.getMdecinById(selectedOrdonnance.getId_Medecin()).getPrenom());
-                medicament1.setValue("medica 1 \n medica 2");
+                medicament1.setItems(mediList);
+                medicament1.setValue("Medicament");
+
                 date1.setValue(selectedOrdonnance.getDate().toLocalDate());
                 statue1.setText(selectedOrdonnance.getStatut());
             }
@@ -427,12 +443,23 @@ public class AjouterOrdonnanceController implements Initializable {
 
     @FXML
     private void listmed(ActionEvent event) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("AjouterMedecin.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+     FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AjouterMedecin.fxml"));
+    Parent root = loader.load();
+    Scene scene = new Scene(root);
+    Stage primaryStage = (Stage) listmed.getScene().getWindow();
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    }
+
+    @FXML
+    private void back(ActionEvent event) throws IOException {
+                      FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/Medicament.fxml"));
+    Parent root = loader.load();
+
+    Scene scene = new Scene(root);
+    Stage primaryStage = (Stage) back.getScene().getWindow();
+    primaryStage.setScene(scene);
+    primaryStage.show();
     }
 
 }
