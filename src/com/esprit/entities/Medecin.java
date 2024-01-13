@@ -12,6 +12,8 @@ public class Medecin {
     
     private int id;
     private String nom;
+    private String adresse;
+    private int tel;
     private String prenom,email;
     private Specialite specialite ; 
     public Medecin(String nom, String prenom) {
